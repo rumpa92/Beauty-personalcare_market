@@ -54,6 +54,24 @@ const routes = [
     meta: { title: 'Ratings & Reviews - Beauty Market' }
   },
   {
+    path: '/select-address',
+    name: 'SelectAddress',
+    component: SelectAddress,
+    meta: { title: 'Select Address - Beauty Market' }
+  },
+  {
+    path: '/edit-address',
+    name: 'EditAddress',
+    component: EditAddress,
+    meta: { title: 'Edit Address - Beauty Market' }
+  },
+  {
+    path: '/add-address',
+    name: 'AddAddress',
+    component: AddAddress,
+    meta: { title: 'Add New Address - Beauty Market' }
+  },
+  {
     path: '/cart',
     name: 'Cart',
     component: Cart,
