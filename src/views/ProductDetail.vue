@@ -605,11 +605,16 @@
                 </div>
                 
                 <div class="review-actions">
+                  <button @click="$router.push(`/product/${id}/ratings-reviews`)" class="view-all-reviews-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>View All Ratings & Reviews</span>
+                  </button>
+
                   <button @click="showWriteReview = true" class="write-review-btn">
                     <i class="fas fa-pen"></i>
                     <span>Write a Review</span>
                   </button>
-                  
+
                   <div class="review-filters">
                     <select v-model="reviewFilter" class="filter-select">
                       <option value="all">All Reviews</option>
