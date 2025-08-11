@@ -149,11 +149,13 @@ const actions = {
     commit('SET_THEME', theme);
   },
   showNotification({ commit }, notification) {
-    commit('ADD_NOTIFICATION', notification);
-    
+    const id = Date.now();
+    const notificationWithId = { ...notification, id };
+    commit('ADD_NOTIFICATION', notificationWithId);
+
     if (notification.autoClose !== false) {
       setTimeout(() => {
-        commit('REMOVE_NOTIFICATION', notification.id || Date.now());
+        commit('REMOVE_NOTIFICATION', id);
       }, notification.duration || 5000);
     }
   },
