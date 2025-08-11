@@ -311,7 +311,7 @@ export default {
         photos: []
       },
       orderDetails: {
-        orderId: this.orderId || '12345',
+        orderId: '12345',
         orderDate: '2024-01-15',
         status: 'Out for Delivery',
         deliveryAgent: 'Raj Kumar',
