@@ -1627,10 +1627,10 @@ export default {
           await this.removeFromCart(this.product.id);
           this.showSuccessNotification('Removed from cart');
         } else {
-          await this.updateCart({
-            productId: this.product.id,
-            quantity: newQuantity
-          });
+          await this.updateQuantity({
+          productId: this.product.id,
+          quantity: newQuantity
+        });
         }
         this.checkCartStatus();
       } catch (error) {
