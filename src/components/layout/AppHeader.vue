@@ -220,7 +220,7 @@
           <i class="fas fa-cog"></i>
           Settings
         </router-link>
-        <button @click="logout" class="mobile-nav-link logout-mobile">
+        <button @click="logoutUser" class="mobile-nav-link logout-mobile">
           <i class="fas fa-sign-out-alt"></i>
           Sign Out
         </button>
