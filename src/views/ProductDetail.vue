@@ -1892,6 +1892,14 @@ export default {
         this.showErrorNotification('Failed to add product to cart');
       }
     },
+
+    isProductInCart(productId) {
+      return this.cartItems.some(item => item.id === productId);
+    },
+
+    goToCart() {
+      this.$router.push('/cart');
+    },
     
     // Utility methods
     getStepIcon(step) {
