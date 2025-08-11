@@ -841,12 +841,12 @@
               >
                 <div class="product-image">
                   <img :src="relatedProduct.image" :alt="relatedProduct.name">
-                  <button 
-                    @click.stop="quickAddToCart(relatedProduct)"
-                    class="quick-add-btn"
-                    :title="'Quick add ' + relatedProduct.name"
+                  <button
+                    @click.stop="isProductInCart(relatedProduct.id) ? goToCart() : quickAddToCart(relatedProduct)"
+                    :class="['quick-add-btn', { 'in-cart': isProductInCart(relatedProduct.id) }]"
+                    :title="isProductInCart(relatedProduct.id) ? 'Go to cart' : 'Quick add ' + relatedProduct.name"
                   >
-                    <i class="fas fa-plus"></i>
+                    <i :class="isProductInCart(relatedProduct.id) ? 'fas fa-arrow-right' : 'fas fa-plus'"></i>
                   </button>
                   <div class="product-badges">
                     <span v-if="relatedProduct.onSale" class="product-badge sale">Sale</span>
