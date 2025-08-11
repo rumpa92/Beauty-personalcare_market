@@ -1492,7 +1492,7 @@ export default {
   },
   
   methods: {
-    ...mapActions('cart', ['addToCart', 'updateCart', 'removeFromCart']),
+    ...mapActions('cart', ['addToCart', 'updateQuantity', 'removeFromCart']),
     ...mapActions('user', ['toggleWishlist', 'addToRecentlyViewed']),
     ...mapActions('ui', ['showNotification']),
     
