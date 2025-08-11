@@ -78,7 +78,7 @@
                   </div>
 
                   <!-- Add New Address Card -->
-                  <div class="add-address-card" @click="showAddressModal = true">
+                  <div class="add-address-card" @click="addNewAddress">
                     <div class="add-address-content">
                       <div class="add-icon">
                         <i class="fas fa-plus"></i>
