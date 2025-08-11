@@ -915,6 +915,13 @@ export default {
         query: { from: 'checkout' }
       });
     },
+
+    addNewAddress() {
+      this.$router.push({
+        path: '/add-address',
+        query: { from: 'checkout' }
+      });
+    },
     
     closeAddressModal() {
       this.showAddressModal = false;
