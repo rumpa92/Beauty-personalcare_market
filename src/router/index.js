@@ -117,6 +117,13 @@ const routes = [
     meta: { title: 'Track Your Order - Beauty Market' }
   },
   {
+    path: '/order-details/:orderId',
+    name: 'OrderDetails',
+    component: OrderDetails,
+    props: true,
+    meta: { title: 'Order Details - Beauty Market' }
+  },
+  {
     path: '/privacy-policy',
     name: 'PrivacyPolicy',
     component: PrivacyPolicy,
