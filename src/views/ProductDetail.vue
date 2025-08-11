@@ -3540,6 +3540,28 @@ export default {
   box-shadow: 0 8px 30px rgba(236, 72, 153, 0.4);
 }
 
+.view-all-reviews-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  margin-bottom: 12px;
+}
+
+.view-all-reviews-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+}
+
 .review-filters {
   display: flex;
   flex-direction: column;
