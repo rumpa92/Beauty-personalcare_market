@@ -869,6 +869,12 @@ export default {
       ];
     }
   },
+  mounted() {
+    // Check for settings tab in query params
+    if (this.$route.query.tab === 'settings') {
+      this.activeSection = 'notifications'; // Map settings to notifications
+    }
+  },
   methods: {
     ...mapActions('user', ['updateNotificationSettings']),
     ...mapActions('ui', ['showNotification']),
