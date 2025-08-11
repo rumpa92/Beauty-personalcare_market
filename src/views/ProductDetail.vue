@@ -1638,7 +1638,7 @@ export default {
       }
     },
     
-    async removeFromCart() {
+    async removeFromCartHandler() {
       try {
         await this.removeFromCart(this.product.id);
         this.showSuccessNotification('Removed from cart');
