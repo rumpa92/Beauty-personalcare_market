@@ -336,7 +336,7 @@ export default {
       });
     },
 
-    async logout() {
+    async logoutUser() {
       try {
         await this.logout();
         this.closeUserMenu();
