@@ -900,9 +900,20 @@ export default {
     },
     
     editAddress(address) {
-      this.editingAddress = address;
-      this.addressForm = { ...address };
-      this.showAddressModal = true;
+      this.$router.push({
+        path: '/edit-address',
+        query: {
+          addressId: address.id,
+          from: 'checkout'
+        }
+      });
+    },
+
+    changeAddress() {
+      this.$router.push({
+        path: '/select-address',
+        query: { from: 'checkout' }
+      });
     },
     
     closeAddressModal() {
