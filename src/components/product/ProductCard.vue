@@ -79,6 +79,10 @@ export default {
   },
   computed: {
     ...mapGetters('user', ['isInWishlist', 'userProfile']),
+    ...mapGetters('cart', ['cartItems']),
+    isInCart() {
+      return this.cartItems.some(item => item.id === this.product.id);
+    },
     getRecommendationReason() {
       if (!this.showReason) return '';
 
