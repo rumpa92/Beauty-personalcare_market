@@ -98,7 +98,7 @@
                   </div>
                   <h3>No saved addresses</h3>
                   <p>Add your first address to continue with checkout</p>
-                  <button @click="showAddressModal = true" class="add-first-address-btn">
+                  <button @click="addNewAddress" class="add-first-address-btn">
                     <i class="fas fa-plus"></i>
                     Add Address
                   </button>
