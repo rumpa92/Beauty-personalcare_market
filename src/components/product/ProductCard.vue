@@ -45,13 +45,17 @@
         </span>
       </div>
       
-      <button 
-        @click="addToCart" 
-        class="add-to-cart-btn"
+      <button
+        @click="isInCart ? goToCart() : addToCart()"
+        :class="['add-to-cart-btn', { 'in-cart': isInCart }]"
         :disabled="isAddingToCart"
       >
-        <i class="fas fa-shopping-bag"></i>
-        {{ isAddingToCart ? 'Adding...' : 'Add to Cart' }}
+        <i :class="isInCart ? 'fas fa-arrow-right' : 'fas fa-shopping-bag'"></i>
+        {{
+          isAddingToCart ? 'Adding...' :
+          isInCart ? 'Go to Cart' :
+          'Add to Cart'
+        }}
       </button>
     </div>
   </div>
@@ -79,6 +83,10 @@ export default {
   },
   computed: {
     ...mapGetters('user', ['isInWishlist', 'userProfile']),
+    ...mapGetters('cart', ['cartItems']),
+    isInCart() {
+      return this.cartItems.some(item => item.id === this.product.id);
+    },
     getRecommendationReason() {
       if (!this.showReason) return '';
 
@@ -111,15 +119,18 @@ export default {
     goToProduct() {
       this.$router.push(`/product/${this.product.id}`);
     },
+    goToCart() {
+      this.$router.push('/cart');
+    },
     async addToCart() {
       this.isAddingToCart = true;
-      
+
       try {
         await this.addToCart({
           ...this.product,
           quantity: 1
         });
-        
+
         this.showNotification({
           type: 'success',
           message: `${this.product.name} added to cart!`
@@ -382,6 +393,17 @@ export default {
 .add-to-cart-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+.add-to-cart-btn.in-cart {
+  background: linear-gradient(135deg, var(--success-500), var(--success-600));
+  border: 2px solid var(--success-500);
+}
+
+.add-to-cart-btn.in-cart:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--success-600), var(--success-700));
+  border-color: var(--success-600);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 768px) {

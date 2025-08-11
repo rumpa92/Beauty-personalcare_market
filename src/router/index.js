@@ -6,11 +6,17 @@ import ProductDetail from '../views/ProductDetail.vue';
 import Cart from '../views/Cart.vue';
 import Wishlist from '../views/Wishlist.vue';
 import Profile from '../views/Profile.vue';
+import Orders from '../views/Orders.vue';
 import Checkout from '../views/Checkout.vue';
 import OrderConfirmation from '../views/OrderConfirmation.vue';
 import OrderTracking from '../views/OrderTracking.vue';
+import OrderDetails from '../views/OrderDetails.vue';
 import PrivacyPolicy from '../views/PrivacyPolicy.vue';
 import TermsOfService from '../views/TermsOfService.vue';
+import RatingsReviews from '../views/RatingsReviews.vue';
+import SelectAddress from '../views/SelectAddress.vue';
+import EditAddress from '../views/EditAddress.vue';
+import AddAddress from '../views/AddAddress.vue';
 
 Vue.use(VueRouter);
 
@@ -42,6 +48,31 @@ const routes = [
     meta: { title: 'Product Details - Beauty Market' }
   },
   {
+    path: '/product/:productId/ratings-reviews',
+    name: 'RatingsReviews',
+    component: RatingsReviews,
+    props: true,
+    meta: { title: 'Ratings & Reviews - Beauty Market' }
+  },
+  {
+    path: '/select-address',
+    name: 'SelectAddress',
+    component: SelectAddress,
+    meta: { title: 'Select Address - Beauty Market' }
+  },
+  {
+    path: '/edit-address',
+    name: 'EditAddress',
+    component: EditAddress,
+    meta: { title: 'Edit Address - Beauty Market' }
+  },
+  {
+    path: '/add-address',
+    name: 'AddAddress',
+    component: AddAddress,
+    meta: { title: 'Add New Address - Beauty Market' }
+  },
+  {
     path: '/cart',
     name: 'Cart',
     component: Cart,
@@ -58,6 +89,12 @@ const routes = [
     name: 'Profile',
     component: Profile,
     meta: { title: 'My Profile - Beauty Market' }
+  },
+  {
+    path: '/orders',
+    name: 'Orders',
+    component: Orders,
+    meta: { title: 'My Orders - Beauty Market' }
   },
   {
     path: '/checkout',
@@ -78,6 +115,13 @@ const routes = [
     component: OrderTracking,
     props: true,
     meta: { title: 'Track Your Order - Beauty Market' }
+  },
+  {
+    path: '/order-details/:orderId',
+    name: 'OrderDetails',
+    component: OrderDetails,
+    props: true,
+    meta: { title: 'Order Details - Beauty Market' }
   },
   {
     path: '/privacy-policy',

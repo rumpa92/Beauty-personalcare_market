@@ -146,7 +146,7 @@
 
             <div class="dropdown-divider"></div>
 
-            <button @click="logout" class="dropdown-item logout-item">
+            <button @click="logoutUser" class="dropdown-item logout-item">
               <div class="item-icon">
                 <i class="fas fa-sign-out-alt"></i>
               </div>
@@ -220,7 +220,7 @@
           <i class="fas fa-cog"></i>
           Settings
         </router-link>
-        <button @click="logout" class="mobile-nav-link logout-mobile">
+        <button @click="logoutUser" class="mobile-nav-link logout-mobile">
           <i class="fas fa-sign-out-alt"></i>
           Sign Out
         </button>
@@ -289,7 +289,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions('ui', ['toggleMobileMenu', 'closeMobileMenu', 'toggleSearch', 'openSearch', 'toggleCart', 'showNotification']),
+    ...mapActions('ui', ['toggleMobileMenu', 'closeMobileMenu', 'toggleSearch', 'openSearch', 'showNotification']),
+    ...mapActions('cart', ['toggleCart']),
     ...mapActions('user', ['logout']),
 
     openSignIn() {
@@ -336,7 +337,7 @@ export default {
       });
     },
 
-    async logout() {
+    async logoutUser() {
       try {
         await this.logout();
         this.closeUserMenu();
