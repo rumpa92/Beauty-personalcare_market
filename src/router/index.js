@@ -10,6 +10,7 @@ import Orders from '../views/Orders.vue';
 import Checkout from '../views/Checkout.vue';
 import OrderConfirmation from '../views/OrderConfirmation.vue';
 import OrderTracking from '../views/OrderTracking.vue';
+import OrderDetails from '../views/OrderDetails.vue';
 import PrivacyPolicy from '../views/PrivacyPolicy.vue';
 import TermsOfService from '../views/TermsOfService.vue';
 import RatingsReviews from '../views/RatingsReviews.vue';
