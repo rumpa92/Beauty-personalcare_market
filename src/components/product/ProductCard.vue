@@ -123,7 +123,6 @@ export default {
       this.$router.push('/cart');
     },
     async addToCart() {
-      console.log('Add to cart clicked for:', this.product.name);
       this.isAddingToCart = true;
 
       try {
@@ -132,13 +131,11 @@ export default {
           quantity: 1
         });
 
-        console.log('Product added to cart successfully');
         this.showNotification({
           type: 'success',
           message: `${this.product.name} added to cart!`
         });
       } catch (error) {
-        console.error('Add to cart error:', error);
         this.showNotification({
           type: 'error',
           message: 'Failed to add product to cart'
