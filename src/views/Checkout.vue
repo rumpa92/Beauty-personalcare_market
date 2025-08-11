@@ -1127,9 +1127,32 @@ export default {
   },
   
   mounted() {
-    // Auto-select default address
-    if (this.savedAddresses.length > 0) {
-      this.selectedAddress = this.savedAddresses.find(addr => addr.isDefault) || this.savedAddresses[0];
+    // Handle selected address from route query (coming back from address selection)
+    if (this.$route.query.selectedAddressId) {
+      const addressId = parseInt(this.$route.query.selectedAddressId);
+      const address = this.savedAddresses.find(addr => addr.id === addressId);
+      if (address) {
+        this.selectedAddress = address;
+      }
+
+      // Clean up URL
+      this.$router.replace({ path: '/checkout' });
+    } else {
+      // Auto-select default address
+      if (this.savedAddresses.length > 0) {
+        this.selectedAddress = this.savedAddresses.find(addr => addr.isDefault) || this.savedAddresses[0];
+      }
+    }
+
+    // Handle success messages from address management pages
+    if (this.$route.query.success) {
+      this.showNotification({
+        type: 'success',
+        message: this.$route.query.message || 'Operation completed successfully'
+      });
+
+      // Clean up URL
+      this.$router.replace({ path: '/checkout' });
     }
   }
 };
