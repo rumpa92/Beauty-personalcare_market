@@ -2587,13 +2587,120 @@ export default {
   transform: translateY(100%);
 }
 
+/* Selected Address Summary */
+.selected-address-summary {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  border: 2px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.address-summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.summary-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.summary-title i {
+  color: #667eea;
+}
+
+.change-address-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #667eea;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.change-address-btn:hover {
+  background: #f8fafc;
+  border-color: #667eea;
+  transform: translateY(-1px);
+}
+
+.address-summary-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.summary-main {
+  flex: 1;
+}
+
+.summary-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.summary-address {
+  color: #6b7280;
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+}
+
+.summary-phone {
+  color: #374151;
+  font-weight: 500;
+  margin: 0;
+}
+
+.address-type-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.address-type-indicator.home {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+}
+
+.address-type-indicator.work {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  color: #1e40af;
+}
+
+.address-type-indicator.other {
+  background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+  color: #7c3aed;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .checkout-layout {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-  
+
   .order-summary-sidebar {
     position: static;
     order: -1;
