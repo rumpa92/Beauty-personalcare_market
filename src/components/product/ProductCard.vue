@@ -398,6 +398,17 @@ export default {
   cursor: not-allowed;
 }
 
+.add-to-cart-btn.in-cart {
+  background: linear-gradient(135deg, var(--success-500), var(--success-600));
+  border: 2px solid var(--success-500);
+}
+
+.add-to-cart-btn.in-cart:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--success-600), var(--success-700));
+  border-color: var(--success-600);
+  transform: translateY(-1px);
+}
+
 @media (max-width: 768px) {
   .product-overlay {
     opacity: 1;
