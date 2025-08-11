@@ -310,7 +310,7 @@
                     </button>
                   </div>
                   
-                  <button @click="removeFromCart" class="remove-btn">
+                  <button @click="removeFromCartHandler" class="remove-btn">
                     <i class="fas fa-trash-alt"></i>
                     <span>Remove</span>
                   </button>
