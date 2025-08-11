@@ -1,197 +1,226 @@
 <template>
-  <div class="orders-page market-container">
-    <div class="orders-header">
-      <h1 class="market-title-xl">My Orders</h1>
-      <p class="market-text-light">Track and manage your beauty purchases</p>
-    </div>
-
-    <!-- Order Status Filter -->
-    <div class="order-filters">
-      <div class="filter-tabs">
-        <button 
-          v-for="status in orderStatuses" 
-          :key="status.key"
-          @click="activeFilter = status.key"
-          class="filter-tab"
-          :class="{ active: activeFilter === status.key }"
-        >
-          <i :class="status.icon"></i>
-          {{ status.label }}
-          <span v-if="getOrderCountByStatus(status.key)" class="filter-count">
-            {{ getOrderCountByStatus(status.key) }}
-          </span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Orders List -->
-    <div class="orders-content">
-      <div v-if="filteredOrders.length === 0" class="empty-state">
-        <div class="empty-icon">
-          <i class="fas fa-box-open"></i>
+  <div class="my-orders-page">
+    <!-- Header Section -->
+    <div class="page-header">
+      <div class="market-container">
+        <div class="header-content">
+          <button @click="goBack" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back</span>
+          </button>
+          <div class="header-main">
+            <h1 class="page-title">My Orders</h1>
+            <p class="page-subtitle">Track and manage your beauty purchases</p>
+          </div>
+          <div class="header-spacer"></div>
         </div>
-        <h3>No Orders Found</h3>
-        <p>{{ getEmptyStateMessage() }}</p>
-        <router-link to="/products" class="market-btn market-btn-primary">
-          Start Shopping
-        </router-link>
       </div>
+    </div>
 
-      <div v-else class="orders-list">
-        <div 
-          v-for="order in filteredOrders" 
-          :key="order.id"
-          class="order-card market-card"
-        >
-          <div class="order-header">
-            <div class="order-info">
-              <h3 class="order-number">Order #{{ order.id }}</h3>
-              <div class="order-meta">
-                <span class="order-date">
-                  <i class="fas fa-calendar"></i>
-                  {{ formatDate(order.date) }}
-                </span>
-                <span class="order-total">
-                  <i class="fas fa-dollar-sign"></i>
-                  ${{ calculateOrderTotal(order).toFixed(2) }}
+    <!-- Filter and Sort Section -->
+    <div class="filters-section">
+      <div class="market-container">
+        <div class="filters-content">
+          <!-- Filter Tabs -->
+          <div class="filter-tabs">
+            <button 
+              v-for="filter in filterOptions" 
+              :key="filter.key"
+              @click="setActiveFilter(filter.key)"
+              :class="['filter-tab', { active: activeFilter === filter.key }]"
+            >
+              <div class="filter-icon">
+                <i :class="filter.icon"></i>
+              </div>
+              <div class="filter-text">
+                <span class="filter-label">{{ filter.label }}</span>
+                <span v-if="getFilterCount(filter.key) > 0" class="filter-count">
+                  {{ getFilterCount(filter.key) }}
                 </span>
               </div>
-            </div>
-            <div class="order-status">
-              <span 
-                class="status-badge" 
-                :class="getStatusClass(order.status)"
-              >
-                <i :class="getStatusIcon(order.status)"></i>
-                {{ order.status }}
-              </span>
-            </div>
+            </button>
           </div>
 
-          <!-- Order Items -->
-          <div class="order-items">
-            <div 
-              v-for="item in order.items" 
-              :key="item.name"
-              class="order-item"
-            >
-              <div class="item-image">
-                <img 
-                  :src="item.image || 'https://images.unsplash.com/photo-1556229174-f25e97436b3d?w=100'" 
-                  :alt="item.name"
-                  @error="handleImageError"
-                >
+          <!-- Sort Dropdown -->
+          <div class="sort-section">
+            <label class="sort-label">Sort by:</label>
+            <select v-model="sortBy" @change="applySorting" class="sort-dropdown">
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders Content -->
+    <div class="orders-content">
+      <div class="market-container">
+        <!-- Empty State -->
+        <div v-if="filteredOrders.length === 0" class="empty-state">
+          <div class="empty-illustration">
+            <div class="empty-icon">
+              <i class="fas fa-shopping-bag"></i>
+            </div>
+            <div class="empty-circles">
+              <div class="circle"></div>
+              <div class="circle"></div>
+              <div class="circle"></div>
+            </div>
+          </div>
+          <h3 class="empty-title">{{ getEmptyStateTitle() }}</h3>
+          <p class="empty-text">{{ getEmptyStateText() }}</p>
+          <button @click="startShopping" class="shop-now-btn">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Shop Now</span>
+          </button>
+        </div>
+
+        <!-- Orders List -->
+        <div v-else class="orders-list">
+          <Transition name="fade" mode="out-in">
+            <div :key="activeFilter" class="orders-grid">
+              <div 
+                v-for="order in paginatedOrders" 
+                :key="order.id"
+                class="order-card"
+                @click="viewOrderDetails(order)"
+              >
+                <!-- Product Thumbnail -->
+                <div class="order-thumbnail">
+                  <img :src="order.mainProduct.image" :alt="order.mainProduct.name" />
+                  <div v-if="order.items.length > 1" class="items-count">
+                    +{{ order.items.length - 1 }}
+                  </div>
+                </div>
+
+                <!-- Order Information -->
+                <div class="order-info">
+                  <div class="order-header">
+                    <h3 class="order-id">Order #{{ order.id }}</h3>
+                    <div class="order-status">
+                      <span :class="['status-badge', getStatusClass(order.status)]">
+                        <i :class="getStatusIcon(order.status)"></i>
+                        {{ order.status }}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="product-info">
+                    <h4 class="product-name">{{ order.mainProduct.name }}</h4>
+                    <div class="product-meta">
+                      <span class="quantity">Qty: {{ order.totalQuantity }}</span>
+                      <span class="price">₹{{ order.total.toFixed(2) }}</span>
+                    </div>
+                  </div>
+
+                  <div class="order-footer">
+                    <div class="order-date">
+                      <i class="fas fa-calendar-alt"></i>
+                      <span>{{ formatOrderDate(order.date) }}</span>
+                    </div>
+                    <button 
+                      @click.stop="viewOrderDetails(order)" 
+                      class="view-details-btn"
+                    >
+                      <span>View Details</span>
+                      <i class="fas fa-chevron-right"></i>
+                    </button>
+                  </div>
+                </div>
               </div>
-              <div class="item-details">
-                <h4 class="item-name">{{ item.name }}</h4>
-                <div class="item-meta">
-                  <span class="item-quantity">Qty: {{ item.quantity }}</span>
-                  <span class="item-price">${{ item.price.toFixed(2) }}</span>
+            </div>
+          </Transition>
+
+          <!-- Load More Button -->
+          <div v-if="hasMoreOrders" class="load-more-section">
+            <button @click="loadMore" class="load-more-btn">
+              <i class="fas fa-chevron-down"></i>
+              <span>Load More Orders</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div v-if="showOrderModal" class="order-modal-overlay" @click="closeOrderModal">
+      <div class="order-modal-content" @click.stop>
+        <div class="modal-header">
+          <h3>Order Details</h3>
+          <button @click="closeOrderModal" class="modal-close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        
+        <div class="modal-body">
+          <div v-if="selectedOrder" class="order-details">
+            <!-- Order Summary -->
+            <div class="detail-section">
+              <h4>Order Summary</h4>
+              <div class="summary-info">
+                <div class="summary-row">
+                  <span>Order ID:</span>
+                  <span>#{{ selectedOrder.id }}</span>
+                </div>
+                <div class="summary-row">
+                  <span>Order Date:</span>
+                  <span>{{ formatFullDate(selectedOrder.date) }}</span>
+                </div>
+                <div class="summary-row">
+                  <span>Status:</span>
+                  <span :class="['status-badge', getStatusClass(selectedOrder.status)]">
+                    <i :class="getStatusIcon(selectedOrder.status)"></i>
+                    {{ selectedOrder.status }}
+                  </span>
+                </div>
+                <div class="summary-row">
+                  <span>Total Amount:</span>
+                  <span class="total-amount">₹{{ selectedOrder.total.toFixed(2) }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Order Items -->
+            <div class="detail-section">
+              <h4>Items Ordered</h4>
+              <div class="items-list">
+                <div v-for="item in selectedOrder.items" :key="item.id" class="item-row">
+                  <img :src="item.image" :alt="item.name" class="item-image" />
+                  <div class="item-details">
+                    <h5>{{ item.name }}</h5>
+                    <p>{{ item.brand }}</p>
+                    <div class="item-meta">
+                      <span>Qty: {{ item.quantity }}</span>
+                      <span class="item-price">₹{{ (item.price * item.quantity).toFixed(2) }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Delivery Information -->
+            <div v-if="selectedOrder.deliveryInfo" class="detail-section">
+              <h4>Delivery Information</h4>
+              <div class="delivery-info">
+                <p class="delivery-address">{{ selectedOrder.deliveryInfo.address }}</p>
+                <div v-if="selectedOrder.deliveryInfo.estimatedDate" class="delivery-date">
+                  <i class="fas fa-truck"></i>
+                  <span>Estimated Delivery: {{ formatFullDate(selectedOrder.deliveryInfo.estimatedDate) }}</span>
                 </div>
               </div>
             </div>
           </div>
-
-          <!-- Delivery Information -->
-          <div v-if="order.address" class="delivery-info">
-            <div class="delivery-header">
-              <i class="fas fa-truck"></i>
-              <span>Delivery Information</span>
-            </div>
-            <p class="delivery-address">{{ order.address }}</p>
-            <div v-if="order.estimatedDelivery" class="delivery-date">
-              <span class="delivery-label">Estimated Delivery:</span>
-              <span class="delivery-value">{{ formatDate(order.estimatedDelivery) }}</span>
-            </div>
-          </div>
-
-          <!-- Order Actions -->
-          <div class="order-actions">
-            <button 
-              v-if="canTrackOrder(order.status)"
-              @click="trackOrder(order.id)"
-              class="action-btn track-btn"
-            >
-              <i class="fas fa-map-marker-alt"></i>
-              Track Order
-            </button>
-            
-            <button 
-              v-if="order.canReschedule && canRescheduleOrder(order.status)"
-              @click="rescheduleOrder(order)"
-              class="action-btn reschedule-btn"
-            >
-              <i class="fas fa-calendar-alt"></i>
-              Reschedule
-            </button>
-            
-            <button 
-              v-if="canReorderItems(order.status)"
-              @click="reorderItems(order)"
-              class="action-btn reorder-btn"
-            >
-              <i class="fas fa-redo"></i>
-              Reorder
-            </button>
-            
-            <button 
-              v-if="canRequestRefund(order.status)"
-              @click="requestRefund(order)"
-              class="action-btn refund-btn"
-            >
-              <i class="fas fa-undo"></i>
-              Request Refund
-            </button>
-            
-            <button 
-              @click="viewOrderDetails(order)"
-              class="action-btn details-btn"
-            >
-              <i class="fas fa-eye"></i>
-              View Details
-            </button>
-          </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Reschedule Modal -->
-    <div v-if="showRescheduleModal" class="modal-overlay" @click="closeRescheduleModal">
-      <div class="modal-content" @click.stop>
-        <div class="modal-header">
-          <h3>Reschedule Delivery</h3>
-          <button @click="closeRescheduleModal" class="modal-close">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Order #{{ selectedOrder?.id }}</p>
-          <div class="reschedule-form">
-            <div class="form-group">
-              <label class="market-form-label">New Delivery Date</label>
-              <input 
-                type="date" 
-                v-model="rescheduleData.date"
-                :min="getMinDeliveryDate()"
-                class="market-form-input"
-              >
-            </div>
-            <div class="form-group">
-              <label class="market-form-label">Preferred Time</label>
-              <select v-model="rescheduleData.time" class="market-form-input">
-                <option value="morning">Morning (9 AM - 12 PM)</option>
-                <option value="afternoon">Afternoon (12 PM - 5 PM)</option>
-                <option value="evening">Evening (5 PM - 8 PM)</option>
-              </select>
-            </div>
-          </div>
-        </div>
+        
         <div class="modal-footer">
-          <button @click="closeRescheduleModal" class="market-btn market-btn-secondary">
-            Cancel
+          <button @click="trackOrder(selectedOrder)" class="track-order-btn">
+            <i class="fas fa-map-marker-alt"></i>
+            Track Order
           </button>
-          <button @click="confirmReschedule" class="market-btn market-btn-primary">
-            Confirm Reschedule
+          <button @click="reorderItems(selectedOrder)" class="reorder-btn">
+            <i class="fas fa-redo"></i>
+            Reorder
           </button>
         </div>
       </div>
@@ -200,181 +229,300 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'Orders',
   data() {
     return {
       activeFilter: 'all',
-      showRescheduleModal: false,
+      sortBy: 'newest',
+      showOrderModal: false,
       selectedOrder: null,
-      rescheduleData: {
-        date: '',
-        time: 'afternoon'
-      },
-      orderStatuses: [
-        { key: 'all', label: 'All Orders', icon: 'fas fa-list' },
-        { key: 'active', label: 'Active', icon: 'fas fa-clock' },
+      currentPage: 1,
+      ordersPerPage: 10,
+      
+      filterOptions: [
+        { key: 'all', label: 'All', icon: 'fas fa-list' },
         { key: 'delivered', label: 'Delivered', icon: 'fas fa-check-circle' },
-        { key: 'cancelled', label: 'Cancelled', icon: 'fas fa-times-circle' }
+        { key: 'confirmed', label: 'Confirmed', icon: 'fas fa-clock' },
+        { key: 'cancelled', label: 'Cancelled', icon: 'fas fa-times-circle' },
+        { key: 'processing', label: 'Processing', icon: 'fas fa-cog' }
+      ],
+      
+      // Mock orders data - in real app this would come from store/API
+      orders: [
+        {
+          id: '10234',
+          date: new Date('2024-01-15'),
+          status: 'Delivered',
+          total: 2499,
+          totalQuantity: 3,
+          mainProduct: {
+            name: 'Luxury Moisturizing Face Cream',
+            image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=300'
+          },
+          items: [
+            {
+              id: 1,
+              name: 'Luxury Moisturizing Face Cream',
+              brand: 'GlowLux',
+              image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=300',
+              price: 1299,
+              quantity: 1
+            },
+            {
+              id: 2,
+              name: 'Vitamin C Brightening Serum',
+              brand: 'VitaGlow',
+              image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300',
+              price: 899,
+              quantity: 1
+            },
+            {
+              id: 3,
+              name: 'Gentle Foaming Cleanser',
+              brand: 'PureClean',
+              image: 'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=300',
+              price: 599,
+              quantity: 1
+            }
+          ],
+          deliveryInfo: {
+            address: '123 Beauty Lane, Bandra West, Mumbai, Maharashtra 400001',
+            estimatedDate: new Date('2024-01-20')
+          }
+        },
+        {
+          id: '10233',
+          date: new Date('2024-01-12'),
+          status: 'Processing',
+          total: 1899,
+          totalQuantity: 2,
+          mainProduct: {
+            name: 'Hyaluronic Acid Moisturizer',
+            image: 'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=300'
+          },
+          items: [
+            {
+              id: 4,
+              name: 'Hyaluronic Acid Moisturizer',
+              brand: 'HydraLux',
+              image: 'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=300',
+              price: 999,
+              quantity: 1
+            },
+            {
+              id: 5,
+              name: 'SPF 50 Daily Sunscreen',
+              brand: 'SunGuard',
+              image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300',
+              price: 899,
+              quantity: 1
+            }
+          ],
+          deliveryInfo: {
+            address: '123 Beauty Lane, Bandra West, Mumbai, Maharashtra 400001',
+            estimatedDate: new Date('2024-01-18')
+          }
+        },
+        {
+          id: '10232',
+          date: new Date('2024-01-10'),
+          status: 'Confirmed',
+          total: 1299,
+          totalQuantity: 1,
+          mainProduct: {
+            name: 'Niacinamide Pore Refining Serum',
+            image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300'
+          },
+          items: [
+            {
+              id: 6,
+              name: 'Niacinamide Pore Refining Serum',
+              brand: 'ClearSkin',
+              image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300',
+              price: 1299,
+              quantity: 1
+            }
+          ],
+          deliveryInfo: {
+            address: '123 Beauty Lane, Bandra West, Mumbai, Maharashtra 400001',
+            estimatedDate: new Date('2024-01-16')
+          }
+        },
+        {
+          id: '10231',
+          date: new Date('2024-01-08'),
+          status: 'Cancelled',
+          total: 799,
+          totalQuantity: 1,
+          mainProduct: {
+            name: 'Retinol Night Cream',
+            image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=300'
+          },
+          items: [
+            {
+              id: 7,
+              name: 'Retinol Night Cream',
+              brand: 'AgeReverse',
+              image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=300',
+              price: 799,
+              quantity: 1
+            }
+          ],
+          deliveryInfo: {
+            address: '123 Beauty Lane, Bandra West, Mumbai, Maharashtra 400001'
+          }
+        }
       ]
     };
   },
+  
   computed: {
-    ...mapGetters('user', ['userOrders']),
     filteredOrders() {
-      if (this.activeFilter === 'all') {
-        return this.userOrders;
-      } else if (this.activeFilter === 'active') {
-        return this.userOrders.filter(order => 
-          ['Processing', 'Shipped', 'In Transit', 'Out for Delivery'].includes(order.status)
+      let filtered = this.orders;
+      
+      if (this.activeFilter !== 'all') {
+        filtered = filtered.filter(order => 
+          order.status.toLowerCase() === this.activeFilter.toLowerCase()
         );
-      } else if (this.activeFilter === 'delivered') {
-        return this.userOrders.filter(order => order.status === 'Delivered');
-      } else if (this.activeFilter === 'cancelled') {
-        return this.userOrders.filter(order => order.status === 'Cancelled');
       }
-      return this.userOrders;
+      
+      // Apply sorting
+      filtered.sort((a, b) => {
+        if (this.sortBy === 'newest') {
+          return new Date(b.date) - new Date(a.date);
+        } else {
+          return new Date(a.date) - new Date(b.date);
+        }
+      });
+      
+      return filtered;
+    },
+    
+    paginatedOrders() {
+      const startIndex = 0;
+      const endIndex = this.currentPage * this.ordersPerPage;
+      return this.filteredOrders.slice(startIndex, endIndex);
+    },
+    
+    hasMoreOrders() {
+      return this.paginatedOrders.length < this.filteredOrders.length;
     }
   },
+  
   methods: {
-    ...mapActions('user', ['rescheduleOrder', 'updateOrderStatus']),
     ...mapActions('ui', ['showNotification']),
     ...mapActions('cart', ['addToCart']),
-
-    getOrderCountByStatus(status) {
-      if (status === 'all') return this.userOrders.length;
-      if (status === 'active') {
-        return this.userOrders.filter(order => 
-          ['Processing', 'Shipped', 'In Transit', 'Out for Delivery'].includes(order.status)
-        ).length;
-      }
-      if (status === 'delivered') {
-        return this.userOrders.filter(order => order.status === 'Delivered').length;
-      }
-      if (status === 'cancelled') {
-        return this.userOrders.filter(order => order.status === 'Cancelled').length;
-      }
-      return 0;
+    
+    goBack() {
+      this.$router.push('/profile');
     },
-
-    getEmptyStateMessage() {
-      if (this.activeFilter === 'all') {
-        return "You haven't placed any orders yet. Start exploring our beautiful products!";
-      } else if (this.activeFilter === 'active') {
-        return "No active orders found.";
-      } else if (this.activeFilter === 'delivered') {
-        return "No delivered orders found.";
-      } else if (this.activeFilter === 'cancelled') {
-        return "No cancelled orders found.";
+    
+    setActiveFilter(filter) {
+      this.activeFilter = filter;
+      this.currentPage = 1; // Reset pagination
+    },
+    
+    applySorting() {
+      this.currentPage = 1; // Reset pagination
+    },
+    
+    getFilterCount(filterKey) {
+      if (filterKey === 'all') {
+        return this.orders.length;
       }
-      return "";
+      return this.orders.filter(order => 
+        order.status.toLowerCase() === filterKey.toLowerCase()
+      ).length;
     },
-
-    formatDate(date) {
-      if (!date) return '';
-      const options = { 
-        year: 'numeric', 
-        month: 'short', 
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      };
-      return new Date(date).toLocaleDateString('en-US', options);
-    },
-
-    calculateOrderTotal(order) {
-      return order.items.reduce((total, item) => total + (item.price * item.quantity), 0);
-    },
-
+    
     getStatusClass(status) {
       const statusMap = {
-        'Processing': 'status-processing',
-        'Shipped': 'status-shipped',
-        'In Transit': 'status-transit',
-        'Out for Delivery': 'status-delivery',
-        'Delivered': 'status-delivered',
-        'Cancelled': 'status-cancelled'
+        'delivered': 'status-delivered',
+        'confirmed': 'status-confirmed',
+        'cancelled': 'status-cancelled',
+        'processing': 'status-processing',
+        'shipped': 'status-processing' // Treat shipped as processing
       };
-      return statusMap[status] || 'status-default';
+      return statusMap[status.toLowerCase()] || 'status-default';
     },
-
+    
     getStatusIcon(status) {
       const iconMap = {
-        'Processing': 'fas fa-clock',
-        'Shipped': 'fas fa-shipping-fast',
-        'In Transit': 'fas fa-truck',
-        'Out for Delivery': 'fas fa-truck-loading',
-        'Delivered': 'fas fa-check-circle',
-        'Cancelled': 'fas fa-times-circle'
+        'delivered': 'fas fa-check-circle',
+        'confirmed': 'fas fa-clock',
+        'cancelled': 'fas fa-times-circle',
+        'processing': 'fas fa-cog',
+        'shipped': 'fas fa-truck'
       };
-      return iconMap[status] || 'fas fa-info-circle';
+      return iconMap[status.toLowerCase()] || 'fas fa-info-circle';
     },
-
-    canTrackOrder(status) {
-      return ['Shipped', 'In Transit', 'Out for Delivery'].includes(status);
+    
+    formatOrderDate(date) {
+      return new Intl.DateTimeFormat('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      }).format(new Date(date));
     },
-
-    canRescheduleOrder(status) {
-      return ['Processing', 'Shipped'].includes(status);
+    
+    formatFullDate(date) {
+      return new Intl.DateTimeFormat('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }).format(new Date(date));
     },
-
-    canReorderItems(status) {
-      return ['Delivered', 'Cancelled'].includes(status);
+    
+    getEmptyStateTitle() {
+      const titles = {
+        all: 'No orders found',
+        delivered: 'No delivered orders',
+        confirmed: 'No confirmed orders',
+        cancelled: 'No cancelled orders',
+        processing: 'No processing orders'
+      };
+      return titles[this.activeFilter] || 'No orders found';
     },
-
-    canRequestRefund(status) {
-      return status === 'Delivered';
-    },
-
-    trackOrder(orderId) {
-      this.$router.push(`/order-tracking/${orderId}`);
-    },
-
-    rescheduleOrder(order) {
-      this.selectedOrder = order;
-      this.showRescheduleModal = true;
-      this.rescheduleData.date = this.formatDateForInput(order.estimatedDelivery);
-    },
-
-    closeRescheduleModal() {
-      this.showRescheduleModal = false;
-      this.selectedOrder = null;
-      this.rescheduleData = { date: '', time: 'afternoon' };
-    },
-
-    async confirmReschedule() {
-      try {
-        await this.rescheduleOrder({
-          orderId: this.selectedOrder.id,
-          newDate: this.rescheduleData.date,
-          newTime: this.rescheduleData.time
-        });
-        
-        this.showNotification({
-          type: 'success',
-          message: 'Delivery rescheduled successfully'
-        });
-        
-        this.closeRescheduleModal();
-      } catch (error) {
-        this.showNotification({
-          type: 'error',
-          message: 'Failed to reschedule delivery. Please try again.'
-        });
+    
+    getEmptyStateText() {
+      if (this.activeFilter === 'all') {
+        return 'Start shopping now!';
       }
+      return `You don't have any ${this.activeFilter} orders yet.`;
     },
-
+    
+    startShopping() {
+      this.$router.push('/');
+    },
+    
+    viewOrderDetails(order) {
+      this.selectedOrder = order;
+      this.showOrderModal = true;
+    },
+    
+    closeOrderModal() {
+      this.showOrderModal = false;
+      this.selectedOrder = null;
+    },
+    
+    trackOrder(order) {
+      this.$router.push(`/order-tracking/${order.id}`);
+    },
+    
     async reorderItems(order) {
       try {
         for (const item of order.items) {
           await this.addToCart({
-            id: item.id || Math.random().toString(36).substr(2, 9),
+            id: item.id,
             name: item.name,
+            brand: item.brand,
             price: item.price,
             quantity: item.quantity,
-            image: item.image || 'https://images.unsplash.com/photo-1556229174-f25e97436b3d?w=300'
+            image: item.image
           });
         }
         
@@ -383,6 +531,7 @@ export default {
           message: `${order.items.length} items added to cart`
         });
         
+        this.closeOrderModal();
         this.$router.push('/cart');
       } catch (error) {
         this.showNotification({
@@ -391,477 +540,850 @@ export default {
         });
       }
     },
-
-    requestRefund(order) {
-      this.$router.push(`/refund-request/${order.id}`);
-    },
-
-    viewOrderDetails(order) {
-      this.showNotification({
-        type: 'info',
-        message: `Viewing details for Order #${order.id}`
-      });
-    },
-
-    formatDateForInput(date) {
-      if (!date) return '';
-      const d = new Date(date);
-      return d.toISOString().split('T')[0];
-    },
-
-    getMinDeliveryDate() {
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      return tomorrow.toISOString().split('T')[0];
-    },
-
-    handleImageError(event) {
-      event.target.src = 'https://images.unsplash.com/photo-1556229174-f25e97436b3d?w=100';
+    
+    loadMore() {
+      this.currentPage++;
     }
   }
 };
 </script>
 
 <style scoped>
-.orders-page {
-  padding: 120px 0 60px;
+.my-orders-page {
   min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
-.orders-header {
+/* Header Section */
+.page-header {
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 1.5rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  color: #374151;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  background: #e2e8f0;
+  transform: translateX(-2px);
+}
+
+.header-main {
+  flex: 1;
   text-align: center;
-  margin-bottom: 40px;
 }
 
-.orders-header h1 {
-  color: var(--market-text);
-  margin-bottom: 8px;
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.orders-header p {
-  font-size: 18px;
-  color: var(--market-text-light);
+.page-subtitle {
+  color: #6b7280;
+  margin: 0;
+  font-size: 1rem;
 }
 
-/* Order Filters */
-.order-filters {
-  margin-bottom: 32px;
+.header-spacer {
+  width: 80px;
+}
+
+/* Filters Section */
+.filters-section {
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 1.5rem 0;
+}
+
+.filters-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
 }
 
 .filter-tabs {
   display: flex;
-  gap: 8px;
-  justify-content: center;
+  gap: 0.5rem;
   flex-wrap: wrap;
 }
 
 .filter-tab {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  border: 2px solid var(--market-border);
-  border-radius: 25px;
-  background: var(--market-surface);
-  color: var(--market-text);
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: #f8fafc;
+  border: 2px solid #e5e7eb;
+  border-radius: 16px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-weight: 500;
+  transition: all 0.3s ease;
+  color: #374151;
 }
 
 .filter-tab:hover {
-  border-color: var(--market-primary);
-  background: var(--market-secondary);
+  border-color: #667eea;
+  background: #f0f4ff;
 }
 
 .filter-tab.active {
-  background: var(--market-gradient);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border-color: transparent;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+
+.filter-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.filter-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.filter-label {
+  font-weight: 600;
+  font-size: 0.875rem;
 }
 
 .filter-count {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 0.75rem;
+  opacity: 0.8;
 }
 
 .filter-tab.active .filter-count {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.125rem 0.5rem;
+  border-radius: 8px;
+  margin-top: 0.25rem;
+}
+
+.sort-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sort-label {
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.sort-dropdown {
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: white;
+  color: #374151;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 150px;
+}
+
+.sort-dropdown:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Orders Content */
+.orders-content {
+  padding: 2rem 0;
 }
 
 /* Empty State */
 .empty-state {
   text-align: center;
-  padding: 60px 20px;
+  padding: 4rem 2rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.empty-illustration {
+  position: relative;
+  margin-bottom: 2rem;
 }
 
 .empty-icon {
-  font-size: 64px;
-  color: var(--market-text-light);
-  margin-bottom: 24px;
-}
-
-.empty-state h3 {
-  font-size: 24px;
-  color: var(--market-text);
-  margin-bottom: 12px;
-}
-
-.empty-state p {
-  color: var(--market-text-light);
-  margin-bottom: 32px;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Orders List */
-.orders-list {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
   display: flex;
-  flex-direction: column;
-  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  margin: 0 auto;
+  animation: float 3s ease-in-out infinite;
+}
+
+.empty-circles {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle {
+  position: absolute;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.circle:nth-child(1) {
+  width: 140px;
+  height: 140px;
+  animation-delay: 0s;
+}
+
+.circle:nth-child(2) {
+  width: 160px;
+  height: 160px;
+  animation-delay: 0.5s;
+}
+
+.circle:nth-child(3) {
+  width: 180px;
+  height: 180px;
+  animation-delay: 1s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% { 
+    transform: scale(1.05);
+    opacity: 0.6;
+  }
+}
+
+.empty-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 0.75rem;
+}
+
+.empty-text {
+  color: #6b7280;
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.shop-now-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+
+.shop-now-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+}
+
+/* Orders Grid */
+.orders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 1.5rem;
 }
 
 .order-card {
-  border: 1px solid var(--market-border);
-  border-radius: 16px;
+  background: white;
+  border-radius: 20px;
+  padding: 1.5rem;
+  border: 2px solid #e5e7eb;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
   overflow: hidden;
-  transition: all 0.2s ease;
 }
 
 .order-card:hover {
-  border-color: var(--market-primary);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  border-color: #667eea;
+  transform: translateY(-4px);
+  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.15);
+}
+
+.order-thumbnail {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border: 2px solid #e5e7eb;
+}
+
+.order-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.items-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
 .order-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 24px 24px 16px;
-  border-bottom: 1px solid var(--market-border);
+  margin-bottom: 1rem;
 }
 
-.order-number {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--market-text);
-  margin-bottom: 8px;
-}
-
-.order-meta {
-  display: flex;
-  gap: 20px;
-  font-size: 14px;
-  color: var(--market-text-light);
-}
-
-.order-meta span {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.order-id {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
 }
 
 .status-badge {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 20px;
-  font-size: 14px;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
-}
-
-.status-processing {
-  background: linear-gradient(135deg, #fef3c7, #fbbf24);
-  color: #92400e;
-}
-
-.status-shipped {
-  background: linear-gradient(135deg, #dbeafe, #3b82f6);
-  color: #1e40af;
-}
-
-.status-transit {
-  background: linear-gradient(135deg, #e0e7ff, #6366f1);
-  color: #4338ca;
-}
-
-.status-delivery {
-  background: linear-gradient(135deg, #fce7f3, #ec4899);
-  color: #be185d;
+  letter-spacing: 0.025em;
 }
 
 .status-delivered {
-  background: linear-gradient(135deg, #d1fae5, #10b981);
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
   color: #065f46;
 }
 
+.status-confirmed {
+  background: linear-gradient(135deg, #dbeafe 0%, #93c5fd 100%);
+  color: #1e40af;
+}
+
 .status-cancelled {
-  background: linear-gradient(135deg, #fee2e2, #ef4444);
+  background: linear-gradient(135deg, #fee2e2 0%, #fca5a5 100%);
   color: #991b1b;
 }
 
-/* Order Items */
-.order-items {
-  padding: 20px 24px;
-  border-bottom: 1px solid var(--market-border);
+.status-processing {
+  background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%);
+  color: #92400e;
 }
 
-.order-item {
+.product-info {
+  margin-bottom: 1rem;
+}
+
+.product-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.4;
+}
+
+.product-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.quantity {
+  color: #6b7280;
+}
+
+.price {
+  font-weight: 700;
+  color: #667eea;
+  font-size: 1rem;
+}
+
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.order-date {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px 0;
+  gap: 0.5rem;
+  color: #6b7280;
+  font-size: 0.875rem;
 }
 
-.order-item:not(:last-child) {
-  border-bottom: 1px solid var(--market-border);
+.order-date i {
+  color: #9ca3af;
+}
+
+.view-details-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #667eea;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-details-btn:hover {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+/* Load More */
+.load-more-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+.load-more-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  color: #374151;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.load-more-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+  background: #f0f4ff;
+  transform: translateY(-2px);
+}
+
+/* Order Modal */
+.order-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.order-modal-content {
+  background: white;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
+}
+
+.modal-header {
+  padding: 2rem 2rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.modal-close {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background: #e5e7eb;
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+.detail-section {
+  margin-bottom: 2rem;
+}
+
+.detail-section:last-child {
+  margin-bottom: 0;
+}
+
+.detail-section h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 1rem;
+}
+
+.summary-info {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.summary-row:last-child {
+  margin-bottom: 0;
+}
+
+.summary-row span:first-child {
+  color: #6b7280;
+}
+
+.summary-row span:last-child {
+  font-weight: 500;
+  color: #374151;
+}
+
+.total-amount {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #667eea !important;
+}
+
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.item-row {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 12px;
 }
 
 .item-image {
   width: 60px;
   height: 60px;
-  border-radius: 8px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.item-image img {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
 }
 
 .item-details {
   flex: 1;
 }
 
-.item-name {
-  font-size: 16px;
+.item-details h5 {
+  font-size: 1rem;
   font-weight: 600;
-  color: var(--market-text);
-  margin-bottom: 4px;
+  color: #374151;
+  margin: 0 0 0.25rem 0;
+}
+
+.item-details p {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin: 0 0 0.5rem 0;
 }
 
 .item-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 14px;
-  color: var(--market-text-light);
+  font-size: 0.875rem;
 }
 
 .item-price {
   font-weight: 600;
-  color: var(--market-primary);
+  color: #667eea;
 }
 
-/* Delivery Information */
 .delivery-info {
-  padding: 20px 24px;
-  background: var(--market-secondary);
-  border-bottom: 1px solid var(--market-border);
-}
-
-.delivery-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  color: var(--market-text);
-  margin-bottom: 8px;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1.5rem;
 }
 
 .delivery-address {
-  color: var(--market-text-light);
-  margin-bottom: 8px;
+  color: #374151;
+  margin-bottom: 1rem;
+  line-height: 1.5;
 }
 
 .delivery-date {
   display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-}
-
-.delivery-label {
-  color: var(--market-text-light);
-}
-
-.delivery-value {
-  font-weight: 600;
-  color: var(--market-primary);
-}
-
-/* Order Actions */
-.order-actions {
-  display: flex;
-  gap: 12px;
-  padding: 20px 24px;
-  flex-wrap: wrap;
-}
-
-.action-btn {
-  display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 10px 16px;
-  border: 1px solid var(--market-border);
-  border-radius: 8px;
-  background: var(--market-surface);
-  color: var(--market-text);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  gap: 0.5rem;
+  color: #6b7280;
+  font-size: 0.875rem;
 }
 
-.action-btn:hover {
-  border-color: var(--market-primary);
-  background: var(--market-secondary);
-  color: var(--market-primary);
-}
-
-.track-btn:hover {
-  background: linear-gradient(135deg, #dbeafe, #3b82f6);
-  color: #1e40af;
-  border-color: #3b82f6;
-}
-
-.reorder-btn:hover {
-  background: linear-gradient(135deg, #d1fae5, #10b981);
-  color: #065f46;
-  border-color: #10b981;
-}
-
-.refund-btn:hover {
-  background: linear-gradient(135deg, #fee2e2, #ef4444);
-  color: #991b1b;
-  border-color: #ef4444;
-}
-
-/* Modal Styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 20px;
-}
-
-.modal-content {
-  background: var(--market-surface);
-  border-radius: 16px;
-  max-width: 500px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 24px;
-  border-bottom: 1px solid var(--market-border);
-}
-
-.modal-header h3 {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--market-text);
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  font-size: 20px;
-  color: var(--market-text-light);
-  cursor: pointer;
-  padding: 4px;
-}
-
-.modal-body {
-  padding: 24px;
+.delivery-date i {
+  color: #667eea;
 }
 
 .modal-footer {
+  padding: 1rem 2rem 2rem;
+  border-top: 1px solid #e5e7eb;
   display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  padding: 24px;
-  border-top: 1px solid var(--market-border);
+  gap: 1rem;
 }
 
-.reschedule-form {
-  margin-top: 20px;
+.track-order-btn,
+.reorder-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
 }
 
-.form-group {
-  margin-bottom: 20px;
+.track-order-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.track-order-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.reorder-btn {
+  background: #f8fafc;
+  color: #374151;
+  border: 2px solid #e5e7eb;
+}
+
+.reorder-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+  background: #f0f4ff;
+}
+
+/* Transitions */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-  .orders-page {
-    padding: 100px 16px 60px;
+@media (max-width: 1024px) {
+  .orders-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   }
-
-  .order-header {
+  
+  .filters-content {
     flex-direction: column;
-    gap: 16px;
-    align-items: flex-start;
+    align-items: stretch;
+    gap: 1rem;
   }
-
-  .order-meta {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .order-actions {
-    flex-direction: column;
-  }
-
-  .action-btn {
+  
+  .filter-tabs {
     justify-content: center;
   }
+}
 
+@media (max-width: 768px) {
+  .page-header {
+    padding: 1rem 0;
+  }
+  
+  .page-title {
+    font-size: 1.75rem;
+  }
+  
+  .header-content {
+    gap: 0.5rem;
+  }
+  
+  .header-spacer {
+    width: 60px;
+  }
+  
+  .orders-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
   .filter-tabs {
     flex-direction: column;
-    align-items: center;
+    gap: 0.75rem;
   }
-
+  
   .filter-tab {
-    width: 100%;
-    max-width: 300px;
     justify-content: center;
+  }
+  
+  .order-footer {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .view-details-btn {
+    justify-content: center;
+  }
+  
+  .modal-footer {
+    flex-direction: column;
   }
 }
 
 @media (max-width: 480px) {
-  .order-item {
+  .orders-content {
+    padding: 1rem 0;
+  }
+  
+  .order-card {
+    padding: 1rem;
+  }
+  
+  .order-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .product-meta {
     flex-direction: column;
     align-items: flex-start;
-    text-align: left;
+    gap: 0.5rem;
   }
-
-  .item-meta {
-    width: 100%;
+  
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding: 1.5rem;
   }
-
-  .delivery-date {
+  
+  .item-row {
     flex-direction: column;
-    gap: 4px;
+    text-align: center;
+  }
+  
+  .item-image {
+    align-self: center;
   }
 }
 </style>
