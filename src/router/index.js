@@ -6,6 +6,7 @@ import ProductDetail from '../views/ProductDetail.vue';
 import Cart from '../views/Cart.vue';
 import Wishlist from '../views/Wishlist.vue';
 import Profile from '../views/Profile.vue';
+import Orders from '../views/Orders.vue';
 import Checkout from '../views/Checkout.vue';
 import OrderConfirmation from '../views/OrderConfirmation.vue';
 import OrderTracking from '../views/OrderTracking.vue';
