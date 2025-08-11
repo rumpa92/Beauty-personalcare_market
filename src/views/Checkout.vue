@@ -2712,45 +2712,54 @@ export default {
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .step-connector {
     display: none;
   }
-  
+
   .checkout-main {
     padding: 2rem;
   }
-  
+
   .addresses-grid,
   .payment-methods-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .form-row {
     grid-template-columns: 1fr;
   }
-  
+
   .coupon-input {
     flex-direction: column;
   }
-  
+
   .checkout-navigation {
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .nav-btn,
   .place-order-btn {
     width: 100%;
     justify-content: center;
   }
-  
+
   .address-type-options {
     grid-template-columns: 1fr;
   }
-  
+
   .success-actions {
     flex-direction: column;
+  }
+
+  .address-summary-content {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .address-type-indicator {
+    align-self: flex-start;
   }
 }
 
