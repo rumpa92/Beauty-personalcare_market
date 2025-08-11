@@ -13,6 +13,9 @@ import OrderTracking from '../views/OrderTracking.vue';
 import PrivacyPolicy from '../views/PrivacyPolicy.vue';
 import TermsOfService from '../views/TermsOfService.vue';
 import RatingsReviews from '../views/RatingsReviews.vue';
+import SelectAddress from '../views/SelectAddress.vue';
+import EditAddress from '../views/EditAddress.vue';
+import AddAddress from '../views/AddAddress.vue';
 
 Vue.use(VueRouter);
 
