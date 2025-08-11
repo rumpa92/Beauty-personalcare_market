@@ -12,6 +12,7 @@ import OrderConfirmation from '../views/OrderConfirmation.vue';
 import OrderTracking from '../views/OrderTracking.vue';
 import PrivacyPolicy from '../views/PrivacyPolicy.vue';
 import TermsOfService from '../views/TermsOfService.vue';
+import RatingsReviews from '../views/RatingsReviews.vue';
 
 Vue.use(VueRouter);
 
