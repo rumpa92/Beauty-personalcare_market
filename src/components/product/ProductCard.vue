@@ -119,6 +119,9 @@ export default {
     goToProduct() {
       this.$router.push(`/product/${this.product.id}`);
     },
+    goToCart() {
+      this.$router.push('/cart');
+    },
     async addToCart() {
       console.log('Add to cart clicked for:', this.product.name);
       this.isAddingToCart = true;
