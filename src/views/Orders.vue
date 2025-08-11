@@ -500,8 +500,7 @@ export default {
     },
     
     viewOrderDetails(order) {
-      this.selectedOrder = order;
-      this.showOrderModal = true;
+      this.$router.push(`/order-details/${order.id}`);
     },
     
     closeOrderModal() {
