@@ -4016,6 +4016,15 @@ export default {
   transform: scale(1.1);
 }
 
+.quick-add-btn.in-cart {
+  background: linear-gradient(135deg, #10b981, #059669);
+  opacity: 1;
+}
+
+.quick-add-btn.in-cart:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+}
+
 .product-badges {
   position: absolute;
   top: 16px;
