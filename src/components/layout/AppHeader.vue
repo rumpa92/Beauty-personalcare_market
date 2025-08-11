@@ -289,7 +289,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions('ui', ['toggleMobileMenu', 'closeMobileMenu', 'toggleSearch', 'openSearch', 'toggleCart', 'showNotification']),
+    ...mapActions('ui', ['toggleMobileMenu', 'closeMobileMenu', 'toggleSearch', 'openSearch', 'showNotification']),
+    ...mapActions('cart', ['toggleCart']),
     ...mapActions('user', ['logout']),
 
     openSignIn() {
