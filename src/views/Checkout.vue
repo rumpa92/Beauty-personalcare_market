@@ -108,6 +108,31 @@
 
             <!-- Step 2: Payment Method -->
             <div v-if="currentStep === 2" class="checkout-section">
+              <!-- Selected Address Display -->
+              <div v-if="selectedAddress" class="selected-address-summary">
+                <div class="address-summary-header">
+                  <h3 class="summary-title">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Delivering to
+                  </h3>
+                  <button @click="changeAddress" class="change-address-btn">
+                    <i class="fas fa-edit"></i>
+                    Change
+                  </button>
+                </div>
+                <div class="address-summary-content">
+                  <div class="summary-main">
+                    <h4 class="summary-name">{{ selectedAddress.name }}</h4>
+                    <p class="summary-address">{{ selectedAddress.street }}, {{ selectedAddress.city }}, {{ selectedAddress.state }} {{ selectedAddress.pincode }}</p>
+                    <p class="summary-phone">{{ selectedAddress.phone }}</p>
+                  </div>
+                  <div class="address-type-indicator" :class="selectedAddress.type.toLowerCase()">
+                    <i :class="getAddressIcon(selectedAddress.type)"></i>
+                    <span>{{ selectedAddress.type }}</span>
+                  </div>
+                </div>
+              </div>
+
               <div class="section-header">
                 <h2 class="section-title">
                   <i class="fas fa-credit-card"></i>
