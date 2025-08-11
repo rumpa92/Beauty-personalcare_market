@@ -146,7 +146,7 @@
 
             <div class="dropdown-divider"></div>
 
-            <button @click="logout" class="dropdown-item logout-item">
+            <button @click="logoutUser" class="dropdown-item logout-item">
               <div class="item-icon">
                 <i class="fas fa-sign-out-alt"></i>
               </div>
