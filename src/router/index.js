@@ -44,6 +44,13 @@ const routes = [
     meta: { title: 'Product Details - Beauty Market' }
   },
   {
+    path: '/product/:productId/ratings-reviews',
+    name: 'RatingsReviews',
+    component: RatingsReviews,
+    props: true,
+    meta: { title: 'Ratings & Reviews - Beauty Market' }
+  },
+  {
     path: '/cart',
     name: 'Cart',
     component: Cart,
