@@ -1,149 +1,114 @@
 <template>
-  <div class="order-confirmation-page">
-    <div class="container">
-      <div class="confirmation-content">
-        <!-- Success Header -->
-        <div class="success-header">
-          <div class="success-icon">
-            <i class="fas fa-check-circle"></i>
+  <div class="order-success-page">
+    <!-- Success Animation Background -->
+    <div class="success-background">
+      <div class="floating-particles">
+        <div v-for="n in 20" :key="n" class="particle" :style="getParticleStyle(n)"></div>
+      </div>
+    </div>
+
+    <div class="success-container">
+      <!-- Success Icon with Animation -->
+      <div class="success-icon-section">
+        <div class="success-icon-wrapper">
+          <div class="success-icon animated">
+            <div class="checkmark-circle">
+              <div class="checkmark"></div>
+            </div>
           </div>
-          <h1>Order Placed Successfully!</h1>
-          <p>Thank you for your purchase. Your order has been confirmed and is being processed.</p>
+          <div class="success-ripples">
+            <div class="ripple"></div>
+            <div class="ripple"></div>
+            <div class="ripple"></div>
+          </div>
         </div>
+      </div>
 
-        <!-- Order Details Card -->
-        <div class="order-details-card">
-          <div class="order-header">
-            <h2>Order #{{ orderId }}</h2>
+      <!-- Success Content -->
+      <div class="success-content">
+        <h1 class="success-title">Order Placed Successfully!</h1>
+        <p class="success-subtitle">
+          Thank you for shopping with us. Your order ID is 
+          <span class="order-id">#{{ orderId }}</span>
+        </p>
+
+        <!-- Order Summary Card -->
+        <div class="order-summary-card">
+          <div class="summary-header">
+            <div class="order-info">
+              <h3 class="order-number">Order #{{ orderId }}</h3>
+              <div class="order-date">
+                <i class="fas fa-calendar-alt"></i>
+                <span>{{ formatDate(orderDate) }}</span>
+              </div>
+            </div>
             <div class="order-status">
-              <span class="status-badge confirmed">Confirmed</span>
-            </div>
-          </div>
-
-          <div class="order-timeline">
-            <div class="timeline-step completed">
-              <div class="step-icon">
+              <span class="status-badge success">
                 <i class="fas fa-check"></i>
-              </div>
-              <div class="step-content">
-                <h3>Order Confirmed</h3>
-                <p>{{ formatDateTime(order.confirmedAt) }}</p>
-              </div>
-            </div>
-            
-            <div class="timeline-step pending">
-              <div class="step-icon">
-                <i class="fas fa-box"></i>
-              </div>
-              <div class="step-content">
-                <h3>Processing</h3>
-                <p>Estimated: {{ formatDateTime(order.processingAt) }}</p>
-              </div>
-            </div>
-            
-            <div class="timeline-step pending">
-              <div class="step-icon">
-                <i class="fas fa-truck"></i>
-              </div>
-              <div class="step-content">
-                <h3>Shipped</h3>
-                <p>Estimated: {{ formatDateTime(order.shippedAt) }}</p>
-              </div>
-            </div>
-            
-            <div class="timeline-step pending">
-              <div class="step-icon">
-                <i class="fas fa-home"></i>
-              </div>
-              <div class="step-content">
-                <h3>Delivered</h3>
-                <p>Estimated: {{ formatDateTime(order.deliveredAt) }}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Order Items -->
-          <div class="order-items-section">
-            <h3>Items Ordered</h3>
-            <div class="items-list">
-              <div v-for="item in order.items" :key="item.id" class="order-item">
-                <img :src="item.image" :alt="item.name" class="item-image">
-                <div class="item-details">
-                  <h4>{{ item.name }}</h4>
-                  <p class="item-brand">{{ item.brand }}</p>
-                  <div class="item-variants" v-if="item.selectedSize || item.selectedVariant">
-                    <span v-if="item.selectedSize">Size: {{ item.selectedSize.volume }}</span>
-                    <span v-if="item.selectedVariant">{{ item.selectedVariant.shade }}</span>
-                  </div>
-                  <div class="item-meta">
-                    <span class="quantity">Qty: {{ item.quantity }}</span>
-                    <span class="price">${{ (item.price * item.quantity).toFixed(2) }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Order Summary -->
-          <div class="order-summary-section">
-            <h3>Order Summary</h3>
-            <div class="summary-details">
-              <div class="summary-row">
-                <span>Subtotal</span>
-                <span>${{ order.subtotal.toFixed(2) }}</span>
-              </div>
-              <div class="summary-row">
-                <span>Shipping</span>
-                <span v-if="order.shipping === 0">FREE</span>
-                <span v-else>${{ order.shipping.toFixed(2) }}</span>
-              </div>
-              <div class="summary-row">
-                <span>Tax</span>
-                <span>${{ order.tax.toFixed(2) }}</span>
-              </div>
-              <div v-if="order.discount > 0" class="summary-row discount">
-                <span>Discount</span>
-                <span>-${{ order.discount.toFixed(2) }}</span>
-              </div>
-              <div class="summary-row total">
-                <span>Total</span>
-                <span>${{ order.total.toFixed(2) }}</span>
-              </div>
+                Confirmed
+              </span>
             </div>
           </div>
 
           <!-- Delivery Information -->
-          <div class="delivery-info-section">
-            <h3>Delivery Information</h3>
-            <div class="delivery-details">
-              <div class="address-info">
-                <h4>Shipping Address</h4>
-                <div class="address">
-                  <p>{{ order.shippingAddress.name }}</p>
-                  <p>{{ order.shippingAddress.street }}</p>
-                  <p>{{ order.shippingAddress.city }}, {{ order.shippingAddress.state }} {{ order.shippingAddress.zipCode }}</p>
-                  <p>{{ order.shippingAddress.phone }}</p>
-                </div>
+          <div class="delivery-section">
+            <div class="delivery-card">
+              <div class="delivery-icon">
+                <i class="fas fa-truck"></i>
               </div>
-              
-              <div class="shipping-method">
-                <h4>Shipping Method</h4>
-                <p>{{ order.shippingMethod.name }}</p>
-                <p class="delivery-estimate">{{ order.shippingMethod.description }}</p>
+              <div class="delivery-details">
+                <h4>Estimated Delivery</h4>
+                <p class="delivery-date">{{ formatDeliveryDate(estimatedDelivery) }}</p>
+                <span class="delivery-time">{{ getDeliveryDays() }} business days</span>
               </div>
             </div>
           </div>
 
-          <!-- Payment Information -->
-          <div class="payment-info-section">
-            <h3>Payment Information</h3>
-            <div class="payment-details">
-              <div class="payment-method">
-                <i :class="getPaymentIcon(order.paymentMethod.type)"></i>
-                <span>{{ order.paymentMethod.name }}</span>
+          <!-- Order Total -->
+          <div class="order-total-section">
+            <div class="total-breakdown">
+              <div class="total-row">
+                <span>Subtotal ({{ orderItems.length }} items)</span>
+                <span>₹{{ orderSummary.subtotal.toFixed(2) }}</span>
               </div>
-              <div class="payment-status">
-                <span class="status-badge paid">Paid</span>
+              <div class="total-row">
+                <span>Shipping</span>
+                <span v-if="orderSummary.shipping === 0" class="free-badge">FREE</span>
+                <span v-else>₹{{ orderSummary.shipping.toFixed(2) }}</span>
+              </div>
+              <div class="total-row">
+                <span>Tax</span>
+                <span>₹{{ orderSummary.tax.toFixed(2) }}</span>
+              </div>
+              <div v-if="orderSummary.discount > 0" class="total-row discount">
+                <span>Discount</span>
+                <span>-₹{{ orderSummary.discount.toFixed(2) }}</span>
+              </div>
+              <div class="total-divider"></div>
+              <div class="total-row final">
+                <span>Total Amount</span>
+                <span>₹{{ orderSummary.total.toFixed(2) }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="payment-method-section">
+            <div class="payment-card">
+              <div class="payment-icon">
+                <img :src="getPaymentLogo(paymentMethod.type)" :alt="paymentMethod.name" />
+              </div>
+              <div class="payment-details">
+                <h4>Payment Successful</h4>
+                <p>{{ paymentMethod.name }}</p>
+                <span class="payment-status">
+                  <i class="fas fa-shield-check"></i>
+                  Secure payment processed
+                </span>
+              </div>
+              <div class="payment-badge">
+                <i class="fas fa-check-circle"></i>
+                <span>Paid</span>
               </div>
             </div>
           </div>
@@ -151,75 +116,121 @@
 
         <!-- Action Buttons -->
         <div class="action-buttons">
-          <button @click="trackOrder" class="btn-primary">
-            <i class="fas fa-map-marker-alt"></i>
-            Track Order
+          <button @click="trackOrder" class="track-order-btn">
+            <div class="btn-content">
+              <div class="btn-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div class="btn-text">
+                <span>Track Order</span>
+                <small>Real-time updates</small>
+              </div>
+            </div>
+            <i class="fas fa-arrow-right btn-arrow"></i>
           </button>
-          
-          <button @click="downloadInvoice" class="btn-secondary">
-            <i class="fas fa-download"></i>
-            Download Invoice
-          </button>
-          
-          <button @click="continueShopping" class="btn-outline">
-            <i class="fas fa-shopping-bag"></i>
-            Continue Shopping
+
+          <button @click="continueShopping" class="continue-shopping-btn">
+            <div class="btn-content">
+              <div class="btn-icon">
+                <i class="fas fa-shopping-bag"></i>
+              </div>
+              <div class="btn-text">
+                <span>Continue Shopping</span>
+                <small>Discover more products</small>
+              </div>
+            </div>
           </button>
         </div>
 
-        <!-- Support Section -->
-        <div class="support-section">
-          <div class="support-card">
-            <div class="support-icon">
+        <!-- Additional Features -->
+        <div class="additional-features">
+          <div class="feature-card" @click="downloadInvoice">
+            <div class="feature-icon">
+              <i class="fas fa-download"></i>
+            </div>
+            <div class="feature-content">
+              <h4>Download Invoice</h4>
+              <p>Get your order receipt</p>
+            </div>
+          </div>
+
+          <div class="feature-card" @click="shareOrder">
+            <div class="feature-icon">
+              <i class="fas fa-share-alt"></i>
+            </div>
+            <div class="feature-content">
+              <h4>Share Order</h4>
+              <p>Tell your friends</p>
+            </div>
+          </div>
+
+          <div class="feature-card" @click="contactSupport">
+            <div class="feature-icon">
               <i class="fas fa-headset"></i>
             </div>
-            <div class="support-content">
-              <h3>Need Help?</h3>
-              <p>Our customer support team is here to assist you with any questions about your order.</p>
-              <div class="support-options">
-                <button @click="openLiveChat" class="support-btn">
-                  <i class="fas fa-comment"></i>
-                  Live Chat
-                </button>
-                <button @click="callSupport" class="support-btn">
-                  <i class="fas fa-phone"></i>
-                  Call Support
-                </button>
-                <button @click="emailSupport" class="support-btn">
-                  <i class="fas fa-envelope"></i>
-                  Email Support
-                </button>
+            <div class="feature-content">
+              <h4>Need Help?</h4>
+              <p>Contact support</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Special Offer -->
+        <div class="special-offer">
+          <div class="offer-content">
+            <div class="offer-icon">
+              <i class="fas fa-gift"></i>
+            </div>
+            <div class="offer-text">
+              <h4>🎉 Special Offer Just for You!</h4>
+              <p>Get 15% off on your next order. Use code: <span class="offer-code">THANKYOU15</span></p>
+            </div>
+          </div>
+          <button @click="claimOffer" class="claim-offer-btn">
+            <i class="fas fa-tag"></i>
+            Claim Offer
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Items Modal (Optional) -->
+    <div v-if="showOrderItems" class="order-items-modal" @click="closeOrderItems">
+      <div class="modal-content" @click.stop>
+        <div class="modal-header">
+          <h3>Order Items</h3>
+          <button @click="closeOrderItems" class="modal-close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="items-list">
+            <div v-for="item in orderItems" :key="item.id" class="order-item">
+              <img :src="item.image" :alt="item.name" class="item-image" />
+              <div class="item-details">
+                <h4>{{ item.name }}</h4>
+                <p>{{ item.brand }}</p>
+                <div class="item-meta">
+                  <span>Qty: {{ item.quantity }}</span>
+                  <span class="item-price">₹{{ (item.price * item.quantity).toFixed(2) }}</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
-        <!-- Recommendations -->
-        <div class="recommendations-section">
-          <h2>You Might Also Like</h2>
-          <div class="recommendations-grid">
-            <ProductCard 
-              v-for="product in recommendedProducts" 
-              :key="product.id"
-              :product="product"
-              class="recommendation-item"
-            />
-          </div>
-        </div>
       </div>
+    </div>
+
+    <!-- Confetti Animation -->
+    <div class="confetti-container">
+      <div v-for="n in 50" :key="n" class="confetti" :style="getConfettiStyle(n)"></div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import ProductCard from '../components/product/ProductCard.vue';
-
 export default {
   name: 'OrderConfirmation',
-  components: {
-    ProductCard
-  },
   props: {
     orderId: {
       type: String,
@@ -228,310 +239,888 @@ export default {
   },
   data() {
     return {
-      order: {
-        id: this.orderId,
-        confirmedAt: new Date(),
-        processingAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // +1 day
-        shippedAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), // +2 days
-        deliveredAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // +5 days
-        items: [
-          {
-            id: 1,
-            name: 'Luxury Moisturizing Face Cream',
-            brand: 'GlowLux',
-            price: 89.99,
-            quantity: 1,
-            image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=200',
-            selectedSize: { volume: '50ml' }
-          },
-          {
-            id: 2,
-            name: 'Vitamin C Brightening Serum',
-            brand: 'VitaGlow',
-            price: 65.00,
-            quantity: 2,
-            image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=200'
-          }
-        ],
-        subtotal: 219.99,
-        shipping: 0,
-        tax: 17.60,
-        discount: 20.00,
-        total: 217.59,
-        shippingAddress: {
-          name: 'Rumpa Samanta',
-          street: '123 Beauty Lane, Apt 4B',
-          city: 'Los Angeles',
-          state: 'California',
-          zipCode: '90210',
-          phone: '+1 234-567-8900'
+      showOrderItems: false,
+      orderDate: new Date(),
+      estimatedDelivery: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days from now
+      
+      // Mock order data - in real app this would come from store/API
+      orderItems: [
+        {
+          id: 1,
+          name: 'Luxury Moisturizing Face Cream',
+          brand: 'GlowLux',
+          price: 1299,
+          quantity: 1,
+          image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=200'
         },
-        shippingMethod: {
-          name: 'Standard Shipping',
-          description: 'Delivered in 5-7 business days'
-        },
-        paymentMethod: {
-          type: 'card',
-          name: 'Credit Card ending in 1234'
+        {
+          id: 2,
+          name: 'Vitamin C Brightening Serum',
+          brand: 'VitaGlow',
+          price: 899,
+          quantity: 2,
+          image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=200'
         }
+      ],
+      
+      orderSummary: {
+        subtotal: 3097,
+        shipping: 0,
+        tax: 248,
+        discount: 200,
+        total: 3145
+      },
+      
+      paymentMethod: {
+        type: 'visa',
+        name: 'Visa Card ending in ****1234'
+      },
+      
+      // Payment logos mapping
+      paymentLogos: {
+        visa: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/200px-Visa_Inc._logo.svg.png',
+        mastercard: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/200px-Mastercard-logo.svg.png',
+        paytm: 'https://logos-world.net/wp-content/uploads/2020/12/Paytm-Logo.png',
+        phonepe: 'https://logowik.com/content/uploads/images/phonepe6531.jpg',
+        gpay: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Google_Pay_Logo_%282020%29.svg/200px-Google_Pay_Logo_%282020%29.svg.png',
+        upi: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/200px-UPI-Logo-vector.svg.png'
       }
     };
   },
-  computed: {
-    ...mapGetters('products', ['featuredProducts']),
-    recommendedProducts() {
-      return this.featuredProducts.slice(0, 4);
-    }
-  },
+  
   methods: {
-    formatDateTime(date) {
+    formatDate(date) {
       return new Intl.DateTimeFormat('en-US', {
-        weekday: 'short',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
       }).format(date);
     },
-    getPaymentIcon(type) {
-      const icons = {
-        card: 'fas fa-credit-card',
-        wallet: 'fas fa-mobile-alt',
-        upi: 'fas fa-qrcode',
-        'store-wallet': 'fas fa-wallet'
-      };
-      return icons[type] || 'fas fa-credit-card';
+    
+    formatDeliveryDate(date) {
+      return new Intl.DateTimeFormat('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      }).format(date);
     },
+    
+    getDeliveryDays() {
+      const diffTime = this.estimatedDelivery - this.orderDate;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays;
+    },
+    
+    getPaymentLogo(type) {
+      return this.paymentLogos[type] || this.paymentLogos.visa;
+    },
+    
     trackOrder() {
       this.$router.push(`/order-tracking/${this.orderId}`);
     },
-    downloadInvoice() {
-      // Implementation for downloading invoice
-      console.log('Download invoice for order:', this.orderId);
-    },
+    
     continueShopping() {
-      this.$router.push('/products');
+      this.$router.push('/');
     },
-    openLiveChat() {
-      // Implementation for opening live chat
-      console.log('Open live chat');
+    
+    downloadInvoice() {
+      // Simulate invoice download
+      console.log('Downloading invoice for order:', this.orderId);
+      // In real app, trigger download
     },
-    callSupport() {
-      // Implementation for calling support
-      console.log('Call support');
+    
+    shareOrder() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'My Order',
+          text: `I just placed an order #${this.orderId}!`,
+          url: window.location.href
+        });
+      } else {
+        // Fallback for browsers without Web Share API
+        navigator.clipboard.writeText(`Order #${this.orderId} - ${window.location.href}`);
+        alert('Order link copied to clipboard!');
+      }
     },
-    emailSupport() {
-      // Implementation for email support
-      console.log('Email support');
+    
+    contactSupport() {
+      // Navigate to support or open chat
+      console.log('Contacting support for order:', this.orderId);
+    },
+    
+    claimOffer() {
+      // Handle offer claim logic
+      alert('Offer code THANKYOU15 copied to clipboard!');
+      navigator.clipboard.writeText('THANKYOU15');
+    },
+    
+    showOrderItemsModal() {
+      this.showOrderItems = true;
+    },
+    
+    closeOrderItems() {
+      this.showOrderItems = false;
+    },
+    
+    // Animation helper functions
+    getParticleStyle(index) {
+      const size = Math.random() * 4 + 2;
+      const left = Math.random() * 100;
+      const animationDelay = Math.random() * 2;
+      const animationDuration = Math.random() * 3 + 2;
+      
+      return {
+        width: `${size}px`,
+        height: `${size}px`,
+        left: `${left}%`,
+        animationDelay: `${animationDelay}s`,
+        animationDuration: `${animationDuration}s`
+      };
+    },
+    
+    getConfettiStyle(index) {
+      const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#a29bfe'];
+      const size = Math.random() * 8 + 4;
+      const left = Math.random() * 100;
+      const animationDelay = Math.random() * 3;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      
+      return {
+        width: `${size}px`,
+        height: `${size}px`,
+        left: `${left}%`,
+        backgroundColor: color,
+        animationDelay: `${animationDelay}s`
+      };
     }
+  },
+  
+  mounted() {
+    // Start animations after component mounts
+    setTimeout(() => {
+      document.querySelector('.success-icon').classList.add('animate');
+    }, 500);
+    
+    // Trigger confetti after success animation
+    setTimeout(() => {
+      document.querySelector('.confetti-container').classList.add('active');
+    }, 1500);
   }
 };
 </script>
 
 <style scoped>
-.order-confirmation-page {
-  padding: 40px 0;
+.order-success-page {
   min-height: 100vh;
-  background: var(--gray-50);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
 }
 
-.confirmation-content {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 20px;
+/* Animated Background */
+.success-background {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
 }
 
-.success-header {
+.floating-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.particle {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: float infinite ease-in-out;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+    opacity: 0.8;
+  }
+}
+
+/* Main Container */
+.success-container {
+  background: white;
+  border-radius: 24px;
+  padding: 3rem 2rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  width: 100%;
   text-align: center;
-  margin-bottom: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Success Icon Section */
+.success-icon-section {
+  margin-bottom: 2rem;
+}
+
+.success-icon-wrapper {
+  position: relative;
+  display: inline-block;
 }
 
 .success-icon {
-  width: 80px;
-  height: 80px;
-  background: var(--success-500);
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  position: relative;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.success-icon.animate {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.checkmark-circle {
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 24px;
-  color: white;
-  font-size: 36px;
-  animation: successPulse 1s ease-in-out;
+  position: relative;
+  box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
 }
 
-@keyframes successPulse {
-  0% { transform: scale(0.8); opacity: 0; }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); opacity: 1; }
+.checkmark {
+  width: 60px;
+  height: 30px;
+  border: 4px solid white;
+  border-top: none;
+  border-right: none;
+  transform: rotate(-45deg);
+  animation: checkmarkDraw 0.8s ease-in-out 0.5s forwards;
+  opacity: 0;
 }
 
-.success-header h1 {
-  font-size: 32px;
+@keyframes checkmarkDraw {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  50% {
+    width: 30px;
+    height: 0;
+  }
+  100% {
+    width: 60px;
+    height: 30px;
+    opacity: 1;
+  }
+}
+
+.success-ripples {
+  position: absolute;
+  inset: -20px;
+}
+
+.ripple {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(16, 185, 129, 0.3);
+  border-radius: 50%;
+  animation: rippleEffect 2s infinite;
+}
+
+.ripple:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.ripple:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes rippleEffect {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Success Content */
+.success-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.success-subtitle {
+  font-size: 1.125rem;
+  color: #6b7280;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+}
+
+.order-id {
   font-weight: 700;
-  color: var(--gray-800);
-  margin-bottom: 12px;
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-family: 'Monaco', 'Menlo', monospace;
 }
 
-.success-header p {
-  font-size: 18px;
-  color: var(--gray-600);
-  max-width: 500px;
-  margin: 0 auto;
+/* Order Summary Card */
+.order-summary-card {
+  background: #f8fafc;
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  text-align: left;
 }
 
-.order-details-card {
-  background: white;
-  border-radius: 16px;
-  padding: 32px;
-  margin-bottom: 32px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-}
-
-.order-header {
+.summary-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--gray-200);
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
 }
 
-.order-header h2 {
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--gray-800);
+.order-number {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.order-date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  font-size: 0.875rem;
 }
 
 .status-badge {
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.status-badge.confirmed {
-  background: var(--success-100);
-  color: var(--success-700);
-}
-
-.status-badge.paid {
-  background: var(--primary-100);
-  color: var(--primary-700);
-}
-
-.order-timeline {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 40px;
-  position: relative;
-}
-
-.order-timeline::before {
-  content: '';
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  right: 20px;
-  height: 2px;
-  background: var(--gray-300);
-  z-index: 1;
-}
-
-.timeline-step {
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  position: relative;
-  z-index: 2;
-  flex: 1;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.875rem;
 }
 
-.step-icon {
-  width: 40px;
-  height: 40px;
+.status-badge.success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+}
+
+/* Delivery Section */
+.delivery-section {
+  margin-bottom: 2rem;
+}
+
+.delivery-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 16px;
+  border: 2px solid #e5e7eb;
+}
+
+.delivery-icon {
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 12px;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.delivery-details h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.delivery-date {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.delivery-time {
+  font-size: 0.875rem;
+  color: #10b981;
+  font-weight: 500;
+}
+
+/* Order Total Section */
+.order-total-section {
+  margin-bottom: 2rem;
+}
+
+.total-breakdown {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 2px solid #e5e7eb;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.total-row:last-child {
+  margin-bottom: 0;
+}
+
+.total-row span:first-child {
+  color: #6b7280;
+}
+
+.total-row span:last-child {
+  font-weight: 500;
+  color: #374151;
+}
+
+.total-row.discount span:last-child {
+  color: #10b981;
+}
+
+.total-row.final {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.total-divider {
+  height: 2px;
+  background: #e5e7eb;
+  margin: 1rem 0;
+}
+
+.free-badge {
+  background: #10b981;
   color: white;
-  font-size: 16px;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Payment Method Section */
+.payment-method-section {
+  margin-bottom: 2rem;
+}
+
+.payment-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 16px;
+  border: 2px solid #e5e7eb;
+}
+
+.payment-icon {
+  width: 60px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.payment-icon img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.payment-details {
+  flex: 1;
+}
+
+.payment-details h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.payment-details p {
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.payment-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #10b981;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.payment-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #ecfdf5;
+  color: #059669;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.track-order-btn,
+.continue-shopping-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
   transition: all 0.3s ease;
+  text-align: left;
 }
 
-.timeline-step.completed .step-icon {
-  background: var(--success-500);
+.track-order-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
 }
 
-.timeline-step.pending .step-icon {
-  background: var(--gray-300);
-  color: var(--gray-500);
+.track-order-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
 }
 
-.step-content {
+.continue-shopping-btn {
+  background: white;
+  color: #374151;
+  border: 2px solid #e5e7eb;
+}
+
+.continue-shopping-btn:hover {
+  border-color: #667eea;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.btn-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.continue-shopping-btn .btn-icon {
+  background: #f8fafc;
+  color: #667eea;
+}
+
+.btn-text span {
+  font-weight: 600;
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.btn-text small {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+.btn-arrow {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* Additional Features */
+.additional-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.feature-card {
+  padding: 1.5rem 1rem;
+  background: #f8fafc;
+  border-radius: 16px;
+  border: 2px solid #e5e7eb;
+  cursor: pointer;
+  transition: all 0.3s ease;
   text-align: center;
 }
 
-.step-content h3 {
-  font-size: 14px;
+.feature-card:hover {
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+}
+
+.feature-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  margin: 0 auto 1rem;
+}
+
+.feature-content h4 {
+  font-size: 0.875rem;
   font-weight: 600;
-  color: var(--gray-800);
-  margin-bottom: 4px;
+  color: #374151;
+  margin-bottom: 0.25rem;
 }
 
-.step-content p {
-  font-size: 12px;
-  color: var(--gray-500);
+.feature-content p {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
 }
 
-.order-items-section,
-.order-summary-section,
-.delivery-info-section,
-.payment-info-section {
-  margin-bottom: 32px;
-  padding-bottom: 32px;
-  border-bottom: 1px solid var(--gray-200);
+/* Special Offer */
+.special-offer {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  border-radius: 20px;
+  padding: 2rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.order-items-section:last-child,
-.order-summary-section:last-child,
-.delivery-info-section:last-child,
-.payment-info-section:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
+.offer-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-.order-items-section h3,
-.order-summary-section h3,
-.delivery-info-section h3,
-.payment-info-section h3 {
-  font-size: 18px;
+.offer-icon {
+  font-size: 2rem;
+}
+
+.offer-text h4 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.offer-text p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 0.875rem;
+}
+
+.offer-code {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  font-weight: 700;
+  font-family: 'Monaco', 'Menlo', monospace;
+}
+
+.claim-offer-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  background: white;
+  color: #f59e0b;
+  border: none;
+  border-radius: 12px;
   font-weight: 600;
-  color: var(--gray-800);
-  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.claim-offer-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Confetti Animation */
+.confetti-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.confetti {
+  position: absolute;
+  top: -10px;
+  opacity: 0;
+  border-radius: 2px;
+}
+
+.confetti-container.active .confetti {
+  animation: confettiFall 3s ease-out forwards;
+}
+
+@keyframes confettiFall {
+  0% {
+    opacity: 1;
+    transform: translateY(-100vh) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100vh) rotate(720deg);
+  }
+}
+
+/* Order Items Modal */
+.order-items-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  padding: 2rem 2rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.modal-close {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background: #e5e7eb;
+}
+
+.modal-body {
+  padding: 2rem;
 }
 
 .items-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
 }
 
 .order-item {
   display: flex;
-  gap: 16px;
-  padding: 16px;
-  background: var(--gray-50);
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
   border-radius: 12px;
 }
 
 .item-image {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   object-fit: cover;
   border-radius: 8px;
   flex-shrink: 0;
@@ -542,327 +1131,126 @@ export default {
 }
 
 .item-details h4 {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
-  color: var(--gray-800);
-  margin-bottom: 4px;
+  color: #111827;
+  margin-bottom: 0.25rem;
 }
 
-.item-brand {
-  font-size: 14px;
-  color: var(--gray-600);
-  margin-bottom: 8px;
-}
-
-.item-variants {
-  display: flex;
-  gap: 12px;
-  font-size: 12px;
-  color: var(--gray-500);
-  margin-bottom: 8px;
+.item-details p {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
 }
 
 .item-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 0.875rem;
 }
 
-.quantity {
-  font-size: 14px;
-  color: var(--gray-600);
-}
-
-.price {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--primary-600);
-}
-
-.summary-details {
-  background: var(--gray-50);
-  border-radius: 12px;
-  padding: 20px;
-}
-
-.summary-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-  font-size: 14px;
-}
-
-.summary-row.discount {
-  color: var(--success-600);
-}
-
-.summary-row.total {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--gray-800);
-  padding-top: 12px;
-  margin-top: 12px;
-  border-top: 2px solid var(--gray-200);
-  margin-bottom: 0;
-}
-
-.delivery-details {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-}
-
-.address-info h4,
-.shipping-method h4 {
-  font-size: 16px;
+.item-price {
   font-weight: 600;
-  color: var(--gray-800);
-  margin-bottom: 12px;
+  color: #667eea;
 }
 
-.address p {
-  margin-bottom: 4px;
-  font-size: 14px;
-  color: var(--gray-600);
-}
-
-.shipping-method p {
-  font-size: 14px;
-  color: var(--gray-600);
-  margin-bottom: 4px;
-}
-
-.delivery-estimate {
-  font-weight: 500;
-  color: var(--primary-600);
-}
-
-.payment-details {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--gray-50);
-  border-radius: 12px;
-  padding: 20px;
-}
-
-.payment-method {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 16px;
-  color: var(--gray-700);
-}
-
-.payment-method i {
-  font-size: 20px;
-  color: var(--primary-500);
-}
-
-.action-buttons {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  margin-bottom: 40px;
-}
-
-.btn-primary,
-.btn-secondary,
-.btn-outline {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  border: none;
-  font-size: 16px;
-}
-
-.btn-primary {
-  background: var(--primary-500);
-  color: white;
-}
-
-.btn-primary:hover {
-  background: var(--primary-600);
-  transform: translateY(-1px);
-}
-
-.btn-secondary {
-  background: var(--gray-100);
-  color: var(--gray-700);
-  border: 1px solid var(--gray-300);
-}
-
-.btn-secondary:hover {
-  background: var(--gray-200);
-}
-
-.btn-outline {
-  background: transparent;
-  color: var(--primary-600);
-  border: 2px solid var(--primary-500);
-}
-
-.btn-outline:hover {
-  background: var(--primary-50);
-}
-
-.support-section {
-  margin-bottom: 40px;
-}
-
-.support-card {
-  background: white;
-  border-radius: 16px;
-  padding: 32px;
-  display: flex;
-  gap: 24px;
-  align-items: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-}
-
-.support-icon {
-  width: 60px;
-  height: 60px;
-  background: var(--primary-100);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--primary-600);
-  font-size: 24px;
-  flex-shrink: 0;
-}
-
-.support-content h3 {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--gray-800);
-  margin-bottom: 8px;
-}
-
-.support-content p {
-  color: var(--gray-600);
-  margin-bottom: 16px;
-}
-
-.support-options {
-  display: flex;
-  gap: 12px;
-}
-
-.support-btn {
-  background: var(--primary-500);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
-
-.support-btn:hover {
-  background: var(--primary-600);
-}
-
-.recommendations-section h2 {
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--gray-800);
-  margin-bottom: 24px;
-  text-align: center;
-}
-
-.recommendations-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.recommendation-item {
-  transform: scale(0.95);
-  transition: transform 0.2s ease;
-}
-
-.recommendation-item:hover {
-  transform: scale(1);
-}
-
+/* Responsive Design */
 @media (max-width: 768px) {
-  .order-confirmation-page {
-    padding: 20px 0;
+  .order-success-page {
+    padding: 1rem;
   }
   
-  .confirmation-content {
-    padding: 0 16px;
+  .success-container {
+    padding: 2rem 1.5rem;
   }
   
-  .order-details-card {
-    padding: 20px;
+  .success-title {
+    font-size: 2rem;
   }
   
-  .order-header {
-    flex-direction: column;
-    gap: 16px;
-    text-align: center;
+  .success-subtitle {
+    font-size: 1rem;
   }
   
-  .order-timeline {
-    flex-direction: column;
-    gap: 20px;
+  .checkmark-circle {
+    width: 100px;
+    height: 100px;
   }
   
-  .order-timeline::before {
-    display: none;
+  .success-icon {
+    width: 100px;
+    height: 100px;
   }
   
-  .timeline-step {
-    flex-direction: row;
-    text-align: left;
-  }
-  
-  .step-content {
-    text-align: left;
-    margin-left: 16px;
-  }
-  
-  .delivery-details {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  
-  .payment-details {
-    flex-direction: column;
-    gap: 16px;
-    text-align: center;
+  .checkmark {
+    width: 50px;
+    height: 25px;
   }
   
   .action-buttons {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
   
-  .support-card {
+  .additional-features {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .special-offer {
     flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .summary-header {
+    flex-direction: column;
+    gap: 1rem;
     text-align: center;
   }
   
-  .support-options {
-    justify-content: center;
-    flex-wrap: wrap;
+  .delivery-card,
+  .payment-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .success-container {
+    padding: 1.5rem 1rem;
   }
   
-  .recommendations-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  .success-title {
+    font-size: 1.75rem;
+  }
+  
+  .order-summary-card {
+    padding: 1.5rem;
+  }
+  
+  .delivery-card,
+  .payment-card {
+    padding: 1rem;
+  }
+  
+  .btn-content {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+  
+  .track-order-btn,
+  .continue-shopping-btn {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .btn-arrow {
+    display: none;
   }
 }
 </style>
