@@ -3636,7 +3636,7 @@ export default {
   display: flex;
   align-items: center;
   gap: 4px;
-  background: linear-gradient(135d, #ecfdf5, #d1fae5);
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
   color: #065f46;
   padding: 4px 8px;
   border-radius: 12px;
