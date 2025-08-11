@@ -45,13 +45,17 @@
         </span>
       </div>
       
-      <button 
-        @click="addToCart" 
-        class="add-to-cart-btn"
+      <button
+        @click="isInCart ? goToCart() : addToCart()"
+        :class="['add-to-cart-btn', { 'in-cart': isInCart }]"
         :disabled="isAddingToCart"
       >
-        <i class="fas fa-shopping-bag"></i>
-        {{ isAddingToCart ? 'Adding...' : 'Add to Cart' }}
+        <i :class="isInCart ? 'fas fa-arrow-right' : 'fas fa-shopping-bag'"></i>
+        {{
+          isAddingToCart ? 'Adding...' :
+          isInCart ? 'Go to Cart' :
+          'Add to Cart'
+        }}
       </button>
     </div>
   </div>
