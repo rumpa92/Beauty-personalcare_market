@@ -407,6 +407,12 @@ export default {
       return this.toastType === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
     }
   },
+  mounted() {
+    // Set the orderId from props when component is mounted
+    if (this.orderId) {
+      this.orderDetails.orderId = this.orderId;
+    }
+  },
   methods: {
     goBackToOrders() {
       this.$router.push('/orders');
