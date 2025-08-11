@@ -1,0 +1,118 @@
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Home from '../views/Home.vue';
+import Products from '../views/Products.vue';
+import ProductDetail from '../views/ProductDetail.vue';
+import Cart from '../views/Cart.vue';
+import Wishlist from '../views/Wishlist.vue';
+import Profile from '../views/Profile.vue';
+import Checkout from '../views/Checkout.vue';
+import OrderConfirmation from '../views/OrderConfirmation.vue';
+import OrderTracking from '../views/OrderTracking.vue';
+import PrivacyPolicy from '../views/PrivacyPolicy.vue';
+import TermsOfService from '../views/TermsOfService.vue';
+
+Vue.use(VueRouter);
+
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+    meta: { title: 'Beauty Market - Premium Beauty & Personal Care' }
+  },
+  {
+    path: '/products',
+    name: 'Products',
+    component: Products,
+    meta: { title: 'All Products - Beauty Market' }
+  },
+  {
+    path: '/products/:category',
+    name: 'ProductsByCategory',
+    component: Products,
+    props: true,
+    meta: { title: 'Products - Beauty Market' }
+  },
+  {
+    path: '/product/:id',
+    name: 'ProductDetail',
+    component: ProductDetail,
+    props: true,
+    meta: { title: 'Product Details - Beauty Market' }
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart,
+    meta: { title: 'Shopping Cart - Beauty Market' }
+  },
+  {
+    path: '/wishlist',
+    name: 'Wishlist',
+    component: Wishlist,
+    meta: { title: 'My Wishlist - Beauty Market' }
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
+    meta: { title: 'My Profile - Beauty Market' }
+  },
+  {
+    path: '/checkout',
+    name: 'Checkout',
+    component: Checkout,
+    meta: { title: 'Checkout - Beauty Market' }
+  },
+  {
+    path: '/order-confirmation/:orderId',
+    name: 'OrderConfirmation',
+    component: OrderConfirmation,
+    props: true,
+    meta: { title: 'Order Confirmation - Beauty Market' }
+  },
+  {
+    path: '/order-tracking/:orderId',
+    name: 'OrderTracking',
+    component: OrderTracking,
+    props: true,
+    meta: { title: 'Track Your Order - Beauty Market' }
+  },
+  {
+    path: '/privacy-policy',
+    name: 'PrivacyPolicy',
+    component: PrivacyPolicy,
+    meta: { title: 'Privacy Policy - Beauty Market' }
+  },
+  {
+    path: '/terms-of-service',
+    name: 'TermsOfService',
+    component: TermsOfService,
+    meta: { title: 'Terms of Service - Beauty Market' }
+  },
+  {
+    path: '*',
+    redirect: '/'
+  }
+];
+
+const router = new VueRouter({
+  mode: 'history',
+  base: '/',
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { x: 0, y: 0 };
+    }
+  }
+});
+
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title || 'Beauty Market';
+  next();
+});
+
+export default router;
