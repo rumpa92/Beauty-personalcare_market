@@ -1,133 +1,213 @@
 <template>
-  <div class="order-details-page">
-    <!-- Header Section -->
+  <div class="order-page">
+    
+    <!-- Header -->
     <div class="page-header">
-      <div class="market-container">
-        <div class="header-content">
-          <button @click="goBackToOrders" class="back-button">
-            <i class="fas fa-arrow-left"></i>
-            <span>Back</span>
-          </button>
-          <div class="header-main">
-            <h1 class="page-title">Order Details</h1>
-            <p class="page-subtitle">Track your order and manage details</p>
+      <button @click="goBack" class="back-button">
+        ← Back
+      </button>
+      <h1>Order Details</h1>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+      <div class="order-info">
+        <h2>Order #{{ orderId }}</h2>
+        <p>Delivered on January 15, 2024</p>
+      </div>
+      <div class="order-actions">
+        <span class="status-delivered">
+          ✓ Delivered
+        </span>
+        <button @click="openRefundModal" class="refund-button">
+          Request Refund
+        </button>
+      </div>
+    </div>
+
+    <!-- Order Items -->
+    <div class="order-items">
+      <h3>Order Items</h3>
+      <div class="items-list">
+        <div v-for="item in mockItems" :key="item.id" class="item">
+          <div class="item-image">
+            <img :src="item.image" :alt="item.name">
+          </div>
+          <div class="item-details">
+            <h4>{{ item.name }}</h4>
+            <p>{{ item.brand }}</p>
+            <div class="item-price">
+              <span>Qty: {{ item.quantity }}</span>
+              <span>₹{{ item.price }}</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Order Summary Section -->
-    <div class="order-summary-section">
-      <div class="market-container">
-        <div class="summary-card">
-          <div class="summary-header">
-            <div class="order-meta">
-              <h2 class="order-id">Order #{{ orderDetails.orderId }}</h2>
-              <p class="order-date">{{ formatDate(orderDetails.orderDate) }}</p>
-            </div>
-            <div class="order-status-container">
-              <span :class="['order-status-badge', getStatusClass(orderDetails.status)]">
-                <i :class="getStatusIcon(orderDetails.status)"></i>
-                {{ orderDetails.status }}
-              </span>
-              <!-- Refund Button - Only show for delivered orders -->
-              <button
-                v-if="orderDetails.status === 'Delivered'"
-                @click="requestRefund"
-                class="refund-button"
-              >
-                <i class="fas fa-undo"></i>
-                Request Refund
-              </button>
-            </div>
-          </div>
+    <!-- Delivery Address -->
+    <div class="delivery-section">
+      <h3>Delivery Address</h3>
+      <div class="address-card">
+        <h4>Rumpa Samanta</h4>
+        <p>+91 9876543210</p>
+        <p>123 Beauty Lane, Bandra West, Mumbai, Maharashtra - 400001</p>
+      </div>
+    </div>
+
+    <!-- Price Breakdown -->
+    <div class="price-section">
+      <h3>Price Breakdown</h3>
+      <div class="price-details">
+        <div class="price-row">
+          <span>Item Subtotal</span>
+          <span>₹2,797.00</span>
+        </div>
+        <div class="price-row">
+          <span>Tax</span>
+          <span>₹252.00</span>
+        </div>
+        <div class="price-row discount">
+          <span>Discount</span>
+          <span>-₹300.00</span>
+        </div>
+        <div class="price-row">
+          <span>Shipping Fee</span>
+          <span>FREE</span>
+        </div>
+        <div class="price-divider"></div>
+        <div class="price-row total">
+          <span>Total Amount Paid</span>
+          <span>₹2,499.00</span>
         </div>
       </div>
     </div>
 
-    <!-- Order Items List -->
-    <div class="order-items-section">
-      <div class="market-container">
-        <div class="items-card">
-          <h3 class="section-title">Order Items</h3>
-          <div class="items-list">
-            <div 
-              v-for="item in orderDetails.items" 
-              :key="item.id"
-              class="item-row"
-            >
-              <div class="item-image">
-                <img :src="item.image" :alt="item.name" />
-              </div>
-              <div class="item-details">
-                <h4 class="item-name">{{ item.name }}</h4>
-                <p class="item-brand">{{ item.brand }}</p>
-                <div class="item-meta">
-                  <span class="item-quantity">Qty: {{ item.quantity }}</span>
-                  <span class="item-price">₹{{ (item.price * item.quantity).toFixed(2) }}</span>
+    <!-- Refund Modal -->
+    <div v-if="showModal" class="modal-backdrop" @click="closeModal">
+      <div class="modal" @click.stop>
+        <div class="modal-header">
+          <div>
+            <h2>Refund Request</h2>
+            <p>Only eligible delivered items can be refunded.</p>
+          </div>
+          <button @click="closeModal" class="close-btn">×</button>
+        </div>
+        
+        <div class="modal-content">
+          <!-- Order Info -->
+          <div class="order-info-box">
+            <div class="info-item">
+              <span class="label">Order ID:</span>
+              <span class="value">#{{ orderId }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Delivery Date:</span>
+              <span class="value">January 15, 2024</span>
+            </div>
+          </div>
+
+          <!-- Items Selection -->
+          <div class="items-section">
+            <h3>Select Items to Refund</h3>
+            <div class="refund-items">
+              <div v-for="item in mockItems" :key="item.id" class="refund-item" 
+                   :class="{ selected: selectedItems.includes(item.id) }"
+                   @click="toggleItem(item.id)">
+                <input type="checkbox" :checked="selectedItems.includes(item.id)">
+                <img :src="item.image" :alt="item.name">
+                <div class="item-info">
+                  <h4>{{ item.name }}</h4>
+                  <p>{{ item.brand }}</p>
+                  <div class="item-meta">
+                    <span>Qty: {{ item.quantity }}</span>
+                    <span>₹{{ item.price }}</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Delivery Address Section -->
-    <div class="address-section">
-      <div class="market-container">
-        <div class="address-card">
-          <div class="address-header">
-            <h3 class="section-title">Delivery Address</h3>
+          <!-- Refund Form -->
+          <div class="form-section">
+            <div class="form-group">
+              <label>Reason for Refund *</label>
+              <select v-model="refundReason">
+                <option value="">Select a reason</option>
+                <option value="defective">Product is defective</option>
+                <option value="damaged">Product arrived damaged</option>
+                <option value="wrong-item">Wrong item received</option>
+                <option value="not-as-described">Not as described</option>
+                <option value="allergic-reaction">Allergic reaction</option>
+                <option value="changed-mind">Changed my mind</option>
+                <option value="quality-issues">Quality issues</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Additional Notes (Optional)</label>
+              <textarea v-model="refundNotes" placeholder="Please provide more details about your refund request..."></textarea>
+            </div>
           </div>
-          <div class="address-content">
-            <div class="address-info">
-              <h4 class="recipient-name">{{ orderDetails.deliveryAddress.name }}</h4>
-              <p class="recipient-phone">+91 {{ orderDetails.deliveryAddress.phone }}</p>
-              <p class="recipient-address">
-                {{ orderDetails.deliveryAddress.street }}, 
-                {{ orderDetails.deliveryAddress.city }}, 
-                {{ orderDetails.deliveryAddress.state }} - {{ orderDetails.deliveryAddress.pincode }}
+
+          <!-- Refund Amount -->
+          <div class="refund-amount-section">
+            <div class="amount-card">
+              <h3>💰 Refund Amount</h3>
+              <div class="amount-breakdown">
+                <div class="amount-row">
+                  <span>Items Subtotal:</span>
+                  <span>₹{{ calculateSubtotal() }}</span>
+                </div>
+                <div class="amount-row">
+                  <span>Tax (refundable):</span>
+                  <span>₹{{ calculateTax() }}</span>
+                </div>
+                <div class="amount-divider"></div>
+                <div class="amount-row total">
+                  <span>Total Refund Amount:</span>
+                  <span class="total-amount">₹{{ calculateTotal() }}</span>
+                </div>
+              </div>
+              <p class="refund-info">
+                ℹ️ Refund will be processed to your original payment method within 5-7 business days.
               </p>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Price Breakdown Section -->
-    <div class="price-breakdown-section">
-      <div class="market-container">
-        <div class="breakdown-card">
-          <h3 class="section-title">Price Breakdown</h3>
-          <div class="breakdown-list">
-            <div class="breakdown-item">
-              <span class="breakdown-label">Item Subtotal</span>
-              <span class="breakdown-value">₹{{ orderDetails.pricing.subtotal }}</span>
-            </div>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Tax</span>
-              <span class="breakdown-value">₹{{ orderDetails.pricing.tax }}</span>
-            </div>
-            <div v-if="orderDetails.pricing.discount > 0" class="breakdown-item discount">
-              <span class="breakdown-label">Discount</span>
-              <span class="breakdown-value">-₹{{ orderDetails.pricing.discount }}</span>
-            </div>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Shipping Fee</span>
-              <span class="breakdown-value">
-                {{ orderDetails.pricing.shipping === 0 ? 'FREE' : '₹' + orderDetails.pricing.shipping }}
-              </span>
-            </div>
-            <div class="breakdown-divider"></div>
-            <div class="breakdown-item total">
-              <span class="breakdown-label">Total Amount Paid</span>
-              <span class="breakdown-value">₹{{ orderDetails.pricing.total }}</span>
-            </div>
+          <!-- Modal Actions -->
+          <div class="modal-actions">
+            <button @click="closeModal" class="btn-cancel">Cancel</button>
+            <button @click="submitRefund" :disabled="!canSubmit" class="btn-submit">
+              ✈️ Submit Refund Request
+            </button>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Success Modal -->
+    <div v-if="showSuccess" class="modal-backdrop" @click="closeSuccess">
+      <div class="success-modal" @click.stop>
+        <div class="success-content">
+          <div class="success-icon">✅</div>
+          <h2>Refund Request Submitted!</h2>
+          <p>Your refund request has been submitted. We'll notify you once it's processed.</p>
+          <div class="success-details">
+            <div class="detail">
+              <span>Request ID:</span>
+              <span>#{{ requestId }}</span>
+            </div>
+            <div class="detail">
+              <span>Expected Processing:</span>
+              <span>5-7 business days</span>
+            </div>
+          </div>
+          <button @click="closeSuccess" class="btn-success">Got it</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -142,408 +222,178 @@ export default {
   },
   data() {
     return {
-      orderDetails: null,
-      // Mock orders data - should match the Orders component
-      ordersData: [
+      showModal: false,
+      showSuccess: false,
+      selectedItems: [1, 2, 3],
+      refundReason: '',
+      refundNotes: '',
+      requestId: '',
+      mockItems: [
         {
-          id: '10234',
-          date: new Date('2024-01-15'),
-          status: 'Delivered',
-          total: 2499,
-          items: [
-            {
-              id: 1,
-              name: 'Luxury Moisturizing Face Cream',
-              brand: 'GlowLux',
-              image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=300',
-              price: 1299,
-              quantity: 1
-            },
-            {
-              id: 2,
-              name: 'Vitamin C Brightening Serum',
-              brand: 'VitaGlow',
-              image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300',
-              price: 899,
-              quantity: 1
-            },
-            {
-              id: 3,
-              name: 'Gentle Foaming Cleanser',
-              brand: 'PureClean',
-              image: 'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=300',
-              price: 599,
-              quantity: 1
-            }
-          ],
-          deliveryAddress: {
-            name: 'Rumpa Samanta',
-            phone: '9876543210',
-            street: '123 Beauty Lane, Bandra West',
-            city: 'Mumbai',
-            state: 'Maharashtra',
-            pincode: '400001'
-          },
-          pricing: {
-            subtotal: 2797,
-            tax: 252,
-            discount: 300,
-            shipping: 0,
-            total: 2499
-          }
+          id: 1,
+          name: 'Luxury Moisturizing Face Cream',
+          brand: 'GlowLux',
+          image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=150',
+          price: 1299,
+          quantity: 1
         },
         {
-          id: '10233',
-          date: new Date('2024-01-12'),
-          status: 'Processing',
-          total: 1899,
-          items: [
-            {
-              id: 4,
-              name: 'Hyaluronic Acid Moisturizer',
-              brand: 'HydraLux',
-              image: 'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=300',
-              price: 999,
-              quantity: 1
-            },
-            {
-              id: 5,
-              name: 'SPF 50 Daily Sunscreen',
-              brand: 'SunGuard',
-              image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300',
-              price: 899,
-              quantity: 1
-            }
-          ],
-          deliveryAddress: {
-            name: 'Rumpa Samanta',
-            phone: '9876543210',
-            street: '123 Beauty Lane, Bandra West',
-            city: 'Mumbai',
-            state: 'Maharashtra',
-            pincode: '400001'
-          },
-          pricing: {
-            subtotal: 1898,
-            tax: 171,
-            discount: 170,
-            shipping: 0,
-            total: 1899
-          }
+          id: 2,
+          name: 'Vitamin C Brightening Serum',
+          brand: 'VitaGlow',
+          image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=150',
+          price: 899,
+          quantity: 1
         },
         {
-          id: '10232',
-          date: new Date('2024-01-10'),
-          status: 'Confirmed',
-          total: 1299,
-          items: [
-            {
-              id: 6,
-              name: 'Niacinamide Pore Refining Serum',
-              brand: 'ClearSkin',
-              image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300',
-              price: 1299,
-              quantity: 1
-            }
-          ],
-          deliveryAddress: {
-            name: 'Rumpa Samanta',
-            phone: '9876543210',
-            street: '123 Beauty Lane, Bandra West',
-            city: 'Mumbai',
-            state: 'Maharashtra',
-            pincode: '400001'
-          },
-          pricing: {
-            subtotal: 1299,
-            tax: 117,
-            discount: 117,
-            shipping: 0,
-            total: 1299
-          }
-        },
-        {
-          id: '10231',
-          date: new Date('2024-01-08'),
-          status: 'Cancelled',
-          total: 799,
-          items: [
-            {
-              id: 7,
-              name: 'Exfoliating Face Scrub',
-              brand: 'GentleGlow',
-              image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=300',
-              price: 799,
-              quantity: 1
-            }
-          ],
-          deliveryAddress: {
-            name: 'Rumpa Samanta',
-            phone: '9876543210',
-            street: '123 Beauty Lane, Bandra West',
-            city: 'Mumbai',
-            state: 'Maharashtra',
-            pincode: '400001'
-          },
-          pricing: {
-            subtotal: 799,
-            tax: 72,
-            discount: 72,
-            shipping: 0,
-            total: 799
-          }
+          id: 3,
+          name: 'Gentle Foaming Cleanser',
+          brand: 'PureClean',
+          image: 'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=150',
+          price: 599,
+          quantity: 1
         }
       ]
     };
   },
-  mounted() {
-    this.loadOrderDetails();
+  computed: {
+    canSubmit() {
+      return this.selectedItems.length > 0 && this.refundReason;
+    }
   },
   methods: {
-    loadOrderDetails() {
-      // Find the order with matching ID
-      const order = this.ordersData.find(o => o.id === this.orderId);
-      if (order) {
-        // Transform the order data to match the expected structure
-        this.orderDetails = {
-          orderId: order.id,
-          orderDate: order.date,
-          status: order.status,
-          items: order.items,
-          deliveryAddress: order.deliveryAddress,
-          pricing: order.pricing
-        };
-      } else {
-        // Handle case where order is not found
-        this.$router.push('/orders');
-      }
-    },
-    goBackToOrders() {
+    goBack() {
       this.$router.push('/orders');
     },
-    formatDate(dateString) {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('en-IN', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
+    openRefundModal() {
+      this.showModal = true;
     },
-    requestRefund() {
-      // Show confirmation dialog and handle refund request
-      if (confirm('Are you sure you want to request a refund for this order?')) {
-        // In a real app, this would make an API call
-        alert('Refund request submitted! You will receive an email confirmation shortly.');
-
-        // Optionally update the order status
-        // this.orderDetails.status = 'Refund Requested';
+    closeModal() {
+      this.showModal = false;
+      this.refundReason = '';
+      this.refundNotes = '';
+      this.selectedItems = [1, 2, 3];
+    },
+    closeSuccess() {
+      this.showSuccess = false;
+      this.requestId = '';
+    },
+    toggleItem(id) {
+      const index = this.selectedItems.indexOf(id);
+      if (index > -1) {
+        this.selectedItems.splice(index, 1);
+      } else {
+        this.selectedItems.push(id);
       }
     },
-    getStatusClass(status) {
-      const classes = {
-        'Processing': 'processing',
-        'Confirmed': 'confirmed',
-        'Shipped': 'shipped',
-        'Out for Delivery': 'out-for-delivery',
-        'Delivered': 'delivered',
-        'Cancelled': 'cancelled'
-      };
-      return classes[status] || 'processing';
+    calculateSubtotal() {
+      return this.selectedItems.reduce((total, id) => {
+        const item = this.mockItems.find(item => item.id === id);
+        return total + (item ? item.price : 0);
+      }, 0);
     },
-    getStatusIcon(status) {
-      const icons = {
-        'Processing': 'fas fa-clock',
-        'Confirmed': 'fas fa-check',
-        'Shipped': 'fas fa-shipping-fast',
-        'Out for Delivery': 'fas fa-truck',
-        'Delivered': 'fas fa-check-circle',
-        'Cancelled': 'fas fa-times-circle'
-      };
-      return icons[status] || 'fas fa-clock';
+    calculateTax() {
+      return Math.round(this.calculateSubtotal() * 0.09);
+    },
+    calculateTotal() {
+      return this.calculateSubtotal() + this.calculateTax();
+    },
+    submitRefund() {
+      if (!this.canSubmit) return;
+      
+      this.requestId = 'REF' + Math.random().toString(36).substr(2, 6).toUpperCase();
+      this.showModal = false;
+      this.showSuccess = true;
+      
+      this.refundReason = '';
+      this.refundNotes = '';
+      this.selectedItems = [1, 2, 3];
     }
   }
 };
 </script>
 
 <style scoped>
-.order-details-page {
+.order-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background: #f9fafb;
   min-height: 100vh;
-  background: linear-gradient(135deg, #fdf8f6 0%, #f8f4f6 100%);
-  padding-top: 150px;
-  padding-bottom: 40px;
 }
 
-/* Header Styles */
 .page-header {
-  background: linear-gradient(135deg, #fff 0%, #fef8f6 100%);
-  border-bottom: 1px solid #f0e6e6;
-  padding: 24px 0;
-  margin-top: -150px;
-  margin-bottom: 40px;
-}
-
-.header-content {
   display: flex;
   align-items: center;
   gap: 20px;
+  margin-bottom: 30px;
 }
 
 .back-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #fff;
-  border: 2px solid #f0e6e6;
-  border-radius: 12px;
-  padding: 12px 16px;
-  color: #8b4e9f;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px 16px;
   cursor: pointer;
+  font-weight: 600;
+  color: #6b7280;
 }
 
 .back-button:hover {
-  background: #f8f4f6;
-  border-color: #e0d0e0;
-  transform: translateX(-2px);
+  background: #f9fafb;
 }
 
-.header-main {
-  flex: 1;
-}
-
-.page-title {
+.page-header h1 {
   font-size: 28px;
   font-weight: 700;
-  color: #2d1b3d;
+  color: #1f2937;
   margin: 0;
-  background: linear-gradient(135deg, #8b4e9f 0%, #d946b8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
-.page-subtitle {
-  color: #64748b;
-  margin: 4px 0 0 0;
-  font-size: 14px;
+.order-summary,
+.order-items,
+.delivery-section,
+.price-section {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
-/* Market Container */
-.market-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Section Styles */
-.order-summary-section,
-.order-items-section,
-.address-section,
-.price-breakdown-section {
-  padding: 24px 0;
-}
-
-.summary-card,
-.items-card,
-.address-card,
-.breakdown-card {
-  background: #fff;
-  border-radius: 20px;
-  border: 1px solid #f0e6e6;
-  padding: 32px;
-  box-shadow: 0 8px 32px rgba(139, 78, 159, 0.1);
-  transition: all 0.3s ease;
-}
-
-.summary-card:hover,
-.items-card:hover,
-.address-card:hover,
-.breakdown-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 48px rgba(139, 78, 159, 0.15);
-}
-
-.section-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: #2d1b3d;
-  margin: 0 0 24px 0;
-}
-
-/* Order Summary */
-.summary-header {
+.order-summary {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
 }
 
-.order-id {
+.order-info h2 {
   font-size: 24px;
   font-weight: 700;
-  color: #2d1b3d;
+  color: #1f2937;
   margin: 0 0 8px 0;
 }
 
-.order-date {
-  color: #64748b;
+.order-info p {
+  color: #6b7280;
   margin: 0;
-  font-size: 14px;
 }
 
-.order-status-container {
+.order-actions {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-.order-status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  border-radius: 25px;
+.status-delivered {
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+  color: #15803d;
+  padding: 8px 16px;
+  border-radius: 20px;
   font-weight: 600;
   font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.order-status-badge.processing {
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-  color: #92400e;
-  border: 1px solid #f59e0b;
-}
-
-.order-status-badge.confirmed {
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-  color: #1e40af;
-  border: 1px solid #3b82f6;
-}
-
-.order-status-badge.shipped {
-  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
-  color: #5b21b6;
-  border: 1px solid #8b5cf6;
-}
-
-.order-status-badge.out-for-delivery {
-  background: linear-gradient(135deg, #fef3e2 0%, #fed7aa 100%);
-  color: #c2410c;
-  border: 1px solid #f97316;
-}
-
-.order-status-badge.delivered {
-  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
-  color: #15803d;
   border: 1px solid #22c55e;
-}
-
-.order-status-badge.cancelled {
-  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-  color: #dc2626;
-  border: 1px solid #ef4444;
 }
 
 .refund-button {
@@ -551,49 +401,41 @@ export default {
   color: white;
   border: none;
   padding: 10px 20px;
-  border-radius: 12px;
+  border-radius: 8px;
   font-weight: 600;
-  font-size: 14px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .refund-button:hover {
   background: linear-gradient(135deg, #d97706, #b45309);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
 
-/* Order Items */
+h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 16px 0;
+}
+
 .items-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
-.item-row {
+.item {
   display: flex;
   gap: 16px;
-  padding: 20px;
-  background: #fafafa;
-  border-radius: 16px;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 12px;
   border: 1px solid #f0f0f0;
-  transition: all 0.3s ease;
-}
-
-.item-row:hover {
-  background: #f8f4f6;
-  border-color: #e9d5ff;
-  transform: translateX(4px);
 }
 
 .item-image {
-  width: 80px;
-  height: 80px;
-  border-radius: 12px;
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -608,191 +450,544 @@ export default {
   flex: 1;
 }
 
-.item-name {
+.item-details h4 {
   font-size: 16px;
   font-weight: 600;
-  color: #2d1b3d;
-  margin: 0 0 8px 0;
-  line-height: 1.4;
+  color: #1f2937;
+  margin: 0 0 4px 0;
 }
 
-.item-brand {
+.item-details p {
   font-size: 14px;
   color: #8b4e9f;
-  margin: 0 0 12px 0;
+  margin: 0 0 8px 0;
   font-weight: 500;
+}
+
+.item-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.item-price span:first-child {
+  color: #6b7280;
+}
+
+.item-price span:last-child {
+  color: #8b4e9f;
+  font-weight: 700;
+}
+
+.address-card {
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #f0f0f0;
+}
+
+.address-card h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+}
+
+.address-card p {
+  color: #6b7280;
+  margin: 0 0 4px 0;
+}
+
+.price-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+}
+
+.price-row span:first-child {
+  color: #6b7280;
+}
+
+.price-row span:last-child {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.price-row.discount span:last-child {
+  color: #22c55e;
+}
+
+.price-divider {
+  height: 2px;
+  background: linear-gradient(90deg, #f0e6e6, #e9d5ff, #f0e6e6);
+  margin: 8px 0;
+  border-radius: 1px;
+}
+
+.price-row.total {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.price-row.total span:first-child {
+  color: #1f2937;
+}
+
+.price-row.total span:last-child {
+  color: #8b4e9f;
+  font-size: 20px;
+}
+
+/* Modal Styles */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: white;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 24px 24px 0 24px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+  background: linear-gradient(135deg, #8b4e9f, #d946b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.modal-header p {
+  color: #6b7280;
+  margin: 0;
+}
+
+.close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #6b7280;
+}
+
+.close-btn:hover {
+  background: #f1f5f9;
+}
+
+.modal-content {
+  padding: 0 24px 24px 24px;
+}
+
+.order-info-box {
+  background: linear-gradient(135deg, #f8f4f6, #fef8f6);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  border: 1px solid #f0e6e6;
+  display: flex;
+  gap: 24px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-item .label {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.info-item .value {
+  font-size: 16px;
+  color: #1f2937;
+  font-weight: 700;
+}
+
+.items-section {
+  margin-bottom: 20px;
+}
+
+.items-section h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.refund-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.refund-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f9fafb;
+  border: 2px solid #f0f0f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.refund-item:hover {
+  border-color: #e9d5ff;
+}
+
+.refund-item.selected {
+  border-color: #8b4e9f;
+  background: linear-gradient(135deg, #f8f4f6, #fef8f6);
+}
+
+.refund-item input {
+  width: 16px;
+  height: 16px;
+}
+
+.refund-item img {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.item-info {
+  flex: 1;
+}
+
+.item-info h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 2px 0;
+}
+
+.item-info p {
+  font-size: 12px;
+  color: #8b4e9f;
+  margin: 0 0 4px 0;
 }
 
 .item-meta {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  font-size: 12px;
 }
 
-.item-quantity {
-  font-size: 14px;
-  color: #64748b;
-  font-weight: 500;
+.item-meta span:first-child {
+  color: #6b7280;
 }
 
-.item-price {
-  font-size: 16px;
-  font-weight: 700;
+.item-meta span:last-child {
   color: #8b4e9f;
+  font-weight: 700;
 }
 
-/* Address Section */
-.address-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.form-section {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #374151;
+  box-sizing: border-box;
+}
+
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #8b4e9f;
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.refund-amount-section {
   margin-bottom: 24px;
 }
 
-.address-content {
-  background: #fafafa;
-  padding: 24px;
+.amount-card {
+  background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+  border: 2px solid #bbf7d0;
   border-radius: 16px;
-  border: 1px solid #f0f0f0;
+  padding: 20px;
 }
 
-.recipient-name {
+.amount-card h3 {
   font-size: 18px;
   font-weight: 700;
-  color: #2d1b3d;
-  margin: 0 0 8px 0;
-}
-
-.recipient-phone {
-  font-size: 14px;
-  color: #64748b;
+  color: #15803d;
   margin: 0 0 12px 0;
-  font-weight: 500;
 }
 
-.recipient-address {
-  font-size: 16px;
-  color: #374151;
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* Price Breakdown */
-.breakdown-list {
+.amount-breakdown {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
 }
 
-.breakdown-item {
+.amount-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  font-size: 16px;
+  font-size: 14px;
 }
 
-.breakdown-label {
-  color: #64748b;
-  font-weight: 500;
+.amount-row span:first-child {
+  color: #374151;
 }
 
-.breakdown-value {
+.amount-row span:last-child {
+  color: #1f2937;
   font-weight: 600;
-  color: #2d1b3d;
 }
 
-.breakdown-item.discount .breakdown-value {
-  color: #22c55e;
-}
-
-.breakdown-divider {
+.amount-divider {
   height: 2px;
-  background: linear-gradient(90deg, #f0e6e6 0%, #e9d5ff 50%, #f0e6e6 100%);
-  margin: 8px 0;
+  background: linear-gradient(90deg, #bbf7d0, #86efac, #bbf7d0);
+  margin: 6px 0;
   border-radius: 1px;
 }
 
-.breakdown-item.total {
-  font-size: 18px;
+.amount-row.total {
+  font-size: 16px;
   font-weight: 700;
+  padding-top: 6px;
 }
 
-.breakdown-item.total .breakdown-label {
-  color: #2d1b3d;
+.amount-row.total span:first-child {
+  color: #15803d;
 }
 
-.breakdown-item.total .breakdown-value {
-  color: #8b4e9f;
+.total-amount {
+  color: #15803d;
   font-size: 20px;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .order-details-page {
-    padding-top: 120px;
-  }
-  
-  .page-header {
-    margin-top: -120px;
-  }
-  
-  .market-container {
-    padding: 0 16px;
-  }
-
-  .summary-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .order-status-container {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .item-row {
-    gap: 12px;
-    padding: 16px;
-  }
-
-  .item-image {
-    width: 60px;
-    height: 60px;
-  }
-
-  .item-name {
-    font-size: 14px;
-  }
-
-  .breakdown-item {
-    font-size: 14px;
-  }
-
-  .breakdown-item.total {
-    font-size: 16px;
-  }
-
-  .breakdown-item.total .breakdown-value {
-    font-size: 18px;
-  }
+.refund-info {
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 12px;
+  color: #0369a1;
+  font-size: 12px;
+  line-height: 1.4;
 }
 
-@media (max-width: 480px) {
-  .page-title {
-    font-size: 24px;
-  }
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
+}
 
-  .order-id {
-    font-size: 20px;
-  }
+.btn-cancel,
+.btn-submit {
+  flex: 1;
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
-  .summary-card,
-  .items-card,
-  .address-card,
-  .breakdown-card {
-    padding: 20px;
-    border-radius: 16px;
+.btn-cancel {
+  background: white;
+  border: 2px solid #e5e7eb;
+  color: #6b7280;
+}
+
+.btn-cancel:hover {
+  background: #f9fafb;
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, #8b4e9f, #7c3aed);
+  border: none;
+  color: white;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  transform: translateY(-1px);
+}
+
+.btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Success Modal */
+.success-modal {
+  background: white;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.success-content {
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.success-content h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 12px 0;
+}
+
+.success-content p {
+  color: #6b7280;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.success-details {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.detail {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.detail:last-child {
+  margin-bottom: 0;
+}
+
+.detail span:first-child {
+  color: #6b7280;
+}
+
+.detail span:last-child {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #8b4e9f, #7c3aed);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .order-page {
+    padding: 20px 16px;
+  }
+  
+  .order-summary {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .order-actions {
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .modal {
+    margin: 10px;
+    max-width: none;
+  }
+  
+  .modal-header,
+  .modal-content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  
+  .order-info-box {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .modal-actions {
+    flex-direction: column;
   }
 }
 </style>
