@@ -280,8 +280,8 @@ export default {
       },
       
       paymentMethod: {
-        type: this.getPaymentMethodFromCheckout(),
-        name: this.getPaymentMethodName()
+        type: 'cod',
+        name: 'Cash on Delivery'
       },
       
       // Payment logos mapping
