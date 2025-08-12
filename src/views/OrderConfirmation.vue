@@ -846,6 +846,23 @@ export default {
   flex-shrink: 0;
 }
 
+.payment-badge.cod-badge {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.cod-icon {
+  width: 60px;
+  height: 40px;
+  background: linear-gradient(135deg, #059669, #34D399);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+}
+
 /* Action Buttons */
 .action-buttons {
   display: grid;
