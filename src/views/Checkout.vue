@@ -840,6 +840,7 @@ export default {
       selectedWallet: null,
       selectedBank: null,
       codConfirmed: false,
+      isProcessingOrder: false,
       
       cardDetails: {
         number: '',
