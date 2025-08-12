@@ -92,6 +92,10 @@ const mutations = {
       if (data && modalName === 'productQuickView') {
         state.modals[modalName].product = data;
       }
+      if (data && modalName === 'cartConfirmation') {
+        state.modals[modalName].product = data.product;
+        state.modals[modalName].quantity = data.quantity || 1;
+      }
     }
   },
   CLOSE_MODAL(state, modalName) {
@@ -100,6 +104,10 @@ const mutations = {
       if (modalName === 'productQuickView') {
         state.modals[modalName].product = null;
       }
+      if (modalName === 'cartConfirmation') {
+        state.modals[modalName].product = null;
+        state.modals[modalName].quantity = 1;
+      }
     }
   },
   CLOSE_ALL_MODALS(state) {
@@ -107,6 +115,10 @@ const mutations = {
       state.modals[modalName].open = false;
       if (modalName === 'productQuickView') {
         state.modals[modalName].product = null;
+      }
+      if (modalName === 'cartConfirmation') {
+        state.modals[modalName].product = null;
+        state.modals[modalName].quantity = 1;
       }
     });
   },
