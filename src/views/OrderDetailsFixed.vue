@@ -616,10 +616,11 @@ export default {
   line-height: 1.4;
 }
 
-.item-variant {
+.item-brand {
   font-size: 14px;
-  color: #64748b;
+  color: #8b4e9f;
   margin: 0 0 12px 0;
+  font-weight: 500;
 }
 
 .item-meta {
