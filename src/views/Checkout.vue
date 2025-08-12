@@ -839,6 +839,7 @@ export default {
       selectedUpiApp: null,
       selectedWallet: null,
       selectedBank: null,
+      codConfirmed: false,
       
       cardDetails: {
         number: '',
