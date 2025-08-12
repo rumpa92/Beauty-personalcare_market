@@ -29,7 +29,7 @@
 
       <!-- Brand/Logo Text -->
       <div class="header-brand">
-        <span class="brand-subtitle">Premium Beauty & Personal Care</span>
+        <!-- Removed Beauty & Personal Care text -->
       </div>
 
       <!-- Header Actions -->
