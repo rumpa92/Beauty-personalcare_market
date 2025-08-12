@@ -273,7 +273,7 @@
     <!-- Recently Viewed (Enhanced) -->
     <section v-if="recentlyViewedItems.length" class="recently-viewed-enhanced">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header recently-viewed-header">
           <h2 class="section-title">
             <i class="fas fa-clock"></i>
             Continue Your Beauty Journey
