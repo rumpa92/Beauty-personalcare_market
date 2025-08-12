@@ -376,6 +376,7 @@ export default {
   min-height: 100vh;
   background: linear-gradient(135deg, #fdf8f6 0%, #f8f4f6 100%);
   padding-bottom: 40px;
+  padding-top: 20px;
 }
 
 .loading {
