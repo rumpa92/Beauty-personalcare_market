@@ -177,17 +177,12 @@ export default {
       }
 
       this.isAddingToCart = true;
-      
+
       try {
         await this.addToCart({
           ...this.product,
           selectedSize: this.selectedSize,
           quantity: 1
-        });
-        
-        this.showNotification({
-          type: 'success',
-          message: `${this.product.name} added to cart!`
         });
       } catch (error) {
         this.showNotification({
