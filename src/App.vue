@@ -34,6 +34,7 @@ import SearchModal from './components/search/SearchModal.vue';
 import NotificationContainer from './components/ui/NotificationContainer.vue';
 import ProductQuickView from './components/product/ProductQuickView.vue';
 import TopSearchBar from './components/search/TopSearchBar.vue';
+import AddToCartConfirmation from './components/cart/AddToCartConfirmation.vue';
 
 export default {
   name: 'App',
