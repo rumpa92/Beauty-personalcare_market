@@ -300,6 +300,24 @@ export default {
     this.loadOrderDetails();
   },
   methods: {
+    loadOrderDetails() {
+      // Find the order with matching ID
+      const order = this.ordersData.find(o => o.id === this.orderId);
+      if (order) {
+        // Transform the order data to match the expected structure
+        this.orderDetails = {
+          orderId: order.id,
+          orderDate: order.date,
+          status: order.status,
+          items: order.items,
+          deliveryAddress: order.deliveryAddress,
+          pricing: order.pricing
+        };
+      } else {
+        // Handle case where order is not found
+        this.$router.push('/orders');
+      }
+    },
     goBackToOrders() {
       this.$router.push('/orders');
     },
@@ -310,6 +328,16 @@ export default {
         month: 'long',
         day: 'numeric'
       });
+    },
+    requestRefund() {
+      // Show confirmation dialog and handle refund request
+      if (confirm('Are you sure you want to request a refund for this order?')) {
+        // In a real app, this would make an API call
+        alert('Refund request submitted! You will receive an email confirmation shortly.');
+
+        // Optionally update the order status
+        // this.orderDetails.status = 'Refund Requested';
+      }
     },
     getStatusClass(status) {
       const classes = {
