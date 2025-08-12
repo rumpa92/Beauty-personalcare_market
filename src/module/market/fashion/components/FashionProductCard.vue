@@ -114,7 +114,7 @@
       <!-- Add to Cart -->
       <div class="product-actions">
         <button 
-          @click="addToCart" 
+          @click="handleAddToCart" 
           class="add-to-cart-btn market-btn market-btn-primary"
           :disabled="isAddingToCart || (product.sizes && !selectedSize)"
         >
