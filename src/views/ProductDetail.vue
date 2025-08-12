@@ -1891,7 +1891,6 @@ export default {
     async quickAddToCart(product) {
       try {
         await this.addToCart(product);
-        this.showSuccessNotification(`${product.name} added to cart!`);
       } catch (error) {
         this.showErrorNotification('Failed to add product to cart');
       }
