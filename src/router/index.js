@@ -8,7 +8,7 @@ import Wishlist from '../views/Wishlist.vue';
 import Profile from '../views/Profile.vue';
 import Orders from '../views/Orders.vue';
 import Checkout from '../views/Checkout.vue';
-import OrderConfirmation from '../views/OrderConfirmation.vue';
+import OrderConfirmation from '../views/OrderConfirmationTest.vue';
 import OrderTracking from '../views/OrderTracking.vue';
 import OrderDetails from '../views/OrderDetails.vue';
 import PrivacyPolicy from '../views/PrivacyPolicy.vue';
