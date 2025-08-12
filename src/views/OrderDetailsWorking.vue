@@ -103,6 +103,176 @@
       </div>
     </div>
 
+    <!-- Refund Request Modal -->
+    <div v-if="showRefundModal" class="modal-overlay" @click="closeRefundModal">
+      <div class="refund-modal" @click.stop>
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <div class="modal-title-section">
+            <h2 class="modal-title">Refund Request</h2>
+            <p class="modal-subtitle">Only eligible delivered items can be refunded.</p>
+          </div>
+          <button @click="closeRefundModal" class="modal-close-btn">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <!-- Modal Content -->
+        <div class="modal-content">
+          <!-- Order Information -->
+          <div class="order-info-section">
+            <div class="order-meta">
+              <div class="order-detail">
+                <span class="label">Order ID:</span>
+                <span class="value">#{{ orderData.id }}</span>
+              </div>
+              <div class="order-detail">
+                <span class="label">Delivery Date:</span>
+                <span class="value">{{ formatDate(orderData.date) }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Refundable Items -->
+          <div class="refundable-items-section">
+            <h3 class="section-title">Select Items to Refund</h3>
+            <div class="refundable-items">
+              <div
+                v-for="item in orderData.items"
+                :key="item.id"
+                class="refund-item"
+                :class="{ selected: refundForm.selectedItems.includes(item.id) }"
+                @click="toggleItemSelection(item.id)"
+              >
+                <div class="item-checkbox">
+                  <input
+                    type="checkbox"
+                    :checked="refundForm.selectedItems.includes(item.id)"
+                    @change="toggleItemSelection(item.id)"
+                  >
+                </div>
+                <div class="item-image-small">
+                  <img :src="item.image" :alt="item.name">
+                </div>
+                <div class="item-info">
+                  <h4 class="item-name">{{ item.name }}</h4>
+                  <p class="item-brand">{{ item.brand }}</p>
+                  <div class="item-details-row">
+                    <span class="item-qty">Qty: {{ item.quantity }}</span>
+                    <span class="item-price-bold">₹{{ (item.price * item.quantity).toFixed(2) }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Refund Form -->
+          <div class="refund-form-section">
+            <div class="form-group">
+              <label for="refund-reason" class="form-label">Reason for Refund *</label>
+              <select
+                id="refund-reason"
+                v-model="refundForm.reason"
+                class="form-select"
+                required
+              >
+                <option value="">Select a reason</option>
+                <option value="defective">Product is defective</option>
+                <option value="damaged">Product arrived damaged</option>
+                <option value="wrong-item">Wrong item received</option>
+                <option value="not-as-described">Not as described</option>
+                <option value="allergic-reaction">Allergic reaction</option>
+                <option value="changed-mind">Changed my mind</option>
+                <option value="quality-issues">Quality issues</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="refund-note" class="form-label">Additional Notes (Optional)</label>
+              <textarea
+                id="refund-note"
+                v-model="refundForm.note"
+                class="form-textarea"
+                placeholder="Please provide more details about your refund request..."
+                rows="4"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Refund Amount Summary -->
+          <div class="refund-summary-section">
+            <div class="refund-summary-card">
+              <h3 class="summary-title">Refund Amount</h3>
+              <div class="amount-breakdown">
+                <div class="amount-row">
+                  <span>Items Subtotal:</span>
+                  <span>₹{{ calculateRefundAmount().subtotal.toFixed(2) }}</span>
+                </div>
+                <div class="amount-row">
+                  <span>Tax (refundable):</span>
+                  <span>₹{{ calculateRefundAmount().tax.toFixed(2) }}</span>
+                </div>
+                <div class="amount-divider"></div>
+                <div class="amount-row total-amount">
+                  <span>Total Refund Amount:</span>
+                  <span class="refund-total">₹{{ calculateRefundAmount().total.toFixed(2) }}</span>
+                </div>
+              </div>
+              <p class="refund-notice">
+                <i class="fas fa-info-circle"></i>
+                Refund will be processed to your original payment method within 5-7 business days.
+              </p>
+            </div>
+          </div>
+
+          <!-- Modal Actions -->
+          <div class="modal-actions">
+            <button @click="closeRefundModal" class="btn-secondary">
+              Cancel
+            </button>
+            <button
+              @click="submitRefundRequest"
+              :disabled="!canSubmitRefund"
+              class="btn-primary"
+              :class="{ disabled: !canSubmitRefund }"
+            >
+              <i class="fas fa-paper-plane"></i>
+              Submit Refund Request
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div v-if="showSuccessModal" class="modal-overlay success-modal-overlay" @click="closeSuccessModal">
+      <div class="success-modal" @click.stop>
+        <div class="success-content">
+          <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h2 class="success-title">Refund Request Submitted!</h2>
+          <p class="success-message">
+            Your refund request has been submitted. We'll notify you once it's processed.
+          </p>
+          <div class="success-details">
+            <div class="detail-row">
+              <span class="detail-label">Request ID:</span>
+              <span class="detail-value">#{{ refundRequestId }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Expected Processing:</span>
+              <span class="detail-value">5-7 business days</span>
+            </div>
+          </div>
+          <button @click="closeSuccessModal" class="btn-primary success-btn">
+            Got it
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
