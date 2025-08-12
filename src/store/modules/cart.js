@@ -101,16 +101,14 @@ const mutations = {
 };
 
 const actions = {
-  addToCart({ commit, state }, product) {
+  addToCart({ commit, dispatch }, product) {
     commit('ADD_TO_CART', product);
-    
-    // Auto-open cart for better UX
-    if (!state.isOpen) {
-      commit('SET_CART_OPEN', true);
-      setTimeout(() => {
-        commit('SET_CART_OPEN', false);
-      }, 3000);
-    }
+
+    // Show cart confirmation popup instead of opening sidebar
+    dispatch('ui/showCartConfirmation', {
+      product: product,
+      quantity: product.quantity || 1
+    }, { root: true });
   },
   removeFromCart({ commit }, productId) {
     commit('REMOVE_FROM_CART', productId);
