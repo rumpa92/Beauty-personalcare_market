@@ -427,14 +427,29 @@ export default {
   },
   
   mounted() {
+    // Set payment method from stored checkout data
+    const checkoutData = JSON.parse(localStorage.getItem('checkoutData') || '{}');
+    if (checkoutData.paymentMethod) {
+      this.paymentMethod = {
+        type: checkoutData.paymentMethod,
+        name: this.getPaymentMethodName(checkoutData.paymentMethod)
+      };
+    }
+
     // Start animations after component mounts
     setTimeout(() => {
-      document.querySelector('.success-icon').classList.add('animate');
+      const successIcon = document.querySelector('.success-icon');
+      if (successIcon) {
+        successIcon.classList.add('animate');
+      }
     }, 500);
-    
+
     // Trigger confetti after success animation
     setTimeout(() => {
-      document.querySelector('.confetti-container').classList.add('active');
+      const confettiContainer = document.querySelector('.confetti-container');
+      if (confettiContainer) {
+        confettiContainer.classList.add('active');
+      }
     }, 1500);
   }
 };
