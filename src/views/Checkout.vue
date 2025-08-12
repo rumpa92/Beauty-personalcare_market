@@ -982,6 +982,7 @@ export default {
   
   methods: {
     ...mapActions('cart', ['applyPromoCode']),
+    ...mapActions('ui', ['showNotification']),
     
     nextStep() {
       if (this.canProceed) {
