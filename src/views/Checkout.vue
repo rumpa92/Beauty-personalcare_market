@@ -662,14 +662,18 @@
                 Back
               </button>
               
-              <button 
-                @click="nextStep" 
-                :disabled="!canProceed"
-                class="nav-btn primary"
+              <button
+                @click="nextStep"
+                :disabled="!canProceed || isProcessingOrder"
+                :class="['nav-btn', 'primary', { processing: isProcessingOrder }]"
               >
                 <span v-if="currentStep < 3">
                   Continue
                   <i class="fas fa-arrow-right"></i>
+                </span>
+                <span v-else-if="isProcessingOrder">
+                  <i class="fas fa-spinner fa-spin"></i>
+                  Processing Order...
                 </span>
                 <span v-else>
                   <i class="fas fa-lock"></i>
