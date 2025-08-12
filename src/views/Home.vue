@@ -966,6 +966,12 @@ export default {
   background: linear-gradient(135deg, #faf5ff 0%, #f0f9ff 50%, #fdf2f8 100%);
 }
 
+.personalized-recommendations .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 .ai-header {
   text-align: center;
   margin-bottom: 60px;
@@ -1005,6 +1011,12 @@ export default {
 .type-selector-section {
   padding: 80px 0;
   background: white;
+}
+
+.type-selector-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .type-category {
@@ -1156,6 +1168,12 @@ export default {
   background: var(--gray-50);
 }
 
+.enhanced-categories .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 .categories-mega-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -1297,6 +1315,12 @@ export default {
   position: relative;
 }
 
+.trending-brands .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 .brands-carousel {
   position: relative;
   overflow: hidden;
@@ -1413,6 +1437,12 @@ export default {
   background: linear-gradient(135deg, #faf5ff 0%, #f0f9ff 100%);
 }
 
+.new-arrivals .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 .arrivals-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -1446,6 +1476,12 @@ export default {
   color: white;
   position: relative;
   overflow: hidden;
+}
+
+.limited-offers .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .limited-offers::before {
@@ -1603,6 +1639,12 @@ export default {
   background: white;
 }
 
+.recently-viewed-enhanced .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 .recently-viewed-carousel {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1722,6 +1764,12 @@ export default {
 .beauty-tips {
   padding: 80px 0;
   background: var(--gray-50);
+}
+
+.beauty-tips .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .tips-grid {
@@ -1987,6 +2035,7 @@ export default {
 
 .section-header {
   margin-bottom: 60px;
+  text-align: center;
 }
 
 .section-link {
