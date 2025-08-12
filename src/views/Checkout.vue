@@ -227,6 +227,32 @@
                     <i class="fas fa-check"></i>
                   </div>
                 </div>
+
+                <!-- Cash on Delivery -->
+                <div :class="['payment-method-card', { selected: selectedPayment === 'cod' }]" @click="selectPayment('cod')">
+                  <div class="payment-header">
+                    <div class="payment-icon cod">
+                      <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="payment-content">
+                      <h3>Cash on Delivery</h3>
+                      <p class="payment-description">Pay when you receive</p>
+                    </div>
+                    <div class="payment-brands">
+                      <div class="cod-badge">
+                        <i class="fas fa-truck"></i>
+                        <span>COD</span>
+                      </div>
+                      <div class="cod-badge">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <span>Cash</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="selection-check">
+                    <i class="fas fa-check"></i>
+                  </div>
+                </div>
               </div>
 
               <!-- Enhanced Payment Form -->
