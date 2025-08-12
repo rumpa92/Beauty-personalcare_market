@@ -676,6 +676,54 @@ export default {
   color: var(--primary-600) !important;
 }
 
+/* Free Shipping Progress */
+.free-shipping-progress {
+  background: var(--primary-50);
+  border: 1px solid var(--primary-200);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.free-shipping-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary-700);
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.free-shipping-text i {
+  color: var(--primary-600);
+}
+
+.progress-bar {
+  height: 6px;
+  background: var(--primary-100);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-500), var(--primary-600));
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.free-shipping-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--success-600);
+  font-weight: 600;
+}
+
+.free-shipping-badge i {
+  color: var(--success-500);
+}
+
 /* Promo Code */
 .promo-section {
   margin-bottom: 24px;
