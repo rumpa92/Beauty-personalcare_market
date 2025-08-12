@@ -523,10 +523,8 @@ export default {
   background: linear-gradient(135deg, #fff 0%, #fef8f6 100%);
   border-bottom: 1px solid #f0e6e6;
   padding: 24px 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  backdrop-filter: blur(10px);
+  margin-top: -150px;
+  margin-bottom: 40px;
 }
 
 .header-content {
