@@ -194,6 +194,17 @@ const actions = {
   openProductQuickView({ commit }, product) {
     commit('OPEN_MODAL', { modalName: 'productQuickView', data: product });
   },
+  showCartConfirmation({ commit }, { product, quantity = 1 }) {
+    commit('OPEN_MODAL', { modalName: 'cartConfirmation', data: { product, quantity } });
+
+    // Auto-close after 10 seconds
+    setTimeout(() => {
+      commit('CLOSE_MODAL', 'cartConfirmation');
+    }, 10000);
+  },
+  closeCartConfirmation({ commit }) {
+    commit('CLOSE_MODAL', 'cartConfirmation');
+  },
   openSkinQuiz({ commit }) {
     commit('OPEN_MODAL', { modalName: 'skinQuiz' });
     commit('SET_SKIN_QUIZ_STEP', 1);
