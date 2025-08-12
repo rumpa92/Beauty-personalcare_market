@@ -288,6 +288,14 @@ export default {
   data() {
     return {
       orderData: null,
+      showRefundModal: false,
+      showSuccessModal: false,
+      refundRequestId: '',
+      refundForm: {
+        selectedItems: [],
+        reason: '',
+        note: ''
+      },
       // Mock orders data - same as in Orders page
       orders: [
         {
