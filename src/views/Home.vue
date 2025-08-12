@@ -273,7 +273,7 @@
     <!-- Recently Viewed (Enhanced) -->
     <section v-if="recentlyViewedItems.length" class="recently-viewed-enhanced">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header recently-viewed-header">
           <h2 class="section-title">
             <i class="fas fa-clock"></i>
             Continue Your Beauty Journey
@@ -966,6 +966,12 @@ export default {
   background: linear-gradient(135deg, #faf5ff 0%, #f0f9ff 50%, #fdf2f8 100%);
 }
 
+.personalized-recommendations .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 .ai-header {
   text-align: center;
   margin-bottom: 60px;
@@ -989,6 +995,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
+  justify-content: center;
 }
 
 .recommendation-card {
@@ -1005,6 +1012,12 @@ export default {
 .type-selector-section {
   padding: 80px 0;
   background: white;
+}
+
+.type-selector-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .type-category {
@@ -1030,6 +1043,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 24px;
+  justify-content: center;
 }
 
 .type-tile {
@@ -1156,10 +1170,17 @@ export default {
   background: var(--gray-50);
 }
 
+.enhanced-categories .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 .categories-mega-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
+  justify-content: center;
 }
 
 .mega-category-card {
@@ -1297,6 +1318,12 @@ export default {
   position: relative;
 }
 
+.trending-brands .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 .brands-carousel {
   position: relative;
   overflow: hidden;
@@ -1413,10 +1440,17 @@ export default {
   background: linear-gradient(135deg, #faf5ff 0%, #f0f9ff 100%);
 }
 
+.new-arrivals .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 .arrivals-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
+  justify-content: center;
 }
 
 .arrival-card {
@@ -1446,6 +1480,12 @@ export default {
   color: white;
   position: relative;
   overflow: hidden;
+}
+
+.limited-offers .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .limited-offers::before {
@@ -1505,6 +1545,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 32px;
+  justify-content: center;
 }
 
 .offer-card {
@@ -1603,10 +1644,24 @@ export default {
   background: white;
 }
 
+.recently-viewed-enhanced .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.recently-viewed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+}
+
 .recently-viewed-carousel {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 24px;
+  justify-content: center;
 }
 
 .recently-viewed-item {
@@ -1724,10 +1779,17 @@ export default {
   background: var(--gray-50);
 }
 
+.beauty-tips .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 .tips-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 32px;
+  justify-content: center;
 }
 
 .tip-card {
@@ -1987,6 +2049,7 @@ export default {
 
 .section-header {
   margin-bottom: 60px;
+  text-align: center;
 }
 
 .section-link {

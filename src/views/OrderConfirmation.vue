@@ -96,19 +96,27 @@
           <div class="payment-method-section">
             <div class="payment-card">
               <div class="payment-icon">
-                <img :src="getPaymentLogo(paymentMethod.type)" :alt="paymentMethod.name" />
+                <img v-if="paymentMethod.type !== 'cod'" :src="getPaymentLogo(paymentMethod.type)" :alt="paymentMethod.name" />
+                <div v-else class="cod-icon">
+                  <i class="fas fa-money-bill-wave"></i>
+                </div>
               </div>
               <div class="payment-details">
-                <h4>Payment Successful</h4>
+                <h4 v-if="paymentMethod.type === 'cod'">Payment on Delivery</h4>
+                <h4 v-else>Payment Successful</h4>
                 <p>{{ paymentMethod.name }}</p>
                 <span class="payment-status">
-                  <i class="fas fa-shield-check"></i>
-                  Secure payment processed
+                  <i v-if="paymentMethod.type === 'cod'" class="fas fa-truck"></i>
+                  <i v-else class="fas fa-shield-check"></i>
+                  <span v-if="paymentMethod.type === 'cod'">Pay when you receive the order</span>
+                  <span v-else>Secure payment processed</span>
                 </span>
               </div>
-              <div class="payment-badge">
-                <i class="fas fa-check-circle"></i>
-                <span>Paid</span>
+              <div class="payment-badge" :class="{ 'cod-badge': paymentMethod.type === 'cod' }">
+                <i v-if="paymentMethod.type === 'cod'" class="fas fa-clock"></i>
+                <i v-else class="fas fa-check-circle"></i>
+                <span v-if="paymentMethod.type === 'cod'">Pay on Delivery</span>
+                <span v-else>Paid</span>
               </div>
             </div>
           </div>
@@ -272,8 +280,8 @@ export default {
       },
       
       paymentMethod: {
-        type: 'visa',
-        name: 'Visa Card ending in ****1234'
+        type: 'cod',
+        name: 'Cash on Delivery'
       },
       
       // Payment logos mapping
@@ -283,7 +291,11 @@ export default {
         paytm: 'https://logos-world.net/wp-content/uploads/2020/12/Paytm-Logo.png',
         phonepe: 'https://logowik.com/content/uploads/images/phonepe6531.jpg',
         gpay: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Google_Pay_Logo_%282020%29.svg/200px-Google_Pay_Logo_%282020%29.svg.png',
-        upi: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/200px-UPI-Logo-vector.svg.png'
+        upi: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/200px-UPI-Logo-vector.svg.png',
+        card: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/200px-Visa_Inc._logo.svg.png',
+        wallet: 'https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-200px.png',
+        netbanking: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/200px-Visa_Inc._logo.svg.png',
+        cod: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDIwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTAwIiByeD0iMTAiIGZpbGw9IiMxMGI5ODEiLz4KPHN2ZyB4PSI0MCIgeT0iMjAiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJ3aGl0ZSI+CjxwYXRoIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0xLjQxIDEyLjA5TDEwIDEwLjY4VjE3aDJWMTJoNHYtMkg4VjhoOHYyaC00djJoMS40MXoiLz4KPC9zdmc+Cjx0ZXh0IHg9IjExMCIgeT0iNTUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIj5DT0Q8L3RleHQ+Cjwvc3ZnPgo='
       }
     };
   },
@@ -385,7 +397,7 @@ export default {
       const left = Math.random() * 100;
       const animationDelay = Math.random() * 3;
       const color = colors[Math.floor(Math.random() * colors.length)];
-      
+
       return {
         width: `${size}px`,
         height: `${size}px`,
@@ -393,18 +405,51 @@ export default {
         backgroundColor: color,
         animationDelay: `${animationDelay}s`
       };
+    },
+
+    getPaymentMethodFromCheckout() {
+      // Check route query params or stored checkout data
+      const checkoutData = JSON.parse(localStorage.getItem('checkoutData') || '{}');
+      return checkoutData.paymentMethod || 'cod';
+    },
+
+    getPaymentMethodName(paymentMethod = null) {
+      const method = paymentMethod || this.getPaymentMethodFromCheckout();
+      const methodNames = {
+        'card': 'Credit/Debit Card',
+        'upi': 'UPI Payment',
+        'wallet': 'Digital Wallet',
+        'netbanking': 'Net Banking',
+        'cod': 'Cash on Delivery'
+      };
+      return methodNames[method] || 'Cash on Delivery';
     }
   },
   
   mounted() {
+    // Set payment method from stored checkout data
+    const checkoutData = JSON.parse(localStorage.getItem('checkoutData') || '{}');
+    if (checkoutData.paymentMethod) {
+      this.paymentMethod = {
+        type: checkoutData.paymentMethod,
+        name: this.getPaymentMethodName(checkoutData.paymentMethod)
+      };
+    }
+
     // Start animations after component mounts
     setTimeout(() => {
-      document.querySelector('.success-icon').classList.add('animate');
+      const successIcon = document.querySelector('.success-icon');
+      if (successIcon) {
+        successIcon.classList.add('animate');
+      }
     }, 500);
-    
+
     // Trigger confetti after success animation
     setTimeout(() => {
-      document.querySelector('.confetti-container').classList.add('active');
+      const confettiContainer = document.querySelector('.confetti-container');
+      if (confettiContainer) {
+        confettiContainer.classList.add('active');
+      }
     }, 1500);
   }
 };
@@ -814,6 +859,23 @@ export default {
   font-size: 0.875rem;
   font-weight: 600;
   flex-shrink: 0;
+}
+
+.payment-badge.cod-badge {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.cod-icon {
+  width: 60px;
+  height: 40px;
+  background: linear-gradient(135deg, #059669, #34D399);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
 }
 
 /* Action Buttons */

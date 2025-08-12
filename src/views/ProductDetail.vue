@@ -265,7 +265,7 @@
                 </div>
                 
                 <button 
-                  @click="addToCart" 
+                  @click="handleAddToCart" 
                   :disabled="isAddingToCart || !canAddToCart"
                   :class="['add-to-cart-btn', { loading: isAddingToCart, disabled: !canAddToCart }]"
                 >
@@ -913,7 +913,7 @@
           </div>
         </div>
         <button 
-          @click="addToCart"
+          @click="handleAddToCart"
           :disabled="isAddingToCart || !canAddToCart"
           class="sticky-add-btn"
         >
@@ -1601,11 +1601,11 @@ export default {
     },
     
     // Cart methods
-    async addToCart() {
+    async handleAddToCart() {
       if (!this.canAddToCart) return;
-      
+
       this.isAddingToCart = true;
-      
+
       try {
         await this.addToCart({
           ...this.product,
@@ -1613,11 +1613,10 @@ export default {
           selectedColor: this.selectedColor,
           quantity: this.quantity
         });
-        
-        this.showSuccessNotification('Added to cart!', 'fas fa-check-circle');
+
         this.checkCartStatus();
         this.animateAddToCart();
-        
+
       } catch (error) {
         this.showErrorNotification('Failed to add to cart');
       } finally {
@@ -1693,7 +1692,7 @@ export default {
     
     async buyNow() {
       if (this.canAddToCart) {
-        await this.addToCart();
+        await this.handleAddToCart();
         this.$router.push('/checkout');
       }
     },
@@ -1892,7 +1891,6 @@ export default {
     async quickAddToCart(product) {
       try {
         await this.addToCart(product);
-        this.showSuccessNotification(`${product.name} added to cart!`);
       } catch (error) {
         this.showErrorNotification('Failed to add product to cart');
       }

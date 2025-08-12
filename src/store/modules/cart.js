@@ -29,8 +29,10 @@ const getters = {
       return total + (item.price * item.quantity);
     }, 0);
   },
-  shippingCost: state => {
+  shippingCost: (state, getters) => {
     if (state.promoCode === 'FREESHIP') return 0;
+    // Free shipping for orders over $50
+    if (getters.cartSubtotal >= 50) return 0;
     return state.shipping[state.selectedShipping].price;
   },
   discountAmount: (state, getters) => {
@@ -48,7 +50,16 @@ const getters = {
   shippingOptions: state => state.shipping,
   selectedShipping: state => state.selectedShipping,
   promoCode: state => state.promoCode,
-  promoDiscount: state => state.promoDiscount
+  promoDiscount: state => state.promoDiscount,
+  freeShippingThreshold: () => 50,
+  amountForFreeShipping: (state, getters) => {
+    const threshold = getters.freeShippingThreshold;
+    const remaining = threshold - getters.cartSubtotal;
+    return remaining > 0 ? remaining : 0;
+  },
+  qualifiesForFreeShipping: (state, getters) => {
+    return getters.cartSubtotal >= getters.freeShippingThreshold;
+  }
 };
 
 const mutations = {
@@ -101,15 +112,20 @@ const mutations = {
 };
 
 const actions = {
-  addToCart({ commit, state }, product) {
-    commit('ADD_TO_CART', product);
-    
-    // Auto-open cart for better UX
-    if (!state.isOpen) {
-      commit('SET_CART_OPEN', true);
-      setTimeout(() => {
-        commit('SET_CART_OPEN', false);
-      }, 3000);
+  async addToCart({ commit, dispatch }, product) {
+    try {
+      commit('ADD_TO_CART', product);
+
+      // Show cart confirmation popup instead of opening sidebar
+      await dispatch('ui/showCartConfirmation', {
+        product: product,
+        quantity: product.quantity || 1
+      }, { root: true });
+
+      return { success: true };
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      throw error;
     }
   },
   removeFromCart({ commit }, productId) {

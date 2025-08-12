@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
+import TestHome from '../views/TestHome.vue';
 import Products from '../views/Products.vue';
 import ProductDetail from '../views/ProductDetail.vue';
 import Cart from '../views/Cart.vue';
@@ -8,7 +9,7 @@ import Wishlist from '../views/Wishlist.vue';
 import Profile from '../views/Profile.vue';
 import Orders from '../views/Orders.vue';
 import Checkout from '../views/Checkout.vue';
-import OrderConfirmation from '../views/OrderConfirmation.vue';
+import OrderConfirmation from '../views/OrderSuccess.vue';
 import OrderTracking from '../views/OrderTracking.vue';
 import OrderDetails from '../views/OrderDetails.vue';
 import PrivacyPolicy from '../views/PrivacyPolicy.vue';
@@ -26,6 +27,12 @@ const routes = [
     name: 'Home',
     component: Home,
     meta: { title: 'Beauty Market - Premium Beauty & Personal Care' }
+  },
+  {
+    path: '/test',
+    name: 'TestHome',
+    component: TestHome,
+    meta: { title: 'Test Home - Beauty Market' }
   },
   {
     path: '/products',

@@ -46,7 +46,7 @@
       </div>
       
       <button
-        @click="isInCart ? goToCart() : addToCart()"
+        @click="isInCart ? goToCart() : handleAddToCart()"
         :class="['add-to-cart-btn', { 'in-cart': isInCart }]"
         :disabled="isAddingToCart"
       >
@@ -122,18 +122,13 @@ export default {
     goToCart() {
       this.$router.push('/cart');
     },
-    async addToCart() {
+    async handleAddToCart() {
       this.isAddingToCart = true;
 
       try {
         await this.addToCart({
           ...this.product,
           quantity: 1
-        });
-
-        this.showNotification({
-          type: 'success',
-          message: `${this.product.name} added to cart!`
         });
       } catch (error) {
         this.showNotification({

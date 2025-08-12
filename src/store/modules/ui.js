@@ -18,6 +18,11 @@ const state = {
     newsletter: {
       open: false,
       dismissed: localStorage.getItem('newsletter-dismissed') === 'true'
+    },
+    cartConfirmation: {
+      open: false,
+      product: null,
+      quantity: 1
     }
   }
 };
@@ -87,6 +92,10 @@ const mutations = {
       if (data && modalName === 'productQuickView') {
         state.modals[modalName].product = data;
       }
+      if (data && modalName === 'cartConfirmation') {
+        state.modals[modalName].product = data.product;
+        state.modals[modalName].quantity = data.quantity || 1;
+      }
     }
   },
   CLOSE_MODAL(state, modalName) {
@@ -95,6 +104,10 @@ const mutations = {
       if (modalName === 'productQuickView') {
         state.modals[modalName].product = null;
       }
+      if (modalName === 'cartConfirmation') {
+        state.modals[modalName].product = null;
+        state.modals[modalName].quantity = 1;
+      }
     }
   },
   CLOSE_ALL_MODALS(state) {
@@ -102,6 +115,10 @@ const mutations = {
       state.modals[modalName].open = false;
       if (modalName === 'productQuickView') {
         state.modals[modalName].product = null;
+      }
+      if (modalName === 'cartConfirmation') {
+        state.modals[modalName].product = null;
+        state.modals[modalName].quantity = 1;
       }
     });
   },
@@ -176,6 +193,17 @@ const actions = {
   },
   openProductQuickView({ commit }, product) {
     commit('OPEN_MODAL', { modalName: 'productQuickView', data: product });
+  },
+  showCartConfirmation({ commit }, { product, quantity = 1 }) {
+    commit('OPEN_MODAL', { modalName: 'cartConfirmation', data: { product, quantity } });
+
+    // Auto-close after 10 seconds
+    setTimeout(() => {
+      commit('CLOSE_MODAL', 'cartConfirmation');
+    }, 10000);
+  },
+  closeCartConfirmation({ commit }) {
+    commit('CLOSE_MODAL', 'cartConfirmation');
   },
   openSkinQuiz({ commit }) {
     commit('OPEN_MODAL', { modalName: 'skinQuiz' });

@@ -114,7 +114,7 @@
       <!-- Add to Cart -->
       <div class="product-actions">
         <button 
-          @click="addToCart" 
+          @click="handleAddToCart" 
           class="add-to-cart-btn market-btn market-btn-primary"
           :disabled="isAddingToCart || (product.sizes && !selectedSize)"
         >
@@ -167,7 +167,7 @@ export default {
     goToProduct() {
       this.$router.push(`/fashion/product/${this.product.id}`);
     },
-    async addToCart() {
+    async handleAddToCart() {
       if (this.product.sizes && !this.selectedSize) {
         this.showNotification({
           type: 'warning',
@@ -177,17 +177,12 @@ export default {
       }
 
       this.isAddingToCart = true;
-      
+
       try {
         await this.addToCart({
           ...this.product,
           selectedSize: this.selectedSize,
           quantity: 1
-        });
-        
-        this.showNotification({
-          type: 'success',
-          message: `${this.product.name} added to cart!`
         });
       } catch (error) {
         this.showNotification({
