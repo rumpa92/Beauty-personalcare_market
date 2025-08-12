@@ -134,7 +134,7 @@ const routes = [
   {
     path: '/order-details/:orderId',
     name: 'OrderDetails',
-    component: OrderDetailsSimpleTest,
+    component: OrderDetailsFinal,
     props: true,
     meta: { title: 'Order Details - Beauty Market' }
   },
