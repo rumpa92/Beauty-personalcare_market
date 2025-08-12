@@ -297,9 +297,7 @@ export default {
     };
   },
   mounted() {
-    if (this.orderId) {
-      this.orderDetails.orderId = this.orderId;
-    }
+    this.loadOrderDetails();
   },
   methods: {
     goBackToOrders() {
