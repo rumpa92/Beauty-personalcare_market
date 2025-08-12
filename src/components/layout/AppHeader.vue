@@ -186,11 +186,6 @@
         <i class="fas fa-th-large"></i>
         All Products
       </router-link>
-      <router-link to="/wishlist" class="mobile-nav-link" @click="closeMobileMenu">
-        <i class="fas fa-heart"></i>
-        Wishlist
-        <span class="badge" v-if="wishlistCount">{{ wishlistCount }}</span>
-      </router-link>
       <div v-if="isAuthenticated" class="mobile-user-section">
         <div class="mobile-user-header">
           <div class="user-avatar">
