@@ -1085,6 +1085,13 @@ export default {
     },
     
     async completeOrder() {
+      console.log('Completing order...', {
+        selectedPayment: this.selectedPayment,
+        selectedAddress: this.selectedAddress,
+        currentStep: this.currentStep,
+        canProceed: this.canProceed
+      });
+
       try {
         // Show loading state
         this.isProcessingOrder = true;
@@ -1093,18 +1100,33 @@ export default {
         const checkoutData = {
           paymentMethod: this.selectedPayment,
           address: this.selectedAddress,
-          orderTotal: this.grandTotal,
-          cartItems: this.cartItems
+          orderTotal: this.grandTotal || 97.64, // fallback for demo
+          cartItems: this.cartItems.length > 0 ? this.cartItems : [
+            // Mock data for demo
+            {
+              id: 1,
+              name: 'Beauty Product',
+              brand: 'Demo Brand',
+              price: 89.99,
+              quantity: 1,
+              image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=200'
+            }
+          ]
         };
+
+        console.log('Storing checkout data:', checkoutData);
         localStorage.setItem('checkoutData', JSON.stringify(checkoutData));
 
         // Simulate API call to place order
+        console.log('Simulating order processing...');
         await new Promise(resolve => setTimeout(resolve, 2000));
 
         // Generate order ID
         const orderId = 'BM' + Date.now().toString().slice(-8);
+        console.log('Generated order ID:', orderId);
 
         // Navigate to order confirmation with order ID
+        console.log('Navigating to order confirmation...');
         this.$router.push({
           name: 'OrderConfirmation',
           params: { orderId }
@@ -1113,7 +1135,10 @@ export default {
       } catch (error) {
         // Handle error
         console.error('Order placement failed:', error);
-        alert('Failed to place order. Please try again.');
+        this.showNotification({
+          type: 'error',
+          message: 'Failed to place order. Please try again.'
+        });
       } finally {
         this.isProcessingOrder = false;
       }
