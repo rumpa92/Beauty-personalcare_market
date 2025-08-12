@@ -130,11 +130,6 @@ export default {
           ...this.product,
           quantity: 1
         });
-
-        this.showNotification({
-          type: 'success',
-          message: `${this.product.name} added to cart!`
-        });
       } catch (error) {
         this.showNotification({
           type: 'error',
