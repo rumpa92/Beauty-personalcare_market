@@ -2176,6 +2176,114 @@ export default {
   color: var(--gray-600);
 }
 
+/* Cash on Delivery */
+.cod-info {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.cod-benefits h4 {
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 16px;
+}
+
+.benefits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: var(--success-25);
+  border-radius: 12px;
+  border: 1px solid var(--success-200);
+}
+
+.benefit-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--success-500);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.benefit-content h5 {
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 4px;
+}
+
+.benefit-content p {
+  font-size: 14px;
+  color: var(--gray-600);
+  line-height: 1.4;
+}
+
+.cod-note {
+  background: var(--warning-25);
+  border: 1px solid var(--warning-200);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.note-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--warning-700);
+  margin-bottom: 12px;
+}
+
+.note-header i {
+  font-size: 16px;
+}
+
+.note-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.note-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--gray-700);
+  line-height: 1.5;
+}
+
+.note-list li:before {
+  content: '•';
+  color: var(--warning-600);
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.note-list li:last-child {
+  margin-bottom: 0;
+}
+
+.cod-confirmation {
+  background: var(--primary-25);
+  border: 1px solid var(--primary-200);
+  border-radius: 12px;
+  padding: 20px;
+}
+
 /* Bank Selection */
 .popular-banks h4 {
   font-weight: 600;
