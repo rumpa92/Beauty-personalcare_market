@@ -15,6 +15,7 @@ import OrderDetails from '../views/OrderDetails.vue';
 import OrderDetailsTest from '../views/OrderDetailsTest.vue';
 import OrderDetailsSimple from '../views/OrderDetailsSimple.vue';
 import OrderDetailsFixed from '../views/OrderDetailsFixed.vue';
+import OrderDetailsMinimal from '../views/OrderDetailsMinimal.vue';
 import PrivacyPolicy from '../views/PrivacyPolicy.vue';
 import TermsOfService from '../views/TermsOfService.vue';
 import RatingsReviews from '../views/RatingsReviews.vue';
