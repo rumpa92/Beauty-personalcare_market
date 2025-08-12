@@ -46,12 +46,6 @@
           <i class="fas fa-search"></i>
           <span class="mobile-only sr-only">Search</span>
         </button>
-        
-        <router-link to="/wishlist" class="action-btn">
-          <i class="fas fa-heart"></i>
-          <span class="badge" v-if="wishlistCount">{{ wishlistCount }}</span>
-          <span class="sr-only">Wishlist</span>
-        </router-link>
 
         <button class="action-btn cart-btn" @click="toggleCart">
           <i class="fas fa-shopping-bag"></i>
