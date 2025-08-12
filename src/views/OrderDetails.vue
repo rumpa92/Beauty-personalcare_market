@@ -514,6 +514,7 @@ export default {
 .order-details-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #fdf8f6 0%, #f8f4f6 100%);
+  padding-top: 150px;
   padding-bottom: 100px;
 }
 
