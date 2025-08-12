@@ -19,6 +19,7 @@ import OrderDetailsMinimal from '../views/OrderDetailsMinimal.vue';
 import OrderDetailsWorking from '../views/OrderDetailsWorking.vue';
 import OrderDetailsFinal from '../views/OrderDetailsFinal.vue';
 import OrderDetailsSimpleTest from '../views/OrderDetailsSimpleTest.vue';
+import SimpleOrderDetails from '../views/SimpleOrderDetails.vue';
 import TestPage from '../views/TestPage.vue';
 import PrivacyPolicy from '../views/PrivacyPolicy.vue';
 import TermsOfService from '../views/TermsOfService.vue';
