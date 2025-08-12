@@ -225,9 +225,9 @@ export default {
   },
   methods: {
     ...mapActions('cart', [
-      'updateQuantity', 
-      'removeFromCart', 
-      'applyPromoCode as applyPromo', 
+      'updateQuantity',
+      'removeFromCart',
+      'applyPromoCode',
       'removePromoCode'
     ]),
     ...mapActions('ui', ['showNotification']),
