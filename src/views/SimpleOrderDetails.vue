@@ -299,15 +299,23 @@ export default {
     },
     closeModal() {
       this.showModal = false;
+      this.refundReason = '';
+      this.refundComments = '';
     },
     closeSuccess() {
       this.showSuccess = false;
       this.requestId = '';
     },
     submitRefund() {
+      if (!this.refundReason) return;
+
       this.requestId = 'REF' + Math.random().toString(36).substr(2, 6).toUpperCase();
       this.showModal = false;
       this.showSuccess = true;
+
+      // Reset form
+      this.refundReason = '';
+      this.refundComments = '';
     }
   }
 };
