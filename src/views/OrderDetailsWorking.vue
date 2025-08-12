@@ -453,9 +453,70 @@ export default {
       return icons[status] || 'fas fa-clock';
     },
     requestRefund() {
-      if (confirm('Are you sure you want to request a refund for this order?')) {
-        alert('Refund request submitted! You will receive an email confirmation shortly.');
+      this.showRefundModal = true;
+      // Pre-select all items by default
+      this.refundForm.selectedItems = this.orderData.items.map(item => item.id);
+    },
+    closeRefundModal() {
+      this.showRefundModal = false;
+      this.refundForm = {
+        selectedItems: [],
+        reason: '',
+        note: ''
+      };
+    },
+    closeSuccessModal() {
+      this.showSuccessModal = false;
+      this.refundRequestId = '';
+    },
+    toggleItemSelection(itemId) {
+      const index = this.refundForm.selectedItems.indexOf(itemId);
+      if (index > -1) {
+        this.refundForm.selectedItems.splice(index, 1);
+      } else {
+        this.refundForm.selectedItems.push(itemId);
       }
+    },
+    calculateRefundAmount() {
+      const selectedItems = this.orderData.items.filter(item =>
+        this.refundForm.selectedItems.includes(item.id)
+      );
+
+      const subtotal = selectedItems.reduce((total, item) =>
+        total + (item.price * item.quantity), 0
+      );
+
+      // Calculate proportional tax
+      const taxRate = this.orderData.pricing.tax / this.orderData.pricing.subtotal;
+      const tax = subtotal * taxRate;
+
+      return {
+        subtotal,
+        tax,
+        total: subtotal + tax
+      };
+    },
+    submitRefundRequest() {
+      if (!this.canSubmitRefund) return;
+
+      // Generate a mock refund request ID
+      this.refundRequestId = 'REF' + Date.now().toString().slice(-6);
+
+      // Close refund modal and show success modal
+      this.showRefundModal = false;
+      this.showSuccessModal = true;
+
+      // Reset form
+      this.refundForm = {
+        selectedItems: [],
+        reason: '',
+        note: ''
+      };
+    }
+  },
+  computed: {
+    canSubmitRefund() {
+      return this.refundForm.selectedItems.length > 0 && this.refundForm.reason;
     }
   }
 };
