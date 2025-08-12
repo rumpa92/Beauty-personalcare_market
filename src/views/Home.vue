@@ -1543,6 +1543,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 32px;
+  justify-content: center;
 }
 
 .offer-card {
