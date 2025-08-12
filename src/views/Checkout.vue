@@ -493,13 +493,13 @@
                       </div>
                       <h3 class="form-title">Select Your Bank</h3>
                     </div>
-                    
+
                     <div class="bank-selection">
                       <div class="popular-banks">
                         <h4>Popular Banks</h4>
                         <div class="banks-grid">
-                          <div 
-                            v-for="bank in popularBanks" 
+                          <div
+                            v-for="bank in popularBanks"
                             :key="bank.id"
                             :class="['bank-option', { selected: selectedBank === bank.id }]"
                             @click="selectedBank = bank.id"
@@ -512,6 +512,86 @@
                             </div>
                           </div>
                         </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Cash on Delivery Form -->
+                  <div v-if="selectedPayment === 'cod'" class="payment-form">
+                    <div class="form-header">
+                      <div class="form-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                      </div>
+                      <h3 class="form-title">Cash on Delivery</h3>
+                      <div class="security-badge">
+                        <i class="fas fa-truck"></i>
+                        <span>Pay on Delivery</span>
+                      </div>
+                    </div>
+
+                    <div class="cod-info">
+                      <div class="cod-benefits">
+                        <h4>Why Choose Cash on Delivery?</h4>
+                        <div class="benefits-list">
+                          <div class="benefit-item">
+                            <div class="benefit-icon">
+                              <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="benefit-content">
+                              <h5>Secure & Safe</h5>
+                              <p>Pay only when you receive your order</p>
+                            </div>
+                          </div>
+
+                          <div class="benefit-item">
+                            <div class="benefit-icon">
+                              <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="benefit-content">
+                              <h5>Inspect Before Payment</h5>
+                              <p>Check your products before making payment</p>
+                            </div>
+                          </div>
+
+                          <div class="benefit-item">
+                            <div class="benefit-icon">
+                              <i class="fas fa-credit-card"></i>
+                            </div>
+                            <div class="benefit-content">
+                              <h5>No Online Transaction</h5>
+                              <p>No need to share card details online</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="cod-note">
+                        <div class="note-header">
+                          <i class="fas fa-info-circle"></i>
+                          <span>Important Information</span>
+                        </div>
+                        <ul class="note-list">
+                          <li>Cash on Delivery is available for orders above $10</li>
+                          <li>Additional COD charges may apply: $2.99</li>
+                          <li>Please keep exact change ready for smooth delivery</li>
+                          <li>Orders will be delivered within 3-5 business days</li>
+                        </ul>
+                      </div>
+
+                      <div class="cod-confirmation">
+                        <label class="premium-checkbox">
+                          <input type="checkbox" v-model="codConfirmed" />
+                          <span class="checkbox-mark">
+                            <i class="fas fa-check"></i>
+                          </span>
+                          <span class="checkbox-content">
+                            <span class="checkbox-text">I understand and agree to the Cash on Delivery terms</span>
+                            <span class="checkbox-subtext">
+                              <i class="fas fa-handshake"></i>
+                              I will be available to receive the order and make payment
+                            </span>
+                          </span>
+                        </label>
                       </div>
                     </div>
                   </div>
