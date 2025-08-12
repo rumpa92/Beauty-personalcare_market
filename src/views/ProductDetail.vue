@@ -913,7 +913,7 @@
           </div>
         </div>
         <button 
-          @click="addToCart"
+          @click="handleAddToCart"
           :disabled="isAddingToCart || !canAddToCart"
           class="sticky-add-btn"
         >
