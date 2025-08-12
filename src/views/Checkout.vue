@@ -1630,6 +1630,10 @@ export default {
   background: linear-gradient(135deg, #0284C7, #0EA5E9);
 }
 
+.payment-icon.cod {
+  background: linear-gradient(135deg, #059669, #34D399);
+}
+
 .payment-content {
   flex: 1;
 }
