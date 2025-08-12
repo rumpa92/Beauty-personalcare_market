@@ -29,8 +29,10 @@ const getters = {
       return total + (item.price * item.quantity);
     }, 0);
   },
-  shippingCost: state => {
+  shippingCost: (state, getters) => {
     if (state.promoCode === 'FREESHIP') return 0;
+    // Free shipping for orders over $50
+    if (getters.cartSubtotal >= 50) return 0;
     return state.shipping[state.selectedShipping].price;
   },
   discountAmount: (state, getters) => {
