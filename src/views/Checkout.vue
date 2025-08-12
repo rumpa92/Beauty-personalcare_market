@@ -1088,6 +1088,15 @@ export default {
         // Show loading state
         this.isProcessingOrder = true;
 
+        // Store checkout data for order confirmation
+        const checkoutData = {
+          paymentMethod: this.selectedPayment,
+          address: this.selectedAddress,
+          orderTotal: this.grandTotal,
+          cartItems: this.cartItems
+        };
+        localStorage.setItem('checkoutData', JSON.stringify(checkoutData));
+
         // Simulate API call to place order
         await new Promise(resolve => setTimeout(resolve, 2000));
 
