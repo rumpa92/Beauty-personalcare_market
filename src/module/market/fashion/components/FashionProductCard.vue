@@ -167,7 +167,7 @@ export default {
     goToProduct() {
       this.$router.push(`/fashion/product/${this.product.id}`);
     },
-    async addToCart() {
+    async handleAddToCart() {
       if (this.product.sizes && !this.selectedSize) {
         this.showNotification({
           type: 'warning',
