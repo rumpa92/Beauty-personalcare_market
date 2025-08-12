@@ -272,8 +272,8 @@ export default {
       },
       
       paymentMethod: {
-        type: 'visa',
-        name: 'Visa Card ending in ****1234'
+        type: this.getPaymentMethodFromCheckout(),
+        name: this.getPaymentMethodName()
       },
       
       // Payment logos mapping
