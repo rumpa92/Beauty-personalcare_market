@@ -225,14 +225,17 @@ export default {
   },
   computed: {
     ...mapGetters('cart', [
-      'cartItems', 
-      'cartItemCount', 
-      'cartSubtotal', 
-      'shippingCost', 
-      'discountAmount', 
+      'cartItems',
+      'cartItemCount',
+      'cartSubtotal',
+      'shippingCost',
+      'discountAmount',
       'finalTotal',
       'promoCode',
-      'promoDiscount'
+      'promoDiscount',
+      'freeShippingThreshold',
+      'amountForFreeShipping',
+      'qualifiesForFreeShipping'
     ]),
     taxAmount() {
       const taxableAmount = this.cartSubtotal - this.discountAmount;
