@@ -692,6 +692,7 @@ export default {
   border-bottom: 1px solid rgba(236, 72, 153, 0.08);
   position: relative;
   z-index: 1000;
+  margin-top: 82px;
 }
 
 /* Guest Prompt */
