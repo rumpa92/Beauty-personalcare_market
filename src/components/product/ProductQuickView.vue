@@ -74,8 +74,8 @@
               </div>
               
               <div class="action-buttons">
-                <button 
-                  @click="addToCart" 
+                <button
+                  @click="handleAddToCart"
                   class="btn btn-primary add-to-cart-btn"
                   :disabled="isAddingToCart"
                 >
