@@ -911,7 +911,8 @@ export default {
         return this.selectedPayment && this.isPaymentDetailsValid;
       }
       if (this.currentStep === 3) {
-        return true;
+        // Allow completion even with empty cart for demo purposes
+        return this.selectedAddress && this.selectedPayment;
       }
       return false;
     },
