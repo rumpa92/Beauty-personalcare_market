@@ -21,7 +21,7 @@
     <SearchModal />
     <NotificationContainer />
     <ProductQuickView />
-    <AddToCartConfirmation />
+    <AddToCartConfirmationWrapper />
   </div>
 </template>
 
