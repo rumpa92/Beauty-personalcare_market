@@ -142,44 +142,158 @@ export default {
   },
   data() {
     return {
-      orderDetails: {
-        orderId: '12345',
-        orderDate: '2024-01-15',
-        status: 'Out for Delivery',
-        items: [
-          {
-            id: 1,
-            name: 'Lakme Absolute Perfect Radiance Serum',
-            variant: 'Size: 30ml',
-            quantity: 1,
-            price: 1299,
-            image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=150&h=150&fit=crop&crop=center'
+      orderDetails: null,
+      // Mock orders data - should match the Orders component
+      ordersData: [
+        {
+          id: '10234',
+          date: new Date('2024-01-15'),
+          status: 'Delivered',
+          total: 2499,
+          items: [
+            {
+              id: 1,
+              name: 'Luxury Moisturizing Face Cream',
+              brand: 'GlowLux',
+              image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=300',
+              price: 1299,
+              quantity: 1
+            },
+            {
+              id: 2,
+              name: 'Vitamin C Brightening Serum',
+              brand: 'VitaGlow',
+              image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300',
+              price: 899,
+              quantity: 1
+            },
+            {
+              id: 3,
+              name: 'Gentle Foaming Cleanser',
+              brand: 'PureClean',
+              image: 'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=300',
+              price: 599,
+              quantity: 1
+            }
+          ],
+          deliveryAddress: {
+            name: 'Rumpa Samanta',
+            phone: '9876543210',
+            street: '123 Beauty Lane, Bandra West',
+            city: 'Mumbai',
+            state: 'Maharashtra',
+            pincode: '400001'
           },
-          {
-            id: 2,
-            name: 'Nykaa Matte to Last Liquid Lipstick',
-            variant: 'Shade: Ruby Red',
-            quantity: 2,
-            price: 599,
-            image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=150&h=150&fit=crop&crop=center'
+          pricing: {
+            subtotal: 2797,
+            tax: 252,
+            discount: 300,
+            shipping: 0,
+            total: 2499
           }
-        ],
-        deliveryAddress: {
-          name: 'Rumpa Samanta',
-          phone: '9876543210',
-          street: '123 MG Road, Sector 14',
-          city: 'Kolkata',
-          state: 'West Bengal',
-          pincode: '700001'
         },
-        pricing: {
-          subtotal: 2497,
-          tax: 224,
-          discount: 250,
-          shipping: 0,
-          total: 2471
+        {
+          id: '10233',
+          date: new Date('2024-01-12'),
+          status: 'Processing',
+          total: 1899,
+          items: [
+            {
+              id: 4,
+              name: 'Hyaluronic Acid Moisturizer',
+              brand: 'HydraLux',
+              image: 'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=300',
+              price: 999,
+              quantity: 1
+            },
+            {
+              id: 5,
+              name: 'SPF 50 Daily Sunscreen',
+              brand: 'SunGuard',
+              image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300',
+              price: 899,
+              quantity: 1
+            }
+          ],
+          deliveryAddress: {
+            name: 'Rumpa Samanta',
+            phone: '9876543210',
+            street: '123 Beauty Lane, Bandra West',
+            city: 'Mumbai',
+            state: 'Maharashtra',
+            pincode: '400001'
+          },
+          pricing: {
+            subtotal: 1898,
+            tax: 171,
+            discount: 170,
+            shipping: 0,
+            total: 1899
+          }
+        },
+        {
+          id: '10232',
+          date: new Date('2024-01-10'),
+          status: 'Confirmed',
+          total: 1299,
+          items: [
+            {
+              id: 6,
+              name: 'Niacinamide Pore Refining Serum',
+              brand: 'ClearSkin',
+              image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300',
+              price: 1299,
+              quantity: 1
+            }
+          ],
+          deliveryAddress: {
+            name: 'Rumpa Samanta',
+            phone: '9876543210',
+            street: '123 Beauty Lane, Bandra West',
+            city: 'Mumbai',
+            state: 'Maharashtra',
+            pincode: '400001'
+          },
+          pricing: {
+            subtotal: 1299,
+            tax: 117,
+            discount: 117,
+            shipping: 0,
+            total: 1299
+          }
+        },
+        {
+          id: '10231',
+          date: new Date('2024-01-08'),
+          status: 'Cancelled',
+          total: 799,
+          items: [
+            {
+              id: 7,
+              name: 'Exfoliating Face Scrub',
+              brand: 'GentleGlow',
+              image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=300',
+              price: 799,
+              quantity: 1
+            }
+          ],
+          deliveryAddress: {
+            name: 'Rumpa Samanta',
+            phone: '9876543210',
+            street: '123 Beauty Lane, Bandra West',
+            city: 'Mumbai',
+            state: 'Maharashtra',
+            pincode: '400001'
+          },
+          pricing: {
+            subtotal: 799,
+            tax: 72,
+            discount: 72,
+            shipping: 0,
+            total: 799
+          }
         }
-      }
+      ]
     };
   },
   mounted() {
