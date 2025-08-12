@@ -225,7 +225,7 @@ body {
 
 .main-content {
   flex: 1;
-  padding-top: 150px; /* Account for top search bar + fixed header */
+  padding-top: 80px; /* Account for fixed header only */
 }
 
 /* Dark theme styles */
