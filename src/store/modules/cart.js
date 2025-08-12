@@ -50,7 +50,16 @@ const getters = {
   shippingOptions: state => state.shipping,
   selectedShipping: state => state.selectedShipping,
   promoCode: state => state.promoCode,
-  promoDiscount: state => state.promoDiscount
+  promoDiscount: state => state.promoDiscount,
+  freeShippingThreshold: () => 50,
+  amountForFreeShipping: (state, getters) => {
+    const threshold = getters.freeShippingThreshold;
+    const remaining = threshold - getters.cartSubtotal;
+    return remaining > 0 ? remaining : 0;
+  },
+  qualifiesForFreeShipping: (state, getters) => {
+    return getters.cartSubtotal >= getters.freeShippingThreshold;
+  }
 };
 
 const mutations = {
