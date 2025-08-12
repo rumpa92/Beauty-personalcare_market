@@ -46,7 +46,7 @@ export default {
     NotificationContainer,
     ProductQuickView,
     TopSearchBar,
-    AddToCartConfirmation
+    AddToCartConfirmationWrapper
   },
   computed: {
     ...mapGetters('ui', ['theme']),
