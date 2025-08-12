@@ -1692,7 +1692,7 @@ export default {
     
     async buyNow() {
       if (this.canAddToCart) {
-        await this.addToCart();
+        await this.handleAddToCart();
         this.$router.push('/checkout');
       }
     },
