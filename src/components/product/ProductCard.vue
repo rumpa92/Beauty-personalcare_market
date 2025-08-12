@@ -122,7 +122,7 @@ export default {
     goToCart() {
       this.$router.push('/cart');
     },
-    async addToCart() {
+    async handleAddToCart() {
       this.isAddingToCart = true;
 
       try {
