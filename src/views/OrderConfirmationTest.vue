@@ -171,7 +171,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 0;
-  border-bottom: 1px solid var(--gray-200);
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .detail-row:last-child {
@@ -180,7 +180,7 @@ export default {
 }
 
 .amount {
-  color: var(--primary-600);
+  color: #db2777;
   font-weight: 700;
   font-size: 1.1rem;
 }
