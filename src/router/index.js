@@ -13,6 +13,7 @@ import OrderConfirmation from '../views/OrderSuccess.vue';
 import OrderTracking from '../views/OrderTracking.vue';
 import OrderDetails from '../views/OrderDetails.vue';
 import OrderDetailsTest from '../views/OrderDetailsTest.vue';
+import OrderDetailsSimple from '../views/OrderDetailsSimple.vue';
 import PrivacyPolicy from '../views/PrivacyPolicy.vue';
 import TermsOfService from '../views/TermsOfService.vue';
 import RatingsReviews from '../views/RatingsReviews.vue';
