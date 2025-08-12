@@ -116,17 +116,6 @@
               <i class="fas fa-chevron-right item-arrow"></i>
             </router-link>
 
-            <router-link to="/wishlist" class="dropdown-item" @click="closeUserMenu">
-              <div class="item-icon">
-                <i class="fas fa-heart"></i>
-              </div>
-              <div class="item-content">
-                <span class="item-title">Wishlist</span>
-                <span class="item-description">Your saved items</span>
-              </div>
-              <div class="item-badge">{{ wishlistCount }}</div>
-            </router-link>
-
             <router-link to="/profile?tab=settings" class="dropdown-item" @click="closeUserMenu">
               <div class="item-icon">
                 <i class="fas fa-cog"></i>
