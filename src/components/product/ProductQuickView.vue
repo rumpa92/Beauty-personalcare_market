@@ -151,7 +151,7 @@ export default {
         this.quantity--;
       }
     },
-    async addToCart() {
+    async handleAddToCart() {
       if (!this.product) return;
 
       this.isAddingToCart = true;
