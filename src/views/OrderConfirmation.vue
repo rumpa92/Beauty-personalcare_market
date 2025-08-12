@@ -96,19 +96,27 @@
           <div class="payment-method-section">
             <div class="payment-card">
               <div class="payment-icon">
-                <img :src="getPaymentLogo(paymentMethod.type)" :alt="paymentMethod.name" />
+                <img v-if="paymentMethod.type !== 'cod'" :src="getPaymentLogo(paymentMethod.type)" :alt="paymentMethod.name" />
+                <div v-else class="cod-icon">
+                  <i class="fas fa-money-bill-wave"></i>
+                </div>
               </div>
               <div class="payment-details">
-                <h4>Payment Successful</h4>
+                <h4 v-if="paymentMethod.type === 'cod'">Payment on Delivery</h4>
+                <h4 v-else>Payment Successful</h4>
                 <p>{{ paymentMethod.name }}</p>
                 <span class="payment-status">
-                  <i class="fas fa-shield-check"></i>
-                  Secure payment processed
+                  <i v-if="paymentMethod.type === 'cod'" class="fas fa-truck"></i>
+                  <i v-else class="fas fa-shield-check"></i>
+                  <span v-if="paymentMethod.type === 'cod'">Pay when you receive the order</span>
+                  <span v-else>Secure payment processed</span>
                 </span>
               </div>
-              <div class="payment-badge">
-                <i class="fas fa-check-circle"></i>
-                <span>Paid</span>
+              <div class="payment-badge" :class="{ 'cod-badge': paymentMethod.type === 'cod' }">
+                <i v-if="paymentMethod.type === 'cod'" class="fas fa-clock"></i>
+                <i v-else class="fas fa-check-circle"></i>
+                <span v-if="paymentMethod.type === 'cod'">Pay on Delivery</span>
+                <span v-else>Paid</span>
               </div>
             </div>
           </div>
