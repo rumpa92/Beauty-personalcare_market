@@ -122,10 +122,29 @@
               <span class="summary-value">${{ cartSubtotal.toFixed(2) }}</span>
             </div>
 
+            <!-- Free Shipping Progress -->
+            <div v-if="amountForFreeShipping > 0" class="free-shipping-progress">
+              <div class="free-shipping-text">
+                <i class="fas fa-truck"></i>
+                Add <strong>${{ amountForFreeShipping.toFixed(2) }}</strong> for FREE shipping!
+              </div>
+              <div class="progress-bar">
+                <div
+                  class="progress-fill"
+                  :style="{ width: `${((freeShippingThreshold - amountForFreeShipping) / freeShippingThreshold) * 100}%` }"
+                ></div>
+              </div>
+            </div>
+
             <div class="summary-row">
               <span class="summary-label">Shipping</span>
               <span class="summary-value">
-                {{ shippingCost > 0 ? `$${shippingCost.toFixed(2)}` : 'FREE' }}
+                <span v-if="qualifiesForFreeShipping" class="free-shipping-badge">
+                  <i class="fas fa-check"></i> FREE
+                </span>
+                <span v-else>
+                  {{ shippingCost > 0 ? `$${shippingCost.toFixed(2)}` : 'FREE' }}
+                </span>
               </span>
             </div>
 
