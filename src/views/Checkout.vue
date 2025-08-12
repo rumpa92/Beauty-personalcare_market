@@ -924,6 +924,9 @@ export default {
       if (this.selectedPayment === 'netbanking') {
         return this.selectedBank;
       }
+      if (this.selectedPayment === 'cod') {
+        return this.codConfirmed;
+      }
       return false;
     },
     
