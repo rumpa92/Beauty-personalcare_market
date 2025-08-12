@@ -198,7 +198,7 @@
               transform: refundReason ? 'translateY(0)' : 'none'
             }"
           >
-            <span style="font-size: 20px;">��</span>
+            <span style="font-size: 20px;">📋</span>
             Submit Refund Request
           </button>
 
@@ -208,21 +208,38 @@
 
     <!-- Success Modal -->
     <div v-if="showSuccess" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px;" @click="closeSuccess">
-      <div style="background: white; border-radius: 20px; width: 100%; max-width: 400px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); text-align: center; padding: 40px 24px;" @click.stop>
-        <div style="font-size: 60px; margin-bottom: 20px;">✅</div>
-        <h2 style="font-size: 24px; font-weight: 700; color: #1f2937; margin: 0 0 12px 0;">Refund Request Submitted!</h2>
-        <p style="color: #6b7280; margin: 0 0 24px 0; line-height: 1.5;">Your refund request has been submitted. We'll notify you once it's processed.</p>
-        <div style="background: #f9fafb; border-radius: 12px; padding: 16px; margin-bottom: 24px; text-align: left;">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
-            <span style="color: #6b7280;">Request ID:</span>
-            <span style="color: #1f2937; font-weight: 600;">#{{ requestId }}</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; font-size: 14px;">
-            <span style="color: #6b7280;">Expected Processing:</span>
-            <span style="color: #1f2937; font-weight: 600;">5-7 business days</span>
+      <div style="background: white; border-radius: 24px; width: 100%; max-width: 500px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3); text-align: center; padding: 48px 32px; animation: successSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);" @click.stop>
+
+        <!-- Success Icon -->
+        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #22c55e, #16a34a); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px auto; animation: successPulse 2s infinite;">
+          <span style="font-size: 36px; color: white;">✓</span>
+        </div>
+
+        <!-- Success Message -->
+        <h2 style="font-size: 28px; font-weight: 700; color: #1f2937; margin: 0 0 16px 0;">Request Received!</h2>
+        <p style="color: #6b7280; margin: 0 0 32px 0; line-height: 1.6; font-size: 16px;">
+          Your refund request has been received. You'll be notified once it's processed.
+        </p>
+
+        <!-- Request Details -->
+        <div style="background: linear-gradient(135deg, #f8f4f6, #fef8f6); border-radius: 16px; padding: 24px; margin-bottom: 32px; text-align: left; border: 1px solid #f0e6e6;">
+          <h3 style="font-size: 16px; font-weight: 700; color: #1f2937; margin: 0 0 16px 0; text-align: center;">Request Details</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div style="background: #fff; padding: 16px; border-radius: 12px; border: 1px solid #f0f0f0; text-align: center;">
+              <span style="font-size: 14px; color: #6b7280; font-weight: 500; display: block; margin-bottom: 4px;">Request ID</span>
+              <span style="color: #8b4e9f; font-weight: 700; font-size: 16px;">#{{ requestId }}</span>
+            </div>
+            <div style="background: #fff; padding: 16px; border-radius: 12px; border: 1px solid #f0f0f0; text-align: center;">
+              <span style="font-size: 14px; color: #6b7280; font-weight: 500; display: block; margin-bottom: 4px;">Processing Time</span>
+              <span style="color: #15803d; font-weight: 700; font-size: 16px;">5-7 days</span>
+            </div>
           </div>
         </div>
-        <button @click="closeSuccess" style="background: linear-gradient(135deg, #8b4e9f, #7c3aed); color: white; border: none; padding: 14px 32px; border-radius: 8px; font-weight: 700; cursor: pointer;">Got it</button>
+
+        <!-- Action Button -->
+        <button @click="closeSuccess" style="background: linear-gradient(135deg, #8b4e9f, #7c3aed); color: white; border: none; padding: 16px 40px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(139, 78, 159, 0.3);">
+          Continue Shopping
+        </button>
       </div>
     </div>
 
