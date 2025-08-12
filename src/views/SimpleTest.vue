@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 50px; text-align: center; font-family: Arial;">
+  <div style="padding: 50px; text-align: center; font-family: Arial; margin-top: 150px; min-height: 100vh; background: #fdf2f8;">
     <h1 style="color: #ec4899; font-size: 3rem;">🎉 Order Placed Successfully!</h1>
     <p style="font-size: 1.5rem; color: #666;">Your order ID is: <strong>#{{ orderId }}</strong></p>
     <div style="background: #f0f0f0; padding: 30px; margin: 30px 0; border-radius: 10px;">
