@@ -299,7 +299,7 @@ export default {
       if (!this.promoCodeInput.trim()) return;
 
       try {
-        const result = await this.applyPromo(this.promoCodeInput.trim());
+        const result = await this.applyPromoCode(this.promoCodeInput.trim());
         this.promoMessage = result.message;
         this.promoMessageType = result.success ? 'success' : 'error';
         
