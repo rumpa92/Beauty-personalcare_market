@@ -1079,9 +1079,29 @@ export default {
     },
     
     async completeOrder() {
-      // Mock order completion
-      alert('Order completed successfully!');
-      this.$router.push('/order-confirmation');
+      try {
+        // Show loading state
+        this.isProcessingOrder = true;
+
+        // Simulate API call to place order
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        // Generate order ID
+        const orderId = 'BM' + Date.now().toString().slice(-8);
+
+        // Navigate to order confirmation with order ID
+        this.$router.push({
+          name: 'OrderConfirmation',
+          params: { orderId }
+        });
+
+      } catch (error) {
+        // Handle error
+        console.error('Order placement failed:', error);
+        alert('Failed to place order. Please try again.');
+      } finally {
+        this.isProcessingOrder = false;
+      }
     }
   }
 };
