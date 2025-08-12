@@ -46,9 +46,8 @@ module.exports = {
       filename: 'index.html'
     }),
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
-      }
+      __VUE_OPTIONS_API__: true,
+      __VUE_PROD_DEVTOOLS__: false
     })
   ],
   resolve: {
@@ -64,11 +63,15 @@ module.exports = {
     open: true,
     historyApiFallback: true,
     client: {
-      logging: 'warn',
+      logging: 'info',
       overlay: {
         errors: true,
         warnings: false
-      }
+      },
+      webSocketURL: 'auto://0.0.0.0:0/ws'
+    },
+    static: {
+      directory: path.join(__dirname, 'public')
     }
   }
 };
