@@ -23,7 +23,7 @@ export default {
 
 <style scoped>
 .order-details-minimal {
-  padding-top: 150px;
+  padding-top: 40px;
   padding-bottom: 40px;
   min-height: 100vh;
   background: #f9fafb;
