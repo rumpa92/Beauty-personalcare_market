@@ -112,7 +112,7 @@ export default {
 .success-icon {
   width: 100px;
   height: 100px;
-  background: linear-gradient(135deg, var(--success-500), var(--success-600));
+  background: linear-gradient(135deg, #10b981, #059669);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -126,28 +126,28 @@ export default {
 .success-title {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--gray-800);
+  color: #1f2937;
   margin-bottom: 1rem;
 }
 
 .success-subtitle {
   font-size: 1.1rem;
-  color: var(--gray-600);
+  color: #6b7280;
   margin-bottom: 2rem;
   line-height: 1.6;
 }
 
 .order-id {
   font-weight: 700;
-  color: var(--primary-600);
-  background: var(--primary-50);
+  color: #db2777;
+  background: #fdf2f8;
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
   font-family: monospace;
 }
 
 .order-card {
-  background: var(--gray-50);
+  background: #f9fafb;
   border-radius: 16px;
   padding: 2rem;
   margin-bottom: 2rem;
@@ -155,7 +155,7 @@ export default {
 }
 
 .order-card h3 {
-  color: var(--gray-800);
+  color: #1f2937;
   margin-bottom: 1rem;
   text-align: center;
 }
