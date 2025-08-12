@@ -1034,17 +1034,19 @@ export default {
         'card': 'fas fa-credit-card',
         'upi': 'fas fa-qrcode',
         'wallet': 'fas fa-wallet',
-        'netbanking': 'fas fa-university'
+        'netbanking': 'fas fa-university',
+        'cod': 'fas fa-money-bill-wave'
       };
       return icons[method] || 'fas fa-credit-card';
     },
-    
+
     getPaymentDisplayName(method) {
       const names = {
         'card': 'Credit/Debit Card',
         'upi': 'UPI Payment',
         'wallet': 'Digital Wallet',
-        'netbanking': 'Net Banking'
+        'netbanking': 'Net Banking',
+        'cod': 'Cash on Delivery'
       };
       return names[method] || 'Payment Method';
     },
