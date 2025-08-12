@@ -29,6 +29,12 @@ const routes = [
     meta: { title: 'Beauty Market - Premium Beauty & Personal Care' }
   },
   {
+    path: '/test',
+    name: 'TestHome',
+    component: TestHome,
+    meta: { title: 'Test Home - Beauty Market' }
+  },
+  {
     path: '/products',
     name: 'Products',
     component: Products,
