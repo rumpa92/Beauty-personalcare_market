@@ -29,7 +29,7 @@
 
       <!-- Brand/Logo Text -->
       <div class="header-brand">
-        <span class="brand-subtitle">Premium Beauty & Personal Care</span>
+        <!-- Removed Beauty & Personal Care text -->
       </div>
 
       <!-- Header Actions -->
@@ -46,12 +46,6 @@
           <i class="fas fa-search"></i>
           <span class="mobile-only sr-only">Search</span>
         </button>
-        
-        <router-link to="/wishlist" class="action-btn">
-          <i class="fas fa-heart"></i>
-          <span class="badge" v-if="wishlistCount">{{ wishlistCount }}</span>
-          <span class="sr-only">Wishlist</span>
-        </router-link>
 
         <button class="action-btn cart-btn" @click="toggleCart">
           <i class="fas fa-shopping-bag"></i>
@@ -122,17 +116,6 @@
               <i class="fas fa-chevron-right item-arrow"></i>
             </router-link>
 
-            <router-link to="/wishlist" class="dropdown-item" @click="closeUserMenu">
-              <div class="item-icon">
-                <i class="fas fa-heart"></i>
-              </div>
-              <div class="item-content">
-                <span class="item-title">Wishlist</span>
-                <span class="item-description">Your saved items</span>
-              </div>
-              <div class="item-badge">{{ wishlistCount }}</div>
-            </router-link>
-
             <router-link to="/profile?tab=settings" class="dropdown-item" @click="closeUserMenu">
               <div class="item-icon">
                 <i class="fas fa-cog"></i>
@@ -191,11 +174,6 @@
       <router-link to="/products" class="mobile-nav-link" @click="closeMobileMenu">
         <i class="fas fa-th-large"></i>
         All Products
-      </router-link>
-      <router-link to="/wishlist" class="mobile-nav-link" @click="closeMobileMenu">
-        <i class="fas fa-heart"></i>
-        Wishlist
-        <span class="badge" v-if="wishlistCount">{{ wishlistCount }}</span>
       </router-link>
       <div v-if="isAuthenticated" class="mobile-user-section">
         <div class="mobile-user-header">

@@ -12,6 +12,15 @@ import Checkout from '../views/Checkout.vue';
 import OrderConfirmation from '../views/OrderSuccess.vue';
 import OrderTracking from '../views/OrderTracking.vue';
 import OrderDetails from '../views/OrderDetails.vue';
+import OrderDetailsTest from '../views/OrderDetailsTest.vue';
+import OrderDetailsSimple from '../views/OrderDetailsSimple.vue';
+import OrderDetailsFixed from '../views/OrderDetailsFixed.vue';
+import OrderDetailsMinimal from '../views/OrderDetailsMinimal.vue';
+import OrderDetailsWorking from '../views/OrderDetailsWorking.vue';
+import OrderDetailsFinal from '../views/OrderDetailsFinal.vue';
+import OrderDetailsSimpleTest from '../views/OrderDetailsSimpleTest.vue';
+import SimpleOrderDetails from '../views/SimpleOrderDetails.vue';
+import TestPage from '../views/TestPage.vue';
 import PrivacyPolicy from '../views/PrivacyPolicy.vue';
 import TermsOfService from '../views/TermsOfService.vue';
 import RatingsReviews from '../views/RatingsReviews.vue';
@@ -126,9 +135,16 @@ const routes = [
   {
     path: '/order-details/:orderId',
     name: 'OrderDetails',
-    component: OrderDetails,
+    component: SimpleOrderDetails,
     props: true,
     meta: { title: 'Order Details - Beauty Market' }
+  },
+  {
+    path: '/order-test/:orderId',
+    name: 'OrderDetailsTest',
+    component: OrderDetailsTest,
+    props: true,
+    meta: { title: 'Order Details Test - Beauty Market' }
   },
   {
     path: '/privacy-policy',

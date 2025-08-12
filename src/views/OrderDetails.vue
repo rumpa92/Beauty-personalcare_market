@@ -514,6 +514,7 @@ export default {
 .order-details-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #fdf8f6 0%, #f8f4f6 100%);
+  padding-top: 150px;
   padding-bottom: 100px;
 }
 
@@ -522,10 +523,8 @@ export default {
   background: linear-gradient(135deg, #fff 0%, #fef8f6 100%);
   border-bottom: 1px solid #f0e6e6;
   padding: 24px 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  backdrop-filter: blur(10px);
+  margin-top: -150px;
+  margin-bottom: 40px;
 }
 
 .header-content {
@@ -1419,6 +1418,14 @@ export default {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .order-details-page {
+    padding-top: 120px;
+  }
+
+  .page-header {
+    margin-top: -120px;
+  }
+
   .market-container {
     padding: 0 16px;
   }
