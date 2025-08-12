@@ -90,46 +90,118 @@
       <div style="background: white; border-radius: 20px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);" @click.stop>
         
         <!-- Modal Header -->
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 24px 24px 0 24px; border-bottom: 1px solid #f0f0f0; padding-bottom: 20px; margin-bottom: 20px;">
-          <div>
-            <h2 style="font-size: 24px; font-weight: 700; color: #1f2937; margin: 0 0 4px 0; background: linear-gradient(135deg, #8b4e9f, #d946b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Refund Request</h2>
-            <p style="color: #6b7280; margin: 0;">Only eligible delivered items can be refunded.</p>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 32px 32px 0 32px; border-bottom: 1px solid #f0f0f0; padding-bottom: 24px; margin-bottom: 24px;">
+          <div style="flex: 1;">
+            <h2 style="font-size: 28px; font-weight: 700; color: #1f2937; margin: 0 0 8px 0; background: linear-gradient(135deg, #8b4e9f, #d946b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Refund Request</h2>
+            <p style="color: #6b7280; margin: 0; font-size: 16px; line-height: 1.5;">Quick and secure refunds for eligible delivered items.</p>
           </div>
-          <button @click="closeModal" style="width: 36px; height: 36px; border-radius: 50%; background: #f8fafc; border: 1px solid #e5e7eb; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #6b7280;">×</button>
+          <button @click="closeModal" style="width: 44px; height: 44px; border-radius: 50%; background: #f8fafc; border: 2px solid #e5e7eb; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #6b7280; transition: all 0.3s ease; flex-shrink: 0;">×</button>
         </div>
 
         <!-- Modal Content -->
-        <div style="padding: 0 24px 24px 24px;">
-          
-          <!-- Order Info -->
-          <div style="background: linear-gradient(135deg, #f8f4f6, #fef8f6); border-radius: 12px; padding: 16px; margin-bottom: 20px; border: 1px solid #f0e6e6; display: flex; gap: 24px;">
-            <div style="display: flex; flex-direction: column; gap: 4px;">
-              <span style="font-size: 14px; color: #6b7280; font-weight: 500;">Order ID:</span>
-              <span style="font-size: 16px; color: #1f2937; font-weight: 700;">#{{ orderId }}</span>
+        <div style="padding: 0 32px 32px 32px;">
+
+          <!-- Order Information Card -->
+          <div style="background: linear-gradient(135deg, #f8f4f6, #fef8f6); border-radius: 16px; padding: 24px; margin-bottom: 24px; border: 1px solid #f0e6e6;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <h3 style="font-size: 18px; font-weight: 700; color: #1f2937; margin: 0;">Order Information</h3>
+              <div style="background: #fff; padding: 8px 12px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                <span style="font-size: 14px; font-weight: 600; color: #8b4e9f;">Order #{{ orderId }}</span>
+              </div>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 4px;">
-              <span style="font-size: 14px; color: #6b7280; font-weight: 500;">Delivery Date:</span>
-              <span style="font-size: 16px; color: #1f2937; font-weight: 700;">January 15, 2024</span>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div style="background: #fff; padding: 16px; border-radius: 12px; border: 1px solid #f0f0f0;">
+                <span style="font-size: 14px; color: #6b7280; font-weight: 500; display: block; margin-bottom: 4px;">Delivery Date</span>
+                <span style="font-size: 16px; color: #1f2937; font-weight: 700;">January 15, 2024</span>
+              </div>
+              <div style="background: #fff; padding: 16px; border-radius: 12px; border: 1px solid #f0f0f0;">
+                <span style="font-size: 14px; color: #6b7280; font-weight: 500; display: block; margin-bottom: 4px;">Order Status</span>
+                <span style="font-size: 16px; color: #15803d; font-weight: 700;">✓ Delivered</span>
+              </div>
             </div>
           </div>
 
-          <!-- Refund Amount -->
-          <div style="background: linear-gradient(135deg, #f0fdf4, #ecfdf5); border: 2px solid #bbf7d0; border-radius: 16px; padding: 20px; margin-bottom: 20px;">
-            <h3 style="font-size: 18px; font-weight: 700; color: #15803d; margin: 0 0 12px 0;">💰 Refund Amount</h3>
-            <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: 700; padding-top: 6px;">
-              <span style="color: #15803d;">Total Refund Amount:</span>
-              <span style="color: #15803d; font-size: 20px;">₹2,499.00</span>
+          <!-- Refund Form -->
+          <div style="background: #fff; border: 2px solid #f0f0f0; border-radius: 16px; padding: 24px; margin-bottom: 24px;">
+            <h3 style="font-size: 18px; font-weight: 700; color: #1f2937; margin: 0 0 20px 0;">Refund Details</h3>
+
+            <!-- Reason for Refund -->
+            <div style="margin-bottom: 20px;">
+              <label style="display: block; font-weight: 600; color: #1f2937; margin-bottom: 8px; font-size: 16px;">
+                Reason for Refund <span style="color: #ef4444;">*</span>
+              </label>
+              <select v-model="refundReason" style="width: 100%; padding: 16px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 16px; color: #374151; transition: all 0.3s ease; box-sizing: border-box; background: #fff;">
+                <option value="">Select a reason</option>
+                <option value="defective">Product is defective</option>
+                <option value="damaged">Product arrived damaged</option>
+                <option value="wrong-item">Wrong item received</option>
+                <option value="not-as-described">Not as described</option>
+                <option value="allergic-reaction">Allergic reaction</option>
+                <option value="quality-issues">Quality issues</option>
+                <option value="changed-mind">Changed my mind</option>
+                <option value="other">Other</option>
+              </select>
             </div>
-            <p style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 12px; margin-top: 12px; color: #0369a1; font-size: 12px; line-height: 1.4; margin-bottom: 0;">
-              ℹ️ Refund will be processed to your original payment method within 5-7 business days.
-            </p>
+
+            <!-- Additional Comments -->
+            <div style="margin-bottom: 0;">
+              <label style="display: block; font-weight: 600; color: #1f2937; margin-bottom: 8px; font-size: 16px;">
+                Additional Comments <span style="color: #6b7280; font-weight: 400;">(Optional)</span>
+              </label>
+              <textarea
+                v-model="refundComments"
+                placeholder="Please provide any additional details about your refund request..."
+                style="width: 100%; padding: 16px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 16px; color: #374151; transition: all 0.3s ease; box-sizing: border-box; font-family: inherit; resize: vertical; min-height: 120px;"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Refund Amount Summary -->
+          <div style="background: linear-gradient(135deg, #f0fdf4, #ecfdf5); border: 2px solid #bbf7d0; border-radius: 16px; padding: 24px; margin-bottom: 32px;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+              <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #22c55e, #16a34a); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px;">💰</div>
+              <h3 style="font-size: 20px; font-weight: 700; color: #15803d; margin: 0;">Refund Amount</h3>
+            </div>
+            <div style="background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #bbf7d0; margin-bottom: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 18px; color: #374151; font-weight: 600;">Total Refund Amount:</span>
+                <span style="font-size: 24px; color: #15803d; font-weight: 700;">₹2,499.00</span>
+              </div>
+            </div>
+            <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 12px; padding: 16px; display: flex; align-items: flex-start; gap: 12px;">
+              <div style="width: 20px; height: 20px; background: #0369a1; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px;">ℹ</div>
+              <p style="color: #0369a1; font-size: 14px; line-height: 1.5; margin: 0;">
+                Refund will be processed to your original payment method within <strong>5-7 business days</strong> after approval.
+              </p>
+            </div>
           </div>
 
           <!-- Submit Button -->
-          <button @click="submitRefund" style="width: 100%; background: linear-gradient(135deg, #8b4e9f, #7c3aed); color: white; border: none; padding: 16px 24px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-            ✈️ Submit Refund Request
+          <button
+            @click="submitRefund"
+            :disabled="!refundReason"
+            :style="{
+              width: '100%',
+              background: refundReason ? 'linear-gradient(135deg, #8b4e9f, #7c3aed)' : '#e5e7eb',
+              color: refundReason ? 'white' : '#9ca3af',
+              border: 'none',
+              padding: '18px 24px',
+              borderRadius: '12px',
+              fontWeight: '700',
+              fontSize: '18px',
+              cursor: refundReason ? 'pointer' : 'not-allowed',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '12px',
+              transition: 'all 0.3s ease',
+              transform: refundReason ? 'translateY(0)' : 'none'
+            }"
+          >
+            <span style="font-size: 20px;">��</span>
+            Submit Refund Request
           </button>
-          
+
         </div>
       </div>
     </div>
