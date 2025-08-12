@@ -1603,9 +1603,9 @@ export default {
     // Cart methods
     async addToCart() {
       if (!this.canAddToCart) return;
-      
+
       this.isAddingToCart = true;
-      
+
       try {
         await this.addToCart({
           ...this.product,
@@ -1613,11 +1613,10 @@ export default {
           selectedColor: this.selectedColor,
           quantity: this.quantity
         });
-        
-        this.showSuccessNotification('Added to cart!', 'fas fa-check-circle');
+
         this.checkCartStatus();
         this.animateAddToCart();
-        
+
       } catch (error) {
         this.showErrorNotification('Failed to add to cart');
       } finally {
