@@ -18,6 +18,11 @@ const state = {
     newsletter: {
       open: false,
       dismissed: localStorage.getItem('newsletter-dismissed') === 'true'
+    },
+    cartConfirmation: {
+      open: false,
+      product: null,
+      quantity: 1
     }
   }
 };
