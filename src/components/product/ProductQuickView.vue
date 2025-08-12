@@ -153,20 +153,15 @@ export default {
     },
     async addToCart() {
       if (!this.product) return;
-      
+
       this.isAddingToCart = true;
-      
+
       try {
         await this.addToCart({
           ...this.product,
           quantity: this.quantity
         });
-        
-        this.showNotification({
-          type: 'success',
-          message: `${this.product.name} added to cart!`
-        });
-        
+
         this.closeModal('productQuickView');
       } catch (error) {
         this.showNotification({
