@@ -265,7 +265,7 @@
                 </div>
                 
                 <button 
-                  @click="addToCart" 
+                  @click="handleAddToCart" 
                   :disabled="isAddingToCart || !canAddToCart"
                   :class="['add-to-cart-btn', { loading: isAddingToCart, disabled: !canAddToCart }]"
                 >
