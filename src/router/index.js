@@ -132,6 +132,13 @@ const routes = [
     meta: { title: 'Order Details - Beauty Market' }
   },
   {
+    path: '/order-test/:orderId',
+    name: 'OrderDetailsTest',
+    component: OrderDetailsTest,
+    props: true,
+    meta: { title: 'Order Details Test - Beauty Market' }
+  },
+  {
     path: '/privacy-policy',
     name: 'PrivacyPolicy',
     component: PrivacyPolicy,
