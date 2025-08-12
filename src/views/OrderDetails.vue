@@ -1418,6 +1418,14 @@ export default {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .order-details-page {
+    padding-top: 120px;
+  }
+
+  .page-header {
+    margin-top: -120px;
+  }
+
   .market-container {
     padding: 0 16px;
   }
