@@ -1706,6 +1706,22 @@ export default {
   font-weight: 500;
 }
 
+.cod-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--success-100);
+  color: var(--success-700);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.cod-badge i {
+  font-size: 10px;
+}
+
 .selection-check {
   position: absolute;
   top: 16px;
