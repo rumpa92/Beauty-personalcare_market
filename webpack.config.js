@@ -64,11 +64,15 @@ module.exports = {
     open: true,
     historyApiFallback: true,
     client: {
-      logging: 'warn',
+      logging: 'info',
       overlay: {
         errors: true,
         warnings: false
-      }
+      },
+      webSocketURL: 'auto://0.0.0.0:0/ws'
+    },
+    static: {
+      directory: path.join(__dirname, 'public')
     }
   }
 };
