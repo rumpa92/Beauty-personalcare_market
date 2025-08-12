@@ -30,6 +30,15 @@
                 <i :class="getStatusIcon(orderDetails.status)"></i>
                 {{ orderDetails.status }}
               </span>
+              <!-- Refund Button - Only show for delivered orders -->
+              <button
+                v-if="orderDetails.status === 'Delivered'"
+                @click="requestRefund"
+                class="refund-button"
+              >
+                <i class="fas fa-undo"></i>
+                Request Refund
+              </button>
             </div>
           </div>
         </div>
