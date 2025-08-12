@@ -61,10 +61,10 @@
               </div>
               <div class="item-details">
                 <h4 class="item-name">{{ item.name }}</h4>
-                <p class="item-variant">{{ item.variant }}</p>
+                <p class="item-brand">{{ item.brand }}</p>
                 <div class="item-meta">
                   <span class="item-quantity">Qty: {{ item.quantity }}</span>
-                  <span class="item-price">₹{{ item.price }}</span>
+                  <span class="item-price">₹{{ (item.price * item.quantity).toFixed(2) }}</span>
                 </div>
               </div>
             </div>
