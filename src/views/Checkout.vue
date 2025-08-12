@@ -966,6 +966,18 @@ export default {
     if (this.savedAddresses.length > 0) {
       this.selectedAddress = this.savedAddresses.find(addr => addr.isDefault) || this.savedAddresses[0];
     }
+
+    // Set default payment method for demo
+    if (!this.selectedPayment) {
+      this.selectedPayment = 'cod';
+      this.codConfirmed = true;
+    }
+
+    console.log('Checkout mounted:', {
+      selectedAddress: this.selectedAddress,
+      selectedPayment: this.selectedPayment,
+      currentStep: this.currentStep
+    });
   },
   
   methods: {
