@@ -207,30 +207,30 @@ export default {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  background: linear-gradient(135deg, #ec4899, #db2777);
   color: white;
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+  background: linear-gradient(135deg, #db2777, #be185d);
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(236, 72, 153, 0.3);
 }
 
 .btn-secondary {
   background: white;
-  color: var(--gray-700);
-  border: 2px solid var(--gray-300);
+  color: #374151;
+  border: 2px solid #d1d5db;
 }
 
 .btn-secondary:hover {
-  background: var(--gray-50);
-  border-color: var(--primary-400);
+  background: #f9fafb;
+  border-color: #f472b6;
   transform: translateY(-2px);
 }
 
 .special-offer {
-  background: linear-gradient(135deg, var(--warning-400), var(--warning-500));
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
   border-radius: 16px;
   padding: 1.5rem;
   color: white;
