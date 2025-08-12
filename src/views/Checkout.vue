@@ -2405,6 +2405,15 @@ export default {
   box-shadow: none !important;
 }
 
+.nav-btn.processing {
+  background: linear-gradient(135deg, var(--primary-400), var(--primary-500)) !important;
+  cursor: wait;
+}
+
+.nav-btn.processing:hover {
+  transform: none !important;
+}
+
 /* Order Summary */
 .order-summary {
   position: sticky;
