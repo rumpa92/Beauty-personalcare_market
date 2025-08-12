@@ -46,7 +46,7 @@
       </div>
       
       <button
-        @click="isInCart ? goToCart() : addToCart()"
+        @click="isInCart ? goToCart() : handleAddToCart()"
         :class="['add-to-cart-btn', { 'in-cart': isInCart }]"
         :disabled="isAddingToCart"
       >
