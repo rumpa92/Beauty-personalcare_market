@@ -413,8 +413,8 @@ export default {
       return checkoutData.paymentMethod || 'cod';
     },
 
-    getPaymentMethodName() {
-      const paymentMethod = this.getPaymentMethodFromCheckout();
+    getPaymentMethodName(paymentMethod = null) {
+      const method = paymentMethod || this.getPaymentMethodFromCheckout();
       const methodNames = {
         'card': 'Credit/Debit Card',
         'upi': 'UPI Payment',
@@ -422,7 +422,7 @@ export default {
         'netbanking': 'Net Banking',
         'cod': 'Cash on Delivery'
       };
-      return methodNames[paymentMethod] || 'Cash on Delivery';
+      return methodNames[method] || 'Cash on Delivery';
     }
   },
   
