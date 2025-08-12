@@ -260,6 +260,8 @@ export default {
       showModal: false,
       showSuccess: false,
       requestId: '',
+      refundReason: '',
+      refundComments: '',
       items: [
         {
           id: 1,
