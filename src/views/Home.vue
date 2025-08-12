@@ -1645,6 +1645,13 @@ export default {
   padding: 0 20px;
 }
 
+.recently-viewed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+}
+
 .recently-viewed-carousel {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
