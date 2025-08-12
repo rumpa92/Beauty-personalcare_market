@@ -1,7 +1,6 @@
 <template>
   <div id="app" :class="{ 'dark-theme': isDarkTheme }">
-    <!-- TopSearchBar temporarily disabled for debugging -->
-    <!-- <TopSearchBar
+    <TopSearchBar
       @location-detected="handleLocationDetected"
       @location-selected="handleLocationSelected"
       @search="handleSearch"
@@ -10,7 +9,7 @@
       @category-selected="handleCategorySelected"
       @routine-selected="handleRoutineSelected"
       @error="handleError"
-    /> -->
+    />
     <AppHeader />
     <main class="main-content">
       <router-view />
