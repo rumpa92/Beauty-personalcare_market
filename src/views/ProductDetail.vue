@@ -1601,7 +1601,7 @@ export default {
     },
     
     // Cart methods
-    async addToCart() {
+    async handleAddToCart() {
       if (!this.canAddToCart) return;
 
       this.isAddingToCart = true;
