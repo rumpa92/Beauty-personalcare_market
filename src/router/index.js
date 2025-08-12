@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
+import TestHome from '../views/TestHome.vue';
 import Products from '../views/Products.vue';
 import ProductDetail from '../views/ProductDetail.vue';
 import Cart from '../views/Cart.vue';
