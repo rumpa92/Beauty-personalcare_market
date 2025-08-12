@@ -385,7 +385,7 @@ export default {
       const left = Math.random() * 100;
       const animationDelay = Math.random() * 3;
       const color = colors[Math.floor(Math.random() * colors.length)];
-      
+
       return {
         width: `${size}px`,
         height: `${size}px`,
@@ -393,6 +393,24 @@ export default {
         backgroundColor: color,
         animationDelay: `${animationDelay}s`
       };
+    },
+
+    getPaymentMethodFromCheckout() {
+      // Check route query params or stored checkout data
+      const checkoutData = JSON.parse(localStorage.getItem('checkoutData') || '{}');
+      return checkoutData.paymentMethod || 'cod';
+    },
+
+    getPaymentMethodName() {
+      const paymentMethod = this.getPaymentMethodFromCheckout();
+      const methodNames = {
+        'card': 'Credit/Debit Card',
+        'upi': 'UPI Payment',
+        'wallet': 'Digital Wallet',
+        'netbanking': 'Net Banking',
+        'cod': 'Cash on Delivery'
+      };
+      return methodNames[paymentMethod] || 'Cash on Delivery';
     }
   },
   
