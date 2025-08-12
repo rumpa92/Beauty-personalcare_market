@@ -88,7 +88,7 @@ export default {
 <style scoped>
 .order-success-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--primary-100), var(--purple-100));
+  background: linear-gradient(135deg, #fce7f3, #f3e8ff);
   display: flex;
   align-items: center;
   justify-content: center;
