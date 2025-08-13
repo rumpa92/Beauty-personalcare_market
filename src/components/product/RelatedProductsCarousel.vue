@@ -171,60 +171,14 @@
     </div>
 
     <!-- Quick View Modal -->
-    <div v-if="showQuickViewModal" class="quick-view-modal-overlay" @click="closeQuickView">
-      <div class="quick-view-modal" @click.stop>
-        <button @click="closeQuickView" class="close-quick-view">
-          <i class="fas fa-times"></i>
-        </button>
-        
-        <div v-if="quickViewProduct" class="quick-view-content">
-          <div class="quick-view-image">
-            <img :src="quickViewProduct.image || quickViewProduct.images?.[0]" :alt="quickViewProduct.name" />
-          </div>
-          
-          <div class="quick-view-info">
-            <div class="quick-view-brand">{{ quickViewProduct.brand }}</div>
-            <h3 class="quick-view-name">{{ quickViewProduct.name }}</h3>
-            
-            <div v-if="quickViewProduct.rating" class="quick-view-rating">
-              <div class="stars">
-                <i 
-                  v-for="i in 5" 
-                  :key="i"
-                  class="star"
-                  :class="{ filled: i <= Math.floor(quickViewProduct.rating) }"
-                >★</i>
-              </div>
-              <span>({{ quickViewProduct.reviewCount || 0 }} reviews)</span>
-            </div>
-            
-            <div class="quick-view-price">
-              <span class="current-price">₹{{ formatPrice(quickViewProduct.price) }}</span>
-              <span 
-                v-if="quickViewProduct.originalPrice && quickViewProduct.originalPrice > quickViewProduct.price" 
-                class="original-price"
-              >
-                ₹{{ formatPrice(quickViewProduct.originalPrice) }}
-              </span>
-            </div>
-            
-            <p v-if="quickViewProduct.description" class="quick-view-description">
-              {{ quickViewProduct.description }}
-            </p>
-            
-            <div class="quick-view-actions">
-              <button @click="addToCart(quickViewProduct)" class="add-to-cart-btn">
-                <i class="fas fa-shopping-bag"></i>
-                Add to Cart
-              </button>
-              <button @click="viewFullProduct(quickViewProduct)" class="view-full-btn">
-                View Full Details
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <ProductQuickViewModal
+      :show="showQuickViewModal"
+      :product="quickViewProduct || {}"
+      @close="closeQuickView"
+      @added-to-cart="handleQuickViewAddToCart"
+      @wishlist-toggle="handleWishlistToggle"
+      @view-full-details="handleViewFullDetails"
+    />
 
     <!-- Success Toast -->
     <transition name="toast">
