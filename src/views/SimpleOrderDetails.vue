@@ -144,22 +144,13 @@
             ></textarea>
           </div>
 
-          <!-- Compact Info Banner -->
-          <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 16px;">💰</span>
-            <div>
-              <div style="font-size: 14px; color: #0369a1; font-weight: 600;">Refund: ₹2,499.00</div>
-              <div style="font-size: 12px; color: #0369a1;">Processed within 5-7 business days</div>
-            </div>
-          </div>
-
           <!-- Compact Buttons -->
           <div style="display: flex; gap: 12px;">
             <button @click="closeModal" style="flex: 1; padding: 12px; border: 2px solid #e5e7eb; background: #fff; color: #6b7280; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer;">
               Cancel
             </button>
             <button
-              @click="submitRefund"
+              @click="continueRefund"
               :disabled="!refundReason"
               :style="{
                 flex: '2',
@@ -177,7 +168,91 @@
                 gap: '6px'
               }"
             >
-              📋 Submit Request
+              Continue
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div v-if="showConfirmation" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px;" @click="closeConfirmation">
+      <div style="background: white; border-radius: 16px; width: 100%; max-width: 380px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2); animation: modalSlideIn 0.4s ease; position: relative;" @click.stop>
+
+        <!-- Confirmation Header -->
+        <div style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); padding: 20px 16px; border-radius: 16px 16px 0 0; text-align: center; color: white; position: relative; overflow: hidden;">
+          <div style="position: relative; z-index: 1;">
+            <div style="width: 48px; height: 48px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; backdrop-filter: blur(10px);">
+              <i class="fas fa-wallet" style="font-size: 20px;"></i>
+            </div>
+            <h2 style="font-size: 18px; font-weight: 700; margin: 0 0 6px 0;">Instant Store Wallet Refund</h2>
+            <p style="opacity: 0.9; margin: 0; font-size: 12px;">Fastest refund method with bonus credits</p>
+          </div>
+        </div>
+
+        <!-- Confirmation Content -->
+        <div style="padding: 20px 16px;">
+
+          <!-- Refund Amount Display -->
+          <div style="text-align: center; margin-bottom: 16px;">
+            <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 2px solid #22c55e; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+              <div style="font-size: 12px; color: #16a34a; font-weight: 600; margin-bottom: 4px;">TOTAL REFUND AMOUNT</div>
+              <div style="font-size: 24px; font-weight: 700; color: #15803d; margin-bottom: 6px;">₹{{ refundAmount }}</div>
+              <div style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: #22c55e; color: white; padding: 4px 10px; border-radius: 16px; font-size: 11px; font-weight: 600;">
+                <i class="fas fa-bolt" style="font-size: 9px;"></i>
+                <span>+5% BONUS CREDITS</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Confirmation Message -->
+          <div style="background: #f8fafc; border-radius: 8px; padding: 14px; margin-bottom: 16px; border-left: 3px solid #22c55e;">
+            <p style="margin: 0; line-height: 1.5; color: #374151; font-size: 13px;">
+              You will receive a total refund of <strong style="color: #15803d;">₹{{ refundAmount }}</strong>. Your refund will be credited instantly to your Store Wallet for faster future shopping. No waiting for bank approvals — shop again right away!
+            </p>
+          </div>
+
+          <!-- Benefits List -->
+          <div style="margin-bottom: 20px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <div style="width: 24px; height: 24px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <i class="fas fa-zap" style="color: white; font-size: 11px;"></i>
+              </div>
+              <div>
+                <div style="font-weight: 600; color: #1f2937; font-size: 12px;">Instant Credit</div>
+                <div style="color: #6b7280; font-size: 10px;">Money available immediately</div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <div style="width: 24px; height: 24px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <i class="fas fa-gift" style="color: white; font-size: 11px;"></i>
+              </div>
+              <div>
+                <div style="font-weight: 600; color: #1f2937; font-size: 12px;">5% Bonus Credits</div>
+                <div style="color: #6b7280; font-size: 10px;">Extra ₹{{ Math.round(parseFloat(refundAmount.replace(',', '')) * 0.05) }} bonus</div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 24px; height: 24px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <i class="fas fa-shopping-bag" style="color: white; font-size: 11px;"></i>
+              </div>
+              <div>
+                <div style="font-weight: 600; color: #1f2937; font-size: 12px;">Shop Immediately</div>
+                <div style="color: #6b7280; font-size: 10px;">Use credits for next purchase</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div style="display: flex; gap: 10px;">
+            <button @click="closeConfirmation" style="flex: 1; padding: 10px 14px; border: 2px solid #e5e7eb; background: white; color: #6b7280; border-radius: 8px; font-weight: 600; font-size: 12px; cursor: pointer; transition: all 0.2s ease;">
+              <i class="fas fa-arrow-left" style="margin-right: 4px; font-size: 10px;"></i>
+              Go Back
+            </button>
+            <button @click="submitRefund" style="flex: 2; padding: 10px 14px; background: linear-gradient(135deg, #22c55e, #16a34a); color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 12px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(34, 197, 94, 0.3);">
+              <i class="fas fa-check-circle" style="margin-right: 6px; font-size: 10px;"></i>
+              Submit Refund Request
             </button>
           </div>
 
@@ -187,38 +262,36 @@
 
     <!-- Success Modal -->
     <div v-if="showSuccess" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px;" @click="closeSuccess">
-      <div style="background: white; border-radius: 24px; width: 100%; max-width: 500px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3); text-align: center; padding: 48px 32px; animation: successSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);" @click.stop>
-
-        <!-- Success Icon -->
-        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #22c55e, #16a34a); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px auto; animation: successPulse 2s infinite;">
-          <span style="font-size: 36px; color: white;">✓</span>
-        </div>
+      <div style="background: white; border-radius: 24px; width: 100%; max-width: 500px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3); text-align: left; padding: 48px 32px; animation: successSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);" @click.stop>
 
         <!-- Success Message -->
-        <h2 style="font-size: 28px; font-weight: 700; color: #1f2937; margin: 0 0 16px 0;">Request Received!</h2>
+        <h2 style="font-size: 28px; font-weight: 700; color: #1f2937; margin: 0 0 16px 0; text-align: left;">Refund Successful!</h2>
         <p style="color: #6b7280; margin: 0 0 32px 0; line-height: 1.6; font-size: 16px;">
-          Your refund request has been received. You'll be notified once it's processed.
+          Your refund of <strong style="color: #15803d;">���{{ refundAmount }}</strong> has been added to your Store Wallet.
         </p>
 
-        <!-- Request Details -->
-        <div style="background: linear-gradient(135deg, #f8f4f6, #fef8f6); border-radius: 16px; padding: 24px; margin-bottom: 32px; text-align: left; border: 1px solid #f0e6e6;">
-          <h3 style="font-size: 16px; font-weight: 700; color: #1f2937; margin: 0 0 16px 0; text-align: center;">Request Details</h3>
+        <!-- Wallet Details -->
+        <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: 16px; padding: 24px; margin-bottom: 32px; text-align: left; border: 2px solid #22c55e;">
+          <h3 style="font-size: 16px; font-weight: 700; color: #15803d; margin: 0 0 16px 0; text-align: center;">💰 Store Wallet Updated</h3>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-            <div style="background: #fff; padding: 16px; border-radius: 12px; border: 1px solid #f0f0f0; text-align: center;">
-              <span style="font-size: 14px; color: #6b7280; font-weight: 500; display: block; margin-bottom: 4px;">Request ID</span>
-              <span style="color: #8b4e9f; font-weight: 700; font-size: 16px;">#{{ requestId }}</span>
+            <div style="background: #fff; padding: 16px; border-radius: 12px; border: 1px solid #22c55e; text-align: center;">
+              <span style="font-size: 14px; color: #6b7280; font-weight: 500; display: block; margin-bottom: 4px;">Refund Amount</span>
+              <span style="color: #15803d; font-weight: 700; font-size: 16px;">₹{{ refundAmount }}</span>
             </div>
-            <div style="background: #fff; padding: 16px; border-radius: 12px; border: 1px solid #f0f0f0; text-align: center;">
-              <span style="font-size: 14px; color: #6b7280; font-weight: 500; display: block; margin-bottom: 4px;">Processing Time</span>
-              <span style="color: #15803d; font-weight: 700; font-size: 16px;">5-7 days</span>
+            <div style="background: #fff; padding: 16px; border-radius: 12px; border: 1px solid #22c55e; text-align: center;">
+              <span style="font-size: 14px; color: #6b7280; font-weight: 500; display: block; margin-bottom: 4px;">Bonus Credits</span>
+              <span style="color: #f59e0b; font-weight: 700; font-size: 16px;">+₹{{ Math.round(parseFloat(refundAmount.replace(',', '')) * 0.05) }}</span>
             </div>
           </div>
         </div>
 
         <!-- Action Button -->
-        <button @click="closeSuccess" style="background: linear-gradient(135deg, #8b4e9f, #7c3aed); color: white; border: none; padding: 16px 40px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(139, 78, 159, 0.3);">
-          Continue Shopping
-        </button>
+        <div style="text-align: right;">
+          <button @click="goToHome" style="background: linear-gradient(135deg, #22c55e, #16a34a); color: white; border: none; padding: 16px 32px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);">
+            <i class="fas fa-shopping-bag" style="margin-right: 8px;"></i>
+            Continue Shopping
+          </button>
+        </div>
       </div>
     </div>
 
@@ -237,10 +310,12 @@ export default {
   data() {
     return {
       showModal: false,
+      showConfirmation: false,
       showSuccess: false,
       requestId: '',
       refundReason: '',
       refundComments: '',
+      refundAmount: '2,499.00',
       items: [
         {
           id: 1,
@@ -281,15 +356,26 @@ export default {
       this.refundReason = '';
       this.refundComments = '';
     },
+    closeConfirmation() {
+      this.showConfirmation = false;
+    },
     closeSuccess() {
       this.showSuccess = false;
       this.requestId = '';
     },
-    submitRefund() {
+    goToHome() {
+      this.showSuccess = false;
+      this.requestId = '';
+      this.$router.push('/');
+    },
+    continueRefund() {
       if (!this.refundReason) return;
-
-      this.requestId = 'REF' + Math.random().toString(36).substr(2, 6).toUpperCase();
       this.showModal = false;
+      this.showConfirmation = true;
+    },
+    submitRefund() {
+      this.requestId = 'REF' + Math.random().toString(36).substr(2, 6).toUpperCase();
+      this.showConfirmation = false;
       this.showSuccess = true;
 
       // Reset form

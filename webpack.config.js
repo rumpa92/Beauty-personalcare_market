@@ -66,8 +66,19 @@ module.exports = {
       logging: 'warn',
       overlay: {
         errors: true,
-        warnings: false
+        warnings: false,
+        runtimeErrors: false
+      },
+      progress: false,
+      reconnect: true
+    },
+    onListening: function(devServer) {
+      if (!devServer) {
+        throw new Error('webpack-dev-server is not defined');
       }
+
+      const port = devServer.server.address().port;
+      console.log('Dev server listening on port:', port);
     }
   }
 };

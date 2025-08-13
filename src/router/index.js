@@ -27,6 +27,11 @@ import RatingsReviews from '../views/RatingsReviews.vue';
 import SelectAddress from '../views/SelectAddress.vue';
 import EditAddress from '../views/EditAddress.vue';
 import AddAddress from '../views/AddAddress.vue';
+import Returns from '../views/Returns.vue';
+import RefundDemo from '../views/RefundDemo.vue';
+import CartDemo from '../views/CartDemo.vue';
+import ModernProductDetail from '../views/ModernProductDetail.vue';
+import ProductDemo from '../views/ProductDemo.vue';
 
 Vue.use(VueRouter);
 
@@ -111,6 +116,37 @@ const routes = [
     name: 'Orders',
     component: Orders,
     meta: { title: 'My Orders - Beauty Market' }
+  },
+  {
+    path: '/returns',
+    name: 'Returns',
+    component: Returns,
+    meta: { title: 'Returns & Refunds - Beauty Market' }
+  },
+  {
+    path: '/refund-demo',
+    name: 'RefundDemo',
+    component: RefundDemo,
+    meta: { title: 'Refund Demo - Beauty Market' }
+  },
+  {
+    path: '/cart-demo',
+    name: 'CartDemo',
+    component: CartDemo,
+    meta: { title: 'Cart Demo - Beauty Market' }
+  },
+  {
+    path: '/modern-product/:productId',
+    name: 'ModernProductDetail',
+    component: ModernProductDetail,
+    props: true,
+    meta: { title: 'Product Details - Beauty Market' }
+  },
+  {
+    path: '/product-demo',
+    name: 'ProductDemo',
+    component: ProductDemo,
+    meta: { title: 'Product Demo - Beauty Market' }
   },
   {
     path: '/checkout',

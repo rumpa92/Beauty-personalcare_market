@@ -69,9 +69,9 @@
               <router-link to="/cart" class="btn btn-secondary" @click="closeCart">
                 View Cart
               </router-link>
-              <button class="btn btn-primary checkout-btn">
+              <router-link to="/checkout" class="btn btn-primary checkout-btn" @click="closeCart">
                 Checkout
-              </button>
+              </router-link>
             </div>
           </div>
         </div>
