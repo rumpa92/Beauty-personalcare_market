@@ -53,6 +53,9 @@ export default {
     ...mapGetters('ui', ['theme']),
     isDarkTheme() {
       return this.theme === 'dark';
+    },
+    isHomePage() {
+      return this.$route.path === '/' || this.$route.name === 'Home';
     }
   },
   methods: {
