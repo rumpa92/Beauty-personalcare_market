@@ -135,6 +135,13 @@ const routes = [
     meta: { title: 'Cart Demo - Beauty Market' }
   },
   {
+    path: '/modern-product/:productId',
+    name: 'ModernProductDetail',
+    component: ModernProductDetail,
+    props: true,
+    meta: { title: 'Product Details - Beauty Market' }
+  },
+  {
     path: '/checkout',
     name: 'Checkout',
     component: Checkout,
