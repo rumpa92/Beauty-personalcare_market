@@ -578,6 +578,12 @@ export default {
   height: 600px;
   object-fit: cover;
   display: block;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.main-product-image:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease-in-out;
 }
 
 .image-controls {
