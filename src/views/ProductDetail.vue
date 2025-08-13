@@ -1014,15 +1014,6 @@ export default {
   border-color: #333;
 }
 
-.color-label {
-  color: white;
-  font-weight: 600;
-  font-size: 12px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-  text-align: center;
-  padding: 0 8px;
-  line-height: 1.2;
-}
 
 .size-options {
   display: flex;
