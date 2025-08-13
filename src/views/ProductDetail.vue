@@ -594,6 +594,7 @@ export default {
         'Berry Bliss': '#8B008B',
         'Nude Rose': '#E6B3B3',
         'Coral Dream': '#FF7F50',
+        'Midnight Blue': '#191970',
         'Red': '#DC2626',
         'Blue': '#2563EB',
         'Green': '#059669',
