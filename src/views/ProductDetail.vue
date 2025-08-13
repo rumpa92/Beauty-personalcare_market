@@ -223,6 +223,7 @@ export default {
       selectedColor: 'ruby-red',
       selectedSize: 'standard',
       quantity: 1,
+      imageChanging: false,
       
       // Sample matte lipstick collection data
       sampleProduct: {
