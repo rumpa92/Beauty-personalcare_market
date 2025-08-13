@@ -205,6 +205,14 @@
     </section>
   </div>
 
+  <!-- Rating & Review Modal -->
+  <RatingReviewModal
+    :is-visible="showRatingModal"
+    :product="modalProductData"
+    @close="closeRatingModal"
+    @review-submitted="handleReviewSubmitted"
+  />
+
   <!-- Product Not Found -->
   <div v-else-if="!loading" class="product-not-found">
     <div class="market-container">
