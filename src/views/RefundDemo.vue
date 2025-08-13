@@ -232,6 +232,10 @@ export default {
     closeSuccess() {
       this.showSuccess = false;
     },
+    goToHome() {
+      this.showSuccess = false;
+      this.$router.push('/');
+    },
     continueRefund() {
       if (!this.refundReason) return;
       this.showModal = false;
