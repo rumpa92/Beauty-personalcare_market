@@ -58,13 +58,14 @@
           <div class="selection-group">
             <label class="selection-label">Size:</label>
             <div class="size-options">
-              <button 
-                v-for="size in product.sizes" 
+              <button
+                v-for="size in product.sizes"
                 :key="size.id"
                 @click="selectSize(size)"
                 :class="['size-option', { active: selectedSize === size.id }]"
               >
-                {{ size.value }}
+                <span class="size-value">{{ size.value }}</span>
+                <span v-if="size.price" class="size-price">${{ formatPrice(size.price) }}</span>
               </button>
             </div>
           </div>
