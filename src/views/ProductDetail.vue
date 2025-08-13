@@ -6,7 +6,7 @@
         <!-- Product Image -->
         <div class="product-image-section">
           <div class="image-container">
-            <img :src="currentProductImage" :alt="product.name" class="main-product-image" />
+            <img :src="currentProductImage" :alt="product.name" :key="selectedColor" class="main-product-image" />
             <div class="image-controls">
               <button class="control-btn prev">
                 <i class="fas fa-chevron-left"></i>
