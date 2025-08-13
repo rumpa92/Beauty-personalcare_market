@@ -235,6 +235,9 @@ import RatingReviewModal from '@/components/product/RatingReviewModal.vue';
 
 export default {
   name: 'ProductDetail',
+  components: {
+    RatingReviewModal
+  },
   data() {
     return {
       loading: true,
