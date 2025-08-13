@@ -429,8 +429,16 @@ export default {
     async loadProduct() {
       this.loading = true;
       try {
-        // Use sample product for demo
-        this.product = this.sampleProduct;
+        // Get product from store by ID
+        let product = this.productById(this.productId);
+
+        if (product) {
+          // Enhance the store product with additional data needed for the UI
+          this.product = this.enhanceProductData(product);
+        } else {
+          // Fallback to sample product if ID not found
+          this.product = this.sampleProduct;
+        }
       } catch (error) {
         console.error('Error loading product:', error);
         this.product = null;
