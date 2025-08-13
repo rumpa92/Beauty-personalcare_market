@@ -343,33 +343,33 @@ export default {
     },
 
     lipstickColorVariants() {
-      // Return different beauty products instead of color variants
+      // Return products related to Matte Lipstick Collection
       return [
         {
-          id: 'beauty-product-1',
-          name: 'Lip Gloss Collection',
-          price: 18.99,
+          id: 'matte-lipstick-1',
+          name: 'Matte Liquid Lipstick',
+          price: 22.99,
           image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&h=600&fit=crop',
           isWishlisted: false
         },
         {
-          id: 'beauty-product-2',
-          name: 'Foundation Set',
-          price: 32.99,
+          id: 'matte-lipstick-2',
+          name: 'Matte Lip Liner Set',
+          price: 19.99,
           image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&h=600&fit=crop',
           isWishlisted: false
         },
         {
-          id: 'beauty-product-3',
-          name: 'Eye Shadow Palette',
-          price: 28.99,
+          id: 'matte-lipstick-3',
+          name: 'Matte Lip Balm',
+          price: 15.99,
           image: 'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=600&h=600&fit=crop',
           isWishlisted: false
         },
         {
-          id: 'beauty-product-4',
-          name: 'Bronzer Kit',
-          price: 26.99,
+          id: 'matte-lipstick-4',
+          name: 'Matte Lip Primer',
+          price: 16.99,
           image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&h=600&fit=crop',
           isWishlisted: false
         }
