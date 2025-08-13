@@ -312,43 +312,6 @@ export default {
         { stars: 1, percentage: 3 }
       ],
 
-      relatedProducts: [
-        {
-          id: 2,
-          name: 'Silk Blend Maxi Dress',
-          price: 189,
-          image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300&h=400&fit=crop',
-          isWishlisted: true
-        },
-        {
-          id: 3,
-          name: 'Anarkali Dress',
-          price: 249,
-          image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&h=400&fit=crop',
-          isWishlisted: false
-        },
-        {
-          id: 4,
-          name: 'Shirt',
-          price: 295,
-          image: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=300&h=400&fit=crop',
-          isWishlisted: false
-        },
-        {
-          id: 5,
-          name: 'Churidar',
-          price: 85,
-          image: 'https://images.unsplash.com/photo-1583391733956-6c78276477e5?w=300&h=400&fit=crop',
-          isWishlisted: false
-        },
-        {
-          id: 6,
-          name: 'Cashmere Sweater',
-          price: 205,
-          image: 'https://images.unsplash.com/photo-1576871337622-98d48d1cf531?w=300&h=400&fit=crop',
-          isWishlisted: true
-        }
-      ]
     };
   },
   
