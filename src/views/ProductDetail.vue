@@ -596,15 +596,25 @@ export default {
     },
     
     openRatingModal() {
-      // Open rating and review modal
+      this.showRatingModal = true;
+      console.log('Opening rating modal for product:', this.product.name);
+    },
+
+    closeRatingModal() {
+      this.showRatingModal = false;
+    },
+
+    handleReviewSubmitted(review) {
+      console.log('Review submitted:', review);
+
+      // Show success notification
       this.$store.dispatch('ui/showNotification', {
-        type: 'info',
-        message: 'Rating & Review feature coming soon!'
+        type: 'success',
+        message: 'Thank you for your review! It will be visible after verification.'
       });
 
-      // TODO: Implement rating modal
-      // You could create a modal component for ratings and reviews
-      console.log('Opening rating modal for product:', this.product.name);
+      // Close modal
+      this.showRatingModal = false;
     },
     
     showAllReviews() {
