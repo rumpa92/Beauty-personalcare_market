@@ -318,11 +318,33 @@ export default {
       return color ? color.name : 'Ruby Red';
     },
 
-    currentProductImage() {
+    productImages() {
+      // Create multiple views of the selected color lipstick
       if (this.product?.images && typeof this.product.images === 'object') {
-        return this.product.images[this.selectedColor] || Object.values(this.product.images)[0];
+        const selectedImage = this.product.images[this.selectedColor];
+        if (selectedImage) {
+          // Generate different angles/views for the same product color
+          return [
+            selectedImage, // Main view
+            selectedImage + '&angle=45', // Angled view (simulated)
+            selectedImage + '&zoom=1.2', // Zoomed view (simulated)
+            selectedImage + '&angle=-45', // Another angle (simulated)
+            selectedImage + '&top=true' // Top view (simulated)
+          ];
+        }
       }
-      return this.product?.images?.[0] || 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&h=600&fit=crop';
+      // Fallback to default images
+      return [
+        'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&h=600&fit=crop',
+        'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&h=600&fit=crop&angle=45',
+        'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&h=600&fit=crop&zoom=1.2',
+        'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&h=600&fit=crop&angle=-45',
+        'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&h=600&fit=crop&top=true'
+      ];
+    },
+
+    currentProductImage() {
+      return this.productImages[this.currentImageIndex] || this.productImages[0];
     },
 
     lipstickColorVariants() {
