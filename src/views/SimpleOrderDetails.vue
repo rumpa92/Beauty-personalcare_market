@@ -195,26 +195,26 @@
         <div style="padding: 20px 16px;">
 
           <!-- Refund Amount Display -->
-          <div style="text-align: center; margin-bottom: 24px;">
-            <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 2px solid #22c55e; border-radius: 16px; padding: 20px; margin-bottom: 20px;">
-              <div style="font-size: 14px; color: #16a34a; font-weight: 600; margin-bottom: 4px;">TOTAL REFUND AMOUNT</div>
-              <div style="font-size: 32px; font-weight: 700; color: #15803d; margin-bottom: 8px;">₹{{ refundAmount }}</div>
-              <div style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #22c55e; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">
-                <i class="fas fa-bolt" style="font-size: 10px;"></i>
+          <div style="text-align: center; margin-bottom: 16px;">
+            <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 2px solid #22c55e; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+              <div style="font-size: 12px; color: #16a34a; font-weight: 600; margin-bottom: 4px;">TOTAL REFUND AMOUNT</div>
+              <div style="font-size: 24px; font-weight: 700; color: #15803d; margin-bottom: 6px;">₹{{ refundAmount }}</div>
+              <div style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: #22c55e; color: white; padding: 4px 10px; border-radius: 16px; font-size: 11px; font-weight: 600;">
+                <i class="fas fa-bolt" style="font-size: 9px;"></i>
                 <span>+5% BONUS CREDITS</span>
               </div>
             </div>
           </div>
 
           <!-- Confirmation Message -->
-          <div style="background: #f8fafc; border-radius: 12px; padding: 20px; margin-bottom: 24px; border-left: 4px solid #22c55e;">
-            <p style="margin: 0; line-height: 1.6; color: #374151; font-size: 15px;">
+          <div style="background: #f8fafc; border-radius: 8px; padding: 14px; margin-bottom: 16px; border-left: 3px solid #22c55e;">
+            <p style="margin: 0; line-height: 1.5; color: #374151; font-size: 13px;">
               You will receive a total refund of <strong style="color: #15803d;">₹{{ refundAmount }}</strong>. Your refund will be credited instantly to your Store Wallet for faster future shopping. No waiting for bank approvals — shop again right away!
             </p>
           </div>
 
           <!-- Benefits List -->
-          <div style="margin-bottom: 32px;">
+          <div style="margin-bottom: 20px;">
             <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
               <div style="width: 32px; height: 32px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                 <i class="fas fa-zap" style="color: white; font-size: 14px;"></i>
