@@ -1,6 +1,7 @@
 <template>
   <div id="app" :class="{ 'dark-theme': isDarkTheme }">
     <TopSearchBar
+      v-if="isHomePage"
       @location-detected="handleLocationDetected"
       @location-selected="handleLocationSelected"
       @search="handleSearch"
