@@ -1,12 +1,5 @@
 <template>
   <div class="product-detail-page" v-if="product">
-    <!-- Purple Header -->
-    <div class="purple-header">
-      <div class="header-container">
-        <h1 class="category-title">Clothes & Fashion</h1>
-      </div>
-    </div>
-
     <!-- Main Product Section -->
     <div class="main-product-container">
       <div class="product-content">
@@ -119,91 +112,45 @@
       </div>
     </div>
 
-    <!-- How to use product -->
+    <!-- Product details section -->
     <section class="product-details-section">
       <div class="details-container">
-        <h2 class="section-title">How to use product</h2>
-        
         <!-- Tab Navigation -->
         <div class="tab-navigation">
-          <button 
+          <button
             @click="activeTab = 'details'"
             :class="['tab-btn', { active: activeTab === 'details' }]"
           >
-            Details
+            Description
           </button>
-          <button 
+          <button
             @click="activeTab = 'care'"
             :class="['tab-btn', { active: activeTab === 'care' }]"
           >
-            Care Instruction
+            Additional Information
+          </button>
+          <button
+            @click="activeTab = 'review'"
+            :class="['tab-btn', { active: activeTab === 'review' }]"
+          >
+            Review
           </button>
         </div>
 
         <!-- Tab Content -->
         <div class="tab-content">
           <div v-if="activeTab === 'details'" class="tab-panel">
-            <p class="product-description">{{ product.description }}</p>
-            <ul class="product-features">
-              <li v-for="feature in product.features" :key="feature">{{ feature }}</li>
-            </ul>
+            <p class="product-description">Experience bold, long-lasting color with our Matte Lipstick Collection designed for all-day wear without drying your lips. Each shade glides on smoothly, delivering rich pigmentation and a soft, velvety finish. From everyday nudes to statement reds, this collection has the perfect color for every mood and occasion. Lightweight, transfer-resistant, and infused with nourishing ingredients to keep your lips comfortable and beautiful all day.</p>
           </div>
           <div v-if="activeTab === 'care'" class="tab-panel">
             <ul class="care-instructions">
               <li v-for="instruction in product.careInstructions" :key="instruction">{{ instruction }}</li>
             </ul>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Customer Reviews -->
-    <section class="reviews-section">
-      <div class="reviews-container">
-        <h2 class="section-title">Customer Reviews</h2>
-        
-        <div class="reviews-header">
-          <div class="overall-rating">
-            <div class="rating-score">{{ product.rating }}</div>
-            <div class="rating-stars">
-              <i v-for="i in 5" :key="i" 
-                 :class="['fas fa-star', { filled: i <= Math.floor(product.rating) }]"></i>
-            </div>
-            <div class="rating-text">Based on {{ product.reviewCount }} reviews</div>
-          </div>
-          
-          <div class="rating-breakdown">
-            <div v-for="(rating, index) in ratingBreakdown" :key="index" class="rating-bar">
-              <span class="bar-label">{{ 5 - index }} stars</span>
-              <div class="bar-container">
-                <div class="bar-fill" :style="{ width: rating.percentage + '%' }"></div>
-              </div>
-              <span class="bar-percentage">{{ rating.percentage }}%</span>
-            </div>
+          <div v-if="activeTab === 'review'" class="tab-panel">
+            <p class="product-description">Customer reviews will be displayed here.</p>
           </div>
         </div>
-
-        <!-- Individual Reviews -->
-        <div class="reviews-list">
-          <div v-for="review in productReviews.slice(0, 3)" :key="review.id" class="review-item">
-            <div class="review-header">
-              <div class="reviewer-avatar">
-                <img :src="review.userAvatar" :alt="review.userName" />
-              </div>
-              <div class="reviewer-info">
-                <div class="reviewer-name">{{ review.userName }}</div>
-                <div class="review-rating">
-                  <i v-for="i in 5" :key="i" 
-                     :class="['fas fa-star', { filled: i <= review.rating }]"></i>
-                </div>
-                <div class="review-title">{{ review.title }}</div>
-              </div>
-            </div>
-            <p class="review-text">{{ review.text }}</p>
-          </div>
-        </div>
-
-        <button @click="showAllReviews" class="see-all-btn">See All</button>
       </div>
     </section>
 
@@ -559,7 +506,8 @@ export default {
 /* Main Product Section */
 .main-product-container {
   background: white;
-  padding: 40px 0;
+  margin-top: 8px;
+  padding: 26px 0 40px;
 }
 
 .product-content {
@@ -908,6 +856,7 @@ export default {
   background: white;
   padding: 60px 0;
   border-top: 1px solid #eee;
+  margin-bottom: -4px;
 }
 
 .details-container {
@@ -952,7 +901,7 @@ export default {
 }
 
 .tab-content {
-  min-height: 200px;
+  min-height: 0px;
 }
 
 .tab-panel {
@@ -1165,11 +1114,12 @@ export default {
 .related-products-section {
   background: white;
   padding: 60px 0;
+  margin-top: -5px;
 }
 
 .related-container {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 5px auto 0;
   padding: 0 20px;
 }
 
