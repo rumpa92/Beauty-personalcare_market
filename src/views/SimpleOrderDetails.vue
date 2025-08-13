@@ -274,15 +274,21 @@ export default {
       this.refundReason = '';
       this.refundComments = '';
     },
+    closeConfirmation() {
+      this.showConfirmation = false;
+    },
     closeSuccess() {
       this.showSuccess = false;
       this.requestId = '';
     },
-    submitRefund() {
+    continueRefund() {
       if (!this.refundReason) return;
-
-      this.requestId = 'REF' + Math.random().toString(36).substr(2, 6).toUpperCase();
       this.showModal = false;
+      this.showConfirmation = true;
+    },
+    submitRefund() {
+      this.requestId = 'REF' + Math.random().toString(36).substr(2, 6).toUpperCase();
+      this.showConfirmation = false;
       this.showSuccess = true;
 
       // Reset form
