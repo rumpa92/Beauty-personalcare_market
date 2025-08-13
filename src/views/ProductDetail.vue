@@ -439,7 +439,28 @@ export default {
         this.loading = false;
       }
     },
-    
+
+    // Image gallery navigation methods
+    selectImage(index) {
+      this.currentImageIndex = index;
+    },
+
+    nextImage() {
+      if (this.currentImageIndex < this.productImages.length - 1) {
+        this.currentImageIndex++;
+      } else {
+        this.currentImageIndex = 0; // Loop back to first image
+      }
+    },
+
+    previousImage() {
+      if (this.currentImageIndex > 0) {
+        this.currentImageIndex--;
+      } else {
+        this.currentImageIndex = this.productImages.length - 1; // Loop to last image
+      }
+    },
+
     selectColor(color) {
       console.log('Selecting color:', color.name, 'ID:', color.id);
 
