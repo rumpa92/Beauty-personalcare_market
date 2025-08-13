@@ -223,6 +223,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import RatingReviewModal from '@/components/product/RatingReviewModal.vue';
 
 export default {
   name: 'ProductDetail',
