@@ -410,6 +410,17 @@ export default {
         }));
     },
 
+    modalProductData() {
+      if (!this.product) return {};
+
+      return {
+        id: this.product.id,
+        name: this.product.name,
+        image: this.currentProductImage,
+        price: this.product.price
+      };
+    },
+
     productReviews() {
       return [
         {
