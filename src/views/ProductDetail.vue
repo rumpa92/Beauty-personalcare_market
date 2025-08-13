@@ -612,12 +612,15 @@ export default {
     
     async loadProduct() {
       this.loading = true;
-      
+
       try {
         // Try to get from store first
         let product = this.productById(this.productId);
-        
-        if (!product) {
+
+        if (product) {
+          // Enhance store product with additional data
+          product = this.enhanceStoreProduct(product);
+        } else {
           // For demo purposes, use sample product
           if (this.productId === '1') {
             product = this.sampleProduct;
@@ -626,16 +629,16 @@ export default {
             throw new Error('Product not found');
           }
         }
-        
+
         this.product = product;
         this.setCurrentProduct(product);
-        
+
         // Add to recently viewed
         this.addToRecentlyViewed(product.id);
-        
+
         // Update page title
         document.title = `${product.name} | Beauty Store`;
-        
+
       } catch (error) {
         console.error('Error loading product:', error);
         this.product = null;
@@ -725,6 +728,75 @@ export default {
     
     formatPrice(price) {
       return new Intl.NumberFormat('en-IN').format(price);
+    },
+
+    enhanceStoreProduct(product) {
+      // Enhance store products with additional data needed for detailed view
+      const enhanced = {
+        ...product,
+        images: product.images || [product.image, product.image, product.image],
+        sizes: product.sizes || [
+          { id: 'small', value: '30ml', price: Math.round(product.price * 0.7), stock: 15 },
+          { id: 'medium', value: '50ml', price: product.price, stock: 25, popular: true },
+          { id: 'large', value: '100ml', price: Math.round(product.price * 1.4), stock: 10 }
+        ],
+        colors: product.colors ? product.colors.map((color, index) => ({
+          id: `color-${index}`,
+          name: color,
+          hex: this.getColorHex(color),
+          stock: 20
+        })) : null,
+        howToUse: product.howToUse || [
+          {
+            title: 'Apply',
+            description: `Apply ${product.name.toLowerCase()} as directed.`,
+            icon: 'fas fa-hand-paper'
+          },
+          {
+            title: 'Massage',
+            description: 'Gently massage into skin until absorbed.',
+            icon: 'fas fa-spa'
+          }
+        ],
+        ingredients: product.ingredients ? product.ingredients.map(ing => ({
+          name: ing,
+          benefit: 'Provides beneficial properties for skin health',
+          icon: 'fas fa-leaf'
+        })) : [],
+        quickRef: {
+          frequency: 'Daily',
+          timing: 'Morning & Evening',
+          duration: '2-3 minutes',
+          results: 'In 2-4 weeks'
+        },
+        dosDonts: {
+          dos: [
+            'Use consistently for best results',
+            'Apply to clean skin',
+            'Store in cool, dry place'
+          ],
+          donts: [
+            'Don\'t use if allergic to ingredients',
+            'Don\'t apply to broken skin',
+            'Don\'t use past expiration date'
+          ]
+        }
+      };
+
+      return enhanced;
+    },
+
+    getColorHex(colorName) {
+      const colorMap = {
+        'Ruby Red': '#DC143C',
+        'Berry Bliss': '#8B008B',
+        'Nude Rose': '#E6B3B3',
+        'Coral Dream': '#FF7F50',
+        'Clear': '#f8f9fa',
+        'Amber': '#ffc107',
+        'Cobalt': '#0056b3'
+      };
+      return colorMap[colorName] || '#ec4899';
     }
   },
   
