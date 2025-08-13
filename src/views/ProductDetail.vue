@@ -460,18 +460,25 @@ export default {
       // Convert store product data to the format expected by the UI
       return {
         ...storeProduct,
-        images: [storeProduct.image, storeProduct.image], // Use main image
+        images: storeProduct.images || {
+          'ruby-red': storeProduct.image || 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&h=600&fit=crop',
+          'berry-bliss': 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&h=600&fit=crop',
+          'nude-rose': 'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=600&h=600&fit=crop',
+          'coral-dream': 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&h=600&fit=crop'
+        },
         colors: storeProduct.colors ? storeProduct.colors.map((color, index) => ({
           id: color.toLowerCase().replace(/\s+/g, '-'),
           name: color,
           hex: this.getColorHex(color)
         })) : [
-          { id: 'red', name: 'Red', hex: '#DC2626' },
-          { id: 'blue', name: 'Blue', hex: '#2563EB' },
-          { id: 'green', name: 'Green', hex: '#059669' }
+          { id: 'ruby-red', name: 'Ruby Red', hex: '#DC143C' },
+          { id: 'berry-bliss', name: 'Berry Bliss', hex: '#8B008B' },
+          { id: 'nude-rose', name: 'Nude Rose', hex: '#E6B3B3' },
+          { id: 'coral-dream', name: 'Coral Dream', hex: '#FF7F50' }
         ],
         sizes: storeProduct.sizes || [
-          { id: 'xs', value: 'XS' },
+          { id: 'mini', value: '1.5ml', price: 12.99 },
+          { id: 'standard', value: '3.5ml', price: 24.99 },
           { id: 's', value: 'S' },
           { id: 'm', value: 'M' },
           { id: 'l', value: 'L' }
@@ -967,7 +974,7 @@ export default {
 
 .product-features li::before,
 .care-instructions li::before {
-  content: '•';
+  content: '���';
   position: absolute;
   left: 0;
   color: #663399;
