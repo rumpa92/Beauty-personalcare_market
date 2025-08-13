@@ -25,6 +25,9 @@
           </div>
         </div>
         <router-link to="/products" class="nav-link">All Products</router-link>
+        <router-link to="/navigation-demo" class="nav-link" style="color: #22c55e; font-weight: 600;">
+          ✅ Demo
+        </router-link>
       </nav>
 
       <!-- Brand/Logo Text -->
