@@ -245,13 +245,13 @@
           </div>
 
           <!-- Action Buttons -->
-          <div style="display: flex; gap: 12px;">
-            <button @click="closeConfirmation" style="flex: 1; padding: 14px 20px; border: 2px solid #e5e7eb; background: white; color: #6b7280; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s ease;">
-              <i class="fas fa-arrow-left" style="margin-right: 6px;"></i>
+          <div style="display: flex; gap: 10px;">
+            <button @click="closeConfirmation" style="flex: 1; padding: 10px 14px; border: 2px solid #e5e7eb; background: white; color: #6b7280; border-radius: 8px; font-weight: 600; font-size: 12px; cursor: pointer; transition: all 0.2s ease;">
+              <i class="fas fa-arrow-left" style="margin-right: 4px; font-size: 10px;"></i>
               Go Back
             </button>
-            <button @click="submitRefund" style="flex: 2; padding: 14px 20px; background: linear-gradient(135deg, #22c55e, #16a34a); color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);">
-              <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
+            <button @click="submitRefund" style="flex: 2; padding: 10px 14px; background: linear-gradient(135deg, #22c55e, #16a34a); color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 12px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(34, 197, 94, 0.3);">
+              <i class="fas fa-check-circle" style="margin-right: 6px; font-size: 10px;"></i>
               Submit Refund Request
             </button>
           </div>
