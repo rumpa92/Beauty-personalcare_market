@@ -979,14 +979,18 @@ export default {
 }
 
 .color-option {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
+  width: 120px;
+  height: 50px;
+  border-radius: 25px;
   border: 3px solid transparent;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .color-option:hover {
@@ -996,7 +1000,7 @@ export default {
 
 .color-option.active {
   border-color: #333;
-  transform: scale(1.15);
+  transform: scale(1.05);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
@@ -1005,12 +1009,22 @@ export default {
   position: absolute;
   inset: -6px;
   border: 2px solid transparent;
-  border-radius: 50%;
+  border-radius: 31px;
   transition: border-color 0.3s ease;
 }
 
 .color-option.active::after {
   border-color: #333;
+}
+
+.color-label {
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  text-align: center;
+  padding: 0 8px;
+  line-height: 1.2;
 }
 
 .size-options {
