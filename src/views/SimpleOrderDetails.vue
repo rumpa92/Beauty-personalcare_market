@@ -150,7 +150,7 @@
               Cancel
             </button>
             <button
-              @click="submitRefund"
+              @click="continueRefund"
               :disabled="!refundReason"
               :style="{
                 flex: '2',
