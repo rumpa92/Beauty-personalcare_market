@@ -354,22 +354,43 @@ export default {
   
   computed: {
     ...mapGetters('products', ['productById', 'allProducts']),
-    
+
     productId() {
-      return this.$route.params.id;
+      return parseInt(this.$route.params.id);
     },
-    
+
     currentPrice() {
       return this.product?.price || 0;
     },
-    
+
     originalPrice() {
       return this.product?.originalPrice;
     },
-    
+
     selectedColorName() {
       const color = this.product?.colors?.find(c => c.id === this.selectedColor);
       return color ? color.name : 'Red';
+    },
+
+    // Get beauty & personal care products for "You May Also Like"
+    relatedProducts() {
+      if (!this.product) return [];
+
+      // Filter beauty and personal care products (excluding current product)
+      const beautyCategories = ['skincare', 'makeup', 'haircare', 'fragrance', 'tools'];
+      return this.allProducts
+        .filter(p =>
+          p.id !== this.product.id &&
+          beautyCategories.includes(p.category)
+        )
+        .slice(0, 5)
+        .map(product => ({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          isWishlisted: false // You can connect this to wishlist state later
+        }));
     },
 
     productReviews() {
