@@ -491,6 +491,60 @@ export default {
       this.$router.push(`/product/${product.id}`);
     },
 
+    selectColorVariant(colorVariant) {
+      // Update the selected color to match the clicked variant
+      this.selectedColor = colorVariant.colorId;
+
+      // Update price if sizes have different prices
+      if (this.product?.sizes) {
+        const selectedSize = this.product.sizes.find(s => s.id === this.selectedSize);
+        if (selectedSize && selectedSize.price) {
+          this.product.price = selectedSize.price;
+        }
+      }
+
+      // Show notification
+      this.$store.dispatch('ui/showNotification', {
+        type: 'info',
+        message: `Selected ${colorVariant.colorName} shade`
+      });
+    },
+
+    async addColorVariantToCart(colorVariant) {
+      // If this is the currently selected color, use the existing addToCart method
+      if (colorVariant.colorId === this.selectedColor) {
+        await this.addToCart();
+        return;
+      }
+
+      // Otherwise, add the specific color variant to cart
+      try {
+        const cartItem = {
+          id: colorVariant.id,
+          name: colorVariant.name,
+          price: colorVariant.price,
+          image: colorVariant.image,
+          color: colorVariant.colorName,
+          size: this.product.sizes.find(s => s.id === this.selectedSize)?.value || 'Standard',
+          quantity: 1,
+          selectedColor: colorVariant.colorId,
+          selectedSize: this.selectedSize
+        };
+
+        await this.$store.dispatch('cart/addToCart', cartItem);
+
+        this.$store.dispatch('ui/showNotification', {
+          type: 'success',
+          message: `${colorVariant.name} (${colorVariant.colorName}) added to cart!`
+        });
+      } catch (error) {
+        this.$store.dispatch('ui/showNotification', {
+          type: 'error',
+          message: 'Failed to add item to cart'
+        });
+      }
+    },
+
     enhanceProductData(storeProduct) {
       // Convert store product data to the format expected by the UI
       return {
