@@ -1,5 +1,6 @@
 <template>
-  <div class="product-detail-page" v-if="product">
+  <div class="product-detail-wrapper">
+    <div class="product-detail-page" v-if="product">
     <!-- Main Product Section -->
     <div class="main-product-container">
       <div class="product-content">
@@ -203,29 +204,30 @@
         </div>
       </div>
     </section>
-  </div>
+    </div>
 
-  <!-- Rating & Review Modal -->
-  <RatingReviewModal
-    :is-visible="showRatingModal"
-    :product="modalProductData"
-    @close="closeRatingModal"
-    @review-submitted="handleReviewSubmitted"
-  />
-
-  <!-- Product Not Found -->
-  <div v-else-if="!loading" class="product-not-found">
-    <div class="market-container">
-      <div class="not-found-content">
-        <i class="fas fa-search not-found-icon"></i>
-        <h2>Product Not Found</h2>
-        <p>The product you're looking for doesn't exist or has been removed.</p>
-        <router-link to="/" class="back-home-btn">
-          <i class="fas fa-arrow-left"></i>
-          Back to Home
-        </router-link>
+    <!-- Product Not Found -->
+    <div v-else-if="!loading" class="product-not-found">
+      <div class="market-container">
+        <div class="not-found-content">
+          <i class="fas fa-search not-found-icon"></i>
+          <h2>Product Not Found</h2>
+          <p>The product you're looking for doesn't exist or has been removed.</p>
+          <router-link to="/" class="back-home-btn">
+            <i class="fas fa-arrow-left"></i>
+            Back to Home
+          </router-link>
+        </div>
       </div>
     </div>
+
+    <!-- Rating & Review Modal -->
+    <RatingReviewModal
+      :is-visible="showRatingModal"
+      :product="modalProductData"
+      @close="closeRatingModal"
+      @review-submitted="handleReviewSubmitted"
+    />
   </div>
 </template>
 
