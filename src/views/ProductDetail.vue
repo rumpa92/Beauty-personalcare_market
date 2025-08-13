@@ -56,6 +56,7 @@
 
           <!-- Size Selection -->
           <div class="selection-group">
+            <label class="selection-label">Size:</label>
             <div class="size-options">
               <button 
                 v-for="size in product.sizes" 
