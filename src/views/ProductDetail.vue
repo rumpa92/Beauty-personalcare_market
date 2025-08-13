@@ -556,7 +556,7 @@ export default {
           'berry-bliss': 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&h=600&fit=crop',
           'nude-rose': 'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=600&h=600&fit=crop',
           'coral-dream': 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&h=600&fit=crop',
-          'midnight-blue': 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=600&fit=crop'
+          'midnight-blue': 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=600&h=600&fit=crop'
         },
         colors: storeProduct.colors ? storeProduct.colors.map((color, index) => ({
           id: color.toLowerCase().replace(/\s+/g, '-'),
