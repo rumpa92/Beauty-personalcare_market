@@ -1178,6 +1178,18 @@ export default {
   transform: scale(1.1);
 }
 
+.color-indicator {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 5;
+}
+
 .wishlist-btn {
   position: absolute;
   top: 12px;
