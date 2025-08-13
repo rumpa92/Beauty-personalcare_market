@@ -1125,11 +1125,41 @@ export default {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
   position: relative;
+  cursor: pointer;
 }
 
 .product-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Lipstick Variant Specific Styles */
+.lipstick-variant {
+  border: 3px solid transparent;
+}
+
+.lipstick-variant:hover {
+  border-color: rgba(102, 51, 153, 0.3);
+}
+
+.lipstick-variant.selected-variant {
+  border-color: #663399;
+  box-shadow: 0 8px 30px rgba(102, 51, 153, 0.25);
+  transform: translateY(-4px);
+}
+
+.lipstick-variant.selected-variant::after {
+  content: '✓ Selected';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #663399;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  z-index: 10;
 }
 
 .product-image {
