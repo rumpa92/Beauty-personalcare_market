@@ -1,111 +1,12 @@
 <template>
-  <transition name="modal">
-    <div v-if="isOpen" class="modal-overlay" @click="closeModal">
-      <div class="modal-content" @click.stop>
-        <button class="modal-close" @click="closeModal">
-          <i class="fas fa-times"></i>
-        </button>
-        
-        <div v-if="product" class="product-quick-view">
-          <div class="product-image-section">
-            <div class="product-image">
-              <img :src="product.image" :alt="product.name">
-              <div v-if="product.onSale" class="sale-badge">Sale</div>
-            </div>
-          </div>
-          
-          <div class="product-info-section">
-            <div class="product-header">
-              <h2 class="product-name">{{ product.name }}</h2>
-              <p class="product-brand">{{ product.brand }}</p>
-              
-              <div class="product-rating">
-                <div class="stars">
-                  <i 
-                    v-for="star in 5" 
-                    :key="star"
-                    class="fas fa-star"
-                    :class="{ active: star <= product.rating }"
-                  ></i>
-                </div>
-                <span class="rating-text">({{ product.reviewCount }} reviews)</span>
-              </div>
-            </div>
-            
-            <div class="product-pricing">
-              <div class="current-price">${{ product.price.toFixed(2) }}</div>
-              <div v-if="product.originalPrice" class="original-price">
-                ${{ product.originalPrice.toFixed(2) }}
-              </div>
-            </div>
-            
-            <div class="product-description">
-              <p>{{ product.description }}</p>
-            </div>
-            
-            <div v-if="product.benefits" class="product-benefits">
-              <h4>Key Benefits:</h4>
-              <ul>
-                <li v-for="benefit in product.benefits.slice(0, 3)" :key="benefit">
-                  {{ benefit }}
-                </li>
-              </ul>
-            </div>
-            
-            <div class="product-actions">
-              <div class="quantity-selector">
-                <label for="quantity">Quantity:</label>
-                <div class="quantity-controls">
-                  <button @click="decreaseQuantity" class="qty-btn">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <input 
-                    id="quantity"
-                    type="number" 
-                    v-model.number="quantity" 
-                    min="1" 
-                    max="10"
-                    class="quantity-input"
-                  >
-                  <button @click="increaseQuantity" class="qty-btn">
-                    <i class="fas fa-plus"></i>
-                  </button>
-                </div>
-              </div>
-              
-              <div class="action-buttons">
-                <button
-                  @click="handleAddToCart"
-                  class="btn btn-primary add-to-cart-btn"
-                  :disabled="isAddingToCart"
-                >
-                  <i class="fas fa-shopping-bag"></i>
-                  {{ isAddingToCart ? 'Adding...' : 'Add to Cart' }}
-                </button>
-                
-                <button 
-                  @click="toggleWishlist" 
-                  class="btn btn-outline wishlist-btn"
-                  :class="{ active: isInWishlist }"
-                >
-                  <i class="fas fa-heart"></i>
-                  {{ isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist' }}
-                </button>
-              </div>
-              
-              <router-link 
-                :to="`/product/${product.id}`" 
-                class="btn btn-secondary full-details-btn"
-                @click="closeModal"
-              >
-                View Full Details
-              </router-link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </transition>
+  <ProductQuickViewModal
+    :show="isOpen"
+    :product="product || {}"
+    @close="handleClose"
+    @added-to-cart="handleAddedToCart"
+    @wishlist-toggle="handleWishlistToggle"
+    @view-full-details="handleViewFullDetails"
+  />
 </template>
 
 <script>
