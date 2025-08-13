@@ -684,12 +684,40 @@ export default {
   height: 600px;
   object-fit: cover;
   display: block;
-  transition: opacity 0.3s ease-in-out;
+  transition: all 0.4s ease-in-out;
+  border-radius: 8px;
 }
 
 .main-product-image:hover {
   transform: scale(1.02);
-  transition: transform 0.3s ease-in-out;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Add a subtle loading animation when image changes */
+.image-container {
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.image-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.image-container.changing::before {
+  left: 100%;
 }
 
 .image-controls {
