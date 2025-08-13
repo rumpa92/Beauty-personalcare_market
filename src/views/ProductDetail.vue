@@ -55,21 +55,6 @@
             </span>
           </div>
 
-          <!-- Color Selection -->
-          <div class="selection-group">
-            <label class="selection-label">Selected Color: <span class="selected-value">{{ selectedColorName }}</span></label>
-            <div class="color-options">
-              <button 
-                v-for="color in product.colors" 
-                :key="color.id"
-                @click="selectColor(color)"
-                :class="['color-option', { active: selectedColor === color.id }]"
-                :style="{ backgroundColor: color.hex }"
-                :title="color.name"
-              ></button>
-            </div>
-          </div>
-
           <!-- Size Selection -->
           <div class="selection-group">
             <label class="selection-label">Size:</label>
