@@ -1225,8 +1225,16 @@ export default {
   font-size: 16px;
   font-weight: 600;
   color: #333;
-  margin: 0 0 8px 0;
+  margin: 0 0 6px 0;
   line-height: 1.4;
+}
+
+.color-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 8px;
+  font-style: italic;
 }
 
 .product-price {
@@ -1252,6 +1260,17 @@ export default {
   background: #663399;
   color: white;
   border-color: #663399;
+}
+
+.product-card .add-to-cart-btn.selected-color {
+  background: #663399;
+  color: white;
+  border-color: #663399;
+}
+
+.product-card .add-to-cart-btn.selected-color:hover {
+  background: #552288;
+  border-color: #552288;
 }
 
 /* Product Not Found */
