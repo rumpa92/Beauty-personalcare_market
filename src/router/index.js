@@ -164,6 +164,12 @@ const routes = [
     meta: { title: 'Test Product Navigation - Beauty Market' }
   },
   {
+    path: '/navigation-demo',
+    name: 'ProductNavigationDemo',
+    component: ProductNavigationDemo,
+    meta: { title: 'Product Navigation Demo - Beauty Market' }
+  },
+  {
     path: '/checkout',
     name: 'Checkout',
     component: Checkout,
