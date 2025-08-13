@@ -738,9 +738,9 @@ export default {
         ...product,
         images: product.images || [product.image, product.image, product.image],
         sizes: product.sizes || [
-          { id: 'small', value: '30ml', price: Math.round(product.price * 0.7), stock: 15 },
-          { id: 'medium', value: '50ml', price: product.price, stock: 25, popular: true },
-          { id: 'large', value: '100ml', price: Math.round(product.price * 1.4), stock: 10 }
+          { id: 'small', value: '30ml', price: Math.round((product.price < 100 ? product.price * 83 : product.price) * 0.7), stock: 15 },
+          { id: 'medium', value: '50ml', price: Math.round(product.price < 100 ? product.price * 83 : product.price), stock: 25, popular: true },
+          { id: 'large', value: '100ml', price: Math.round((product.price < 100 ? product.price * 83 : product.price) * 1.4), stock: 10 }
         ],
         colors: product.colors ? product.colors.map((color, index) => ({
           id: `color-${index}`,
