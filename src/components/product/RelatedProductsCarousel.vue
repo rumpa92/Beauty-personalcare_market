@@ -191,8 +191,13 @@
 </template>
 
 <script>
+import ProductQuickViewModal from './ProductQuickViewModal.vue';
+
 export default {
   name: 'RelatedProductsCarousel',
+  components: {
+    ProductQuickViewModal
+  },
   props: {
     products: {
       type: Array,
