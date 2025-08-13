@@ -8,12 +8,28 @@
           <div class="image-container" :class="{ changing: imageChanging }">
             <img :src="currentProductImage" :alt="product.name" :key="selectedColor" class="main-product-image" />
             <div class="image-controls">
-              <button class="control-btn prev">
+              <button class="control-btn prev" @click="previousImage">
                 <i class="fas fa-chevron-left"></i>
               </button>
-              <button class="control-btn next">
+              <button class="control-btn next" @click="nextImage">
                 <i class="fas fa-chevron-right"></i>
               </button>
+            </div>
+            <div class="image-counter">
+              {{ currentImageIndex + 1 }}/{{ productImages.length }}
+            </div>
+          </div>
+
+          <!-- Thumbnail Gallery -->
+          <div class="thumbnail-gallery">
+            <div
+              v-for="(image, index) in productImages"
+              :key="index"
+              class="thumbnail-item"
+              :class="{ active: currentImageIndex === index }"
+              @click="selectImage(index)"
+            >
+              <img :src="image" :alt="`${product.name} view ${index + 1}`" />
             </div>
           </div>
         </div>
