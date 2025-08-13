@@ -1,329 +1,233 @@
 <template>
   <div class="product-detail-page" v-if="product">
-    <!-- Breadcrumb Navigation -->
-    <div class="breadcrumb-container">
-      <div class="market-container">
-        <nav class="breadcrumb">
-          <router-link to="/" class="breadcrumb-item">Home</router-link>
-          <i class="fas fa-chevron-right"></i>
-          <router-link :to="`/category/${product.category}`" class="breadcrumb-item">
-            {{ getCategoryName(product.category) }}
-          </router-link>
-          <i class="fas fa-chevron-right"></i>
-          <span class="breadcrumb-item current">{{ product.name }}</span>
-        </nav>
+    <!-- Purple Header -->
+    <div class="purple-header">
+      <div class="header-container">
+        <h1 class="category-title">Clothes & Fashion</h1>
       </div>
     </div>
 
     <!-- Main Product Section -->
-    <section class="product-hero">
-      <div class="market-container">
-        <div class="product-layout">
-          <!-- Left: Image Carousel -->
-          <div class="product-images">
-            <ProductImageCarousel
-              :images="product.images"
-              :product-name="product.name"
-              :product-brand="product.brand"
-            />
+    <div class="main-product-container">
+      <div class="product-content">
+        <!-- Product Image -->
+        <div class="product-image-section">
+          <div class="image-container">
+            <img :src="product.images[0]" :alt="product.name" class="main-product-image" />
+            <div class="image-controls">
+              <button class="control-btn prev">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button class="control-btn next">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Information -->
+        <div class="product-info-section">
+          <h1 class="product-name">{{ product.name }}</h1>
+          
+          <!-- Rating -->
+          <div class="rating-section">
+            <div class="stars">
+              <i v-for="i in 5" :key="i" 
+                 :class="['fas fa-star', { filled: i <= Math.floor(product.rating) }]"></i>
+            </div>
+            <span class="review-count">({{ product.reviewCount }} Reviews)</span>
           </div>
 
-          <!-- Right: Product Information -->
-          <div class="product-info">
-            <!-- Product Header -->
-            <div class="product-header">
-              <div class="brand-name">{{ product.brand }}</div>
-              <h1 class="product-title">{{ product.name }}</h1>
-              
-              <!-- Rating and Reviews -->
-              <div class="rating-section">
-                <div class="rating-display">
-                  <div class="stars">
-                    <i 
-                      v-for="i in 5" 
-                      :key="i"
-                      class="star"
-                      :class="{ filled: i <= Math.floor(product.rating) }"
-                    >★</i>
-                  </div>
-                  <span class="rating-text">{{ product.rating }} ({{ product.reviewCount }} reviews)</span>
-                </div>
-                <button @click="scrollToReviews" class="view-reviews-btn">
-                  View All Reviews
-                </button>
-              </div>
-            </div>
+          <!-- Price -->
+          <div class="price-section">
+            <span class="current-price">${{ formatPrice(currentPrice) }}</span>
+            <span v-if="originalPrice && originalPrice > currentPrice" class="original-price">
+              ${{ formatPrice(originalPrice) }}
+            </span>
+          </div>
 
-            <!-- Price Section -->
-            <div class="price-section">
-              <div class="price-display">
-                <span class="current-price">₹{{ formatPrice(currentPrice) }}</span>
-                <span v-if="originalPrice && originalPrice > currentPrice" class="original-price">
-                  ₹{{ formatPrice(originalPrice) }}
-                </span>
-                <span v-if="discountPercentage" class="discount-badge">
-                  {{ discountPercentage }}% OFF
-                </span>
-              </div>
-              <div v-if="product.paymentOptions" class="payment-options">
-                <span class="emi-text">or pay ₹{{ formatPrice(Math.ceil(currentPrice / 12)) }}/month</span>
-              </div>
+          <!-- Color Selection -->
+          <div class="selection-group">
+            <label class="selection-label">Selected Color: <span class="selected-value">{{ selectedColorName }}</span></label>
+            <div class="color-options">
+              <button 
+                v-for="color in product.colors" 
+                :key="color.id"
+                @click="selectColor(color)"
+                :class="['color-option', { active: selectedColor === color.id }]"
+                :style="{ backgroundColor: color.hex }"
+                :title="color.name"
+              ></button>
             </div>
+          </div>
 
-            <!-- Product Description -->
-            <div class="description-section">
-              <p class="product-description">{{ product.description }}</p>
+          <!-- Size Selection -->
+          <div class="selection-group">
+            <div class="size-options">
+              <button 
+                v-for="size in product.sizes" 
+                :key="size.id"
+                @click="selectSize(size)"
+                :class="['size-option', { active: selectedSize === size.id }]"
+              >
+                {{ size.value }}
+              </button>
             </div>
+          </div>
 
-            <!-- Key Benefits -->
-            <div v-if="product.benefits" class="benefits-section">
-              <h4 class="benefits-title">Key Benefits</h4>
-              <div class="benefits-list">
-                <div v-for="benefit in product.benefits" :key="benefit" class="benefit-item">
-                  <i class="fas fa-check-circle"></i>
-                  <span>{{ benefit }}</span>
-                </div>
-              </div>
+          <!-- Quantity -->
+          <div class="quantity-section">
+            <label class="quantity-label">Quantity</label>
+            <div class="quantity-controls">
+              <button @click="decreaseQuantity" class="quantity-btn">-</button>
+              <span class="quantity-value">{{ quantity }}</span>
+              <button @click="increaseQuantity" class="quantity-btn">+</button>
+              <button @click="removeItem" class="remove-btn">
+                <i class="fas fa-trash"></i>
+              </button>
             </div>
+          </div>
 
-            <!-- Variant Selection -->
-            <div class="variants-section">
-              <VariantSelector
-                :sizes="product.sizes"
-                :colors="product.colors"
-                :bundles="product.bundles"
-                :default-size="defaultSize"
-                :default-color="defaultColor"
-                @variant-change="handleVariantChange"
-                @size-selected="handleSizeSelected"
-                @color-selected="handleColorSelected"
-              />
-            </div>
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <button @click="addToCart" class="add-to-cart-btn">Add to Cart</button>
+            <button @click="openRatingModal" class="rating-review-btn">Rating & Review</button>
+          </div>
 
-            <!-- Add to Cart Section -->
-            <div class="add-to-cart-section">
-              <AddToCartButton
-                :product="product"
-                :selected-variant="selectedVariant"
-                :available-stock="availableStock"
-                :max-quantity="maxQuantity"
-                @added-to-cart="handleAddedToCart"
-                @show-cart-confirmation="showCartConfirmation"
-              />
-            </div>
-
-            <!-- Trust Indicators -->
-            <div class="trust-indicators">
-              <div class="trust-item">
-                <i class="fas fa-shield-alt"></i>
-                <div class="trust-content">
-                  <div class="trust-title">Authenticity Guaranteed</div>
-                  <div class="trust-subtitle">100% genuine products</div>
-                </div>
-              </div>
-              <div class="trust-item">
+          <!-- Delivery Info -->
+          <div class="delivery-info">
+            <div class="delivery-item">
+              <div class="delivery-icon">
                 <i class="fas fa-truck"></i>
-                <div class="trust-content">
-                  <div class="trust-title">Free Shipping</div>
-                  <div class="trust-subtitle">On orders above ₹499</div>
-                </div>
               </div>
-              <div class="trust-item">
+              <div class="delivery-text">
+                <div class="delivery-title">Free Standard Delivery</div>
+                <div class="delivery-subtitle">Estimated delivery: 3-5 business days</div>
+              </div>
+            </div>
+            <div class="delivery-item">
+              <div class="delivery-icon">
                 <i class="fas fa-undo"></i>
-                <div class="trust-content">
-                  <div class="trust-title">Easy Returns</div>
-                  <div class="trust-subtitle">7-day return policy</div>
-                </div>
+              </div>
+              <div class="delivery-text">
+                <div class="delivery-title">Free Returns</div>
+                <div class="delivery-subtitle">30-day return policy for unworn items</div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- Product Details Tabs -->
+    <!-- How to use product -->
     <section class="product-details-section">
-      <div class="market-container">
-        <div class="details-container">
-          <!-- Tab Navigation -->
-          <div class="tabs-navigation">
-            <button 
-              v-for="tab in detailTabs" 
-              :key="tab.id"
-              class="tab-btn"
-              :class="{ active: activeTab === tab.id }"
-              @click="setActiveTab(tab.id)"
-            >
-              <i :class="tab.icon"></i>
-              {{ tab.title }}
-            </button>
+      <div class="details-container">
+        <h2 class="section-title">How to use product</h2>
+        
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+          <button 
+            @click="activeTab = 'details'"
+            :class="['tab-btn', { active: activeTab === 'details' }]"
+          >
+            Details
+          </button>
+          <button 
+            @click="activeTab = 'care'"
+            :class="['tab-btn', { active: activeTab === 'care' }]"
+          >
+            Care Instruction
+          </button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+          <div v-if="activeTab === 'details'" class="tab-panel">
+            <p class="product-description">{{ product.description }}</p>
+            <ul class="product-features">
+              <li v-for="feature in product.features" :key="feature">{{ feature }}</li>
+            </ul>
           </div>
-
-          <!-- Tab Content -->
-          <div class="tab-content">
-            <!-- How to Use Tab -->
-            <div v-if="activeTab === 'how-to-use'" class="tab-panel">
-              <HowToUseSection
-                :usage-steps="product.howToUse"
-                :quick-ref="product.quickRef"
-                :routine-suggestions="product.routineSuggestions"
-                :dos-donts="product.dosDonts"
-                :faqs="product.faqs"
-                :video-tutorial="product.videoTutorial"
-              />
-            </div>
-
-            <!-- Ingredients Tab -->
-            <div v-if="activeTab === 'ingredients'" class="tab-panel">
-              <div class="ingredients-content">
-                <h3 class="ingredients-title">Key Ingredients</h3>
-                <div class="ingredients-grid">
-                  <div 
-                    v-for="ingredient in product.ingredients" 
-                    :key="ingredient.name" 
-                    class="ingredient-card"
-                  >
-                    <div class="ingredient-icon">
-                      <i :class="ingredient.icon || 'fas fa-leaf'"></i>
-                    </div>
-                    <div class="ingredient-info">
-                      <h4 class="ingredient-name">{{ ingredient.name }}</h4>
-                      <p class="ingredient-benefit">{{ ingredient.benefit }}</p>
-                      <div v-if="ingredient.concentration" class="ingredient-concentration">
-                        {{ ingredient.concentration }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Reviews Tab -->
-            <div v-if="activeTab === 'reviews'" class="tab-panel">
-              <RatingsReviews
-                :product-id="product.id"
-                :brand-name="product.brand"
-                :reviews="productReviews"
-                @review-submitted="handleReviewSubmitted"
-              />
-            </div>
-
-            <!-- Shipping & Returns Tab -->
-            <div v-if="activeTab === 'shipping'" class="tab-panel">
-              <div class="shipping-content">
-                <h3>Shipping & Returns</h3>
-                
-                <div class="shipping-info-grid">
-                  <div class="shipping-card">
-                    <i class="fas fa-shipping-fast"></i>
-                    <h4>Standard Shipping</h4>
-                    <p>3-5 business days</p>
-                    <span class="shipping-price">Free on orders ₹499+</span>
-                  </div>
-                  
-                  <div class="shipping-card">
-                    <i class="fas fa-bolt"></i>
-                    <h4>Express Shipping</h4>
-                    <p>1-2 business days</p>
-                    <span class="shipping-price">₹99</span>
-                  </div>
-                  
-                  <div class="shipping-card">
-                    <i class="fas fa-clock"></i>
-                    <h4>Same Day</h4>
-                    <p>Order by 2 PM</p>
-                    <span class="shipping-price">₹199</span>
-                  </div>
-                </div>
-
-                <div class="returns-info">
-                  <h4>Return Policy</h4>
-                  <ul>
-                    <li>7-day return window from delivery date</li>
-                    <li>Items must be unopened and in original packaging</li>
-                    <li>Free return pickup available</li>
-                    <li>Refund processed within 5-7 business days</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+          <div v-if="activeTab === 'care'" class="tab-panel">
+            <ul class="care-instructions">
+              <li v-for="instruction in product.careInstructions" :key="instruction">{{ instruction }}</li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Related Products -->
+    <!-- Customer Reviews -->
+    <section class="reviews-section">
+      <div class="reviews-container">
+        <h2 class="section-title">Customer Reviews</h2>
+        
+        <div class="reviews-header">
+          <div class="overall-rating">
+            <div class="rating-score">{{ product.rating }}</div>
+            <div class="rating-stars">
+              <i v-for="i in 5" :key="i" 
+                 :class="['fas fa-star', { filled: i <= Math.floor(product.rating) }]"></i>
+            </div>
+            <div class="rating-text">Based on {{ product.reviewCount }} reviews</div>
+          </div>
+          
+          <div class="rating-breakdown">
+            <div v-for="(rating, index) in ratingBreakdown" :key="index" class="rating-bar">
+              <span class="bar-label">{{ 5 - index }} stars</span>
+              <div class="bar-container">
+                <div class="bar-fill" :style="{ width: rating.percentage + '%' }"></div>
+              </div>
+              <span class="bar-percentage">{{ rating.percentage }}%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Individual Reviews -->
+        <div class="reviews-list">
+          <div v-for="review in productReviews.slice(0, 3)" :key="review.id" class="review-item">
+            <div class="review-header">
+              <div class="reviewer-avatar">
+                <img :src="review.userAvatar" :alt="review.userName" />
+              </div>
+              <div class="reviewer-info">
+                <div class="reviewer-name">{{ review.userName }}</div>
+                <div class="review-rating">
+                  <i v-for="i in 5" :key="i" 
+                     :class="['fas fa-star', { filled: i <= review.rating }]"></i>
+                </div>
+                <div class="review-title">{{ review.title }}</div>
+              </div>
+            </div>
+            <p class="review-text">{{ review.text }}</p>
+          </div>
+        </div>
+
+        <button @click="showAllReviews" class="see-all-btn">See All</button>
+      </div>
+    </section>
+
+    <!-- You May Also Like -->
     <section class="related-products-section">
-      <div class="market-container">
-        <RelatedProductsCarousel
-          :products="relatedProducts"
-          section-title="You may also like"
-          section-subtitle="Complete your beauty routine with these complementary products"
-          @product-click="handleRelatedProductClick"
-          @add-to-cart="handleRelatedAddToCart"
-        />
-      </div>
-    </section>
-
-    <!-- Recently Viewed -->
-    <section v-if="recentlyViewed.length > 0" class="recently-viewed-section">
-      <div class="market-container">
-        <RelatedProductsCarousel
-          :products="recentlyViewed"
-          section-title="Recently Viewed"
-          section-subtitle="Products you've looked at recently"
-          :show-arrows="true"
-          @product-click="handleRelatedProductClick"
-        />
-      </div>
-    </section>
-
-    <!-- Cart Confirmation Modal -->
-    <div v-if="showCartModal" class="cart-modal-overlay" @click="closeCartModal">
-      <div class="cart-modal" @click.stop>
-        <div class="modal-header">
-          <i class="fas fa-check-circle success-icon"></i>
-          <h3>Added to Cart!</h3>
-          <button @click="closeCartModal" class="close-modal">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-        
-        <div class="modal-content">
-          <div class="added-product">
-            <img :src="product.images[0]" :alt="product.name" class="added-product-image" />
-            <div class="added-product-info">
-              <div class="added-product-name">{{ product.name }}</div>
-              <div class="added-product-details">
-                Quantity: {{ cartModalData.quantity }}
-                <span v-if="cartModalData.variant">
-                  • {{ cartModalData.variant.size?.value || '' }}
-                  {{ cartModalData.variant.color?.name || '' }}
-                </span>
-              </div>
+      <div class="related-container">
+        <h2 class="section-title">You May Also Like</h2>
+        <div class="products-grid">
+          <div v-for="product in relatedProducts.slice(0, 5)" :key="product.id" class="product-card">
+            <div class="product-image">
+              <img :src="product.image" :alt="product.name" />
+              <button class="wishlist-btn" :class="{ active: product.isWishlisted }">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+            <div class="product-info">
+              <h3 class="product-name">{{ product.name }}</h3>
+              <div class="product-price">${{ product.price }}</div>
+              <button @click="addRelatedToCart(product)" class="add-to-cart-btn">Add to cart</button>
             </div>
           </div>
         </div>
-        
-        <div class="modal-actions">
-          <button @click="continueShopping" class="continue-btn">
-            Continue Shopping
-          </button>
-          <button @click="goToCart" class="view-cart-btn">
-            <i class="fas fa-shopping-cart"></i>
-            View Cart
-          </button>
-        </div>
       </div>
-    </div>
-
-    <!-- Loading Overlay -->
-    <div v-if="loading" class="loading-overlay">
-      <div class="loading-spinner">
-        <i class="fas fa-spinner fa-spin"></i>
-        <span>Loading product details...</span>
-      </div>
-    </div>
+    </section>
   </div>
 
   <!-- Product Not Found -->
@@ -344,301 +248,168 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import ProductImageCarousel from '@/components/product/ProductImageCarousel.vue';
-import VariantSelector from '@/components/product/VariantSelector.vue';
-import AddToCartButton from '@/components/product/AddToCartButton.vue';
-import HowToUseSection from '@/components/product/HowToUseSection.vue';
-import RatingsReviews from '@/components/product/RatingsReviews.vue';
-import RelatedProductsCarousel from '@/components/product/RelatedProductsCarousel.vue';
 
 export default {
   name: 'ProductDetail',
-  components: {
-    ProductImageCarousel,
-    VariantSelector,
-    AddToCartButton,
-    HowToUseSection,
-    RatingsReviews,
-    RelatedProductsCarousel
-  },
   data() {
     return {
       loading: true,
       product: null,
-      activeTab: 'how-to-use',
-      selectedVariant: {
-        size: null,
-        color: null,
-        bundle: null
-      },
-      showCartModal: false,
-      cartModalData: {},
+      activeTab: 'details',
+      selectedColor: 'red',
+      selectedSize: 's',
+      quantity: 1,
       
-      // Sample product data - in real app this would come from API
+      // Sample fashion product data
       sampleProduct: {
         id: 1,
-        name: 'Hydrating Vitamin C Face Serum',
-        brand: 'GlowLux Premium',
-        price: 1299,
-        originalPrice: 1599,
-        category: 'skincare',
-        rating: 4.6,
-        reviewCount: 324,
-        description: 'A powerful vitamin C serum that brightens, hydrates, and protects your skin. Formulated with 20% vitamin C, hyaluronic acid, and natural botanicals for a radiant, youthful glow.',
+        name: 'Silk Blend Maxi Dress',
+        brand: 'Fashion Brand',
+        price: 299.00,
+        originalPrice: 399.00,
+        category: 'fashion',
+        rating: 4.5,
+        reviewCount: 238,
+        description: 'A stunning silk blend maxi dress perfect for any special occasion. Features a flattering A-line silhouette and elegant drape.',
         images: [
-          'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=600&fit=crop',
-          'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=600&h=600&fit=crop',
-          'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=600&h=600&fit=crop',
-          'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&h=600&fit=crop'
-        ],
-        sizes: [
-          { id: 'small', value: '15ml', price: 699, originalPrice: 899, stock: 10 },
-          { id: 'medium', value: '30ml', price: 1299, originalPrice: 1599, stock: 25, popular: true },
-          { id: 'large', value: '50ml', price: 1899, originalPrice: 2299, stock: 15 }
+          'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&h=800&fit=crop',
+          'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=600&h=800&fit=crop'
         ],
         colors: [
-          { id: 'clear', name: 'Clear', hex: '#f8f9fa', stock: 20 },
-          { id: 'amber', name: 'Amber', hex: '#ffc107', stock: 15 },
-          { id: 'cobalt', name: 'Cobalt', hex: '#0056b3', stock: 8 }
+          { id: 'red', name: 'Red', hex: '#DC2626' },
+          { id: 'orange', name: 'Orange', hex: '#EA580C' },
+          { id: 'blue', name: 'Blue', hex: '#2563EB' },
+          { id: 'green', name: 'Green', hex: '#059669' },
+          { id: 'purple', name: 'Purple', hex: '#7C3AED' }
         ],
-        bundles: [
-          {
-            id: 'serum-moisturizer',
-            title: 'Serum + Moisturizer',
-            description: 'Complete hydration routine',
-            price: 2199,
-            originalPrice: 2699,
-            discount: 18
-          }
+        sizes: [
+          { id: 'xxs', value: 'XXS' },
+          { id: 'xs', value: 'XS' },
+          { id: 's', value: 'S' },
+          { id: 'm', value: 'M' },
+          { id: 'l', value: 'L' }
         ],
-        benefits: [
-          '20% Vitamin C for brightening',
-          'Hyaluronic acid for deep hydration',
-          'Non-comedogenic formula',
-          'Dermatologically tested',
-          'Suitable for all skin types'
+        features: [
+          '95% Silk, 5% Elastane',
+          'Side slit detail',
+          'Adjustable straps',
+          'Back zipper closure',
+          'Made in Italy'
         ],
-        howToUse: [
-          {
-            title: 'Cleanse',
-            description: 'Start with clean, dry skin. Use your regular cleanser and pat dry.',
-            icon: 'fas fa-soap',
-            duration: '1-2 minutes',
-            tips: ['Use lukewarm water', 'Pat dry, don\'t rub']
-          },
-          {
-            title: 'Apply Serum',
-            description: 'Apply 2-3 drops to face and neck. Gently pat and press into skin.',
-            icon: 'fas fa-tint',
-            duration: '30 seconds',
-            tips: ['Start with less product', 'Focus on problem areas']
-          },
-          {
-            title: 'Moisturize',
-            description: 'Follow with your favorite moisturizer to lock in hydration.',
-            icon: 'fas fa-snowflake',
-            duration: '1 minute'
-          },
-          {
-            title: 'Sun Protection',
-            description: 'Always use SPF 30+ during the day when using vitamin C products.',
-            icon: 'fas fa-sun',
-            warning: 'Essential step to prevent sensitivity'
-          }
-        ],
-        ingredients: [
-          { 
-            name: 'Vitamin C (L-Ascorbic Acid)', 
-            benefit: 'Brightens skin and fights free radicals',
-            concentration: '20%',
-            icon: 'fas fa-lemon'
-          },
-          { 
-            name: 'Hyaluronic Acid', 
-            benefit: 'Deeply hydrates and plumps skin',
-            concentration: '2%',
-            icon: 'fas fa-tint'
-          },
-          { 
-            name: 'Vitamin E', 
-            benefit: 'Antioxidant protection and nourishment',
-            concentration: '1%',
-            icon: 'fas fa-shield-alt'
-          }
-        ],
-        quickRef: {
-          frequency: 'Daily (Morning)',
-          timing: 'Morning routine',
-          duration: '2-3 minutes',
-          results: 'In 2-4 weeks'
-        },
-        dosDonts: {
-          dos: [
-            'Start with a patch test',
-            'Use sunscreen during the day',
-            'Store in a cool, dark place',
-            'Use consistently for best results'
-          ],
-          donts: [
-            'Don\'t use with retinol in the same routine',
-            'Don\'t apply to wet skin',
-            'Don\'t use if pregnant without consulting doctor',
-            'Don\'t use more than recommended amount'
-          ]
-        },
-        paymentOptions: true
+        careInstructions: [
+          'Dry clean only',
+          'Do not bleach',
+          'Iron on low heat',
+          'Store hanging'
+        ]
       },
-      
-      detailTabs: [
-        { id: 'how-to-use', title: 'How to Use', icon: 'fas fa-info-circle' },
-        { id: 'ingredients', title: 'Ingredients', icon: 'fas fa-leaf' },
-        { id: 'reviews', title: 'Reviews', icon: 'fas fa-star' },
-        { id: 'shipping', title: 'Shipping & Returns', icon: 'fas fa-truck' }
+
+      ratingBreakdown: [
+        { stars: 5, percentage: 60 },
+        { stars: 4, percentage: 20 },
+        { stars: 3, percentage: 10 },
+        { stars: 2, percentage: 7 },
+        { stars: 1, percentage: 3 }
+      ],
+
+      relatedProducts: [
+        {
+          id: 2,
+          name: 'Silk Blend Maxi Dress',
+          price: 189,
+          image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300&h=400&fit=crop',
+          isWishlisted: true
+        },
+        {
+          id: 3,
+          name: 'Anarkali Dress',
+          price: 249,
+          image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&h=400&fit=crop',
+          isWishlisted: false
+        },
+        {
+          id: 4,
+          name: 'Shirt',
+          price: 295,
+          image: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=300&h=400&fit=crop',
+          isWishlisted: false
+        },
+        {
+          id: 5,
+          name: 'Churidar',
+          price: 85,
+          image: 'https://images.unsplash.com/photo-1583391733956-6c78276477e5?w=300&h=400&fit=crop',
+          isWishlisted: false
+        },
+        {
+          id: 6,
+          name: 'Cashmere Sweater',
+          price: 205,
+          image: 'https://images.unsplash.com/photo-1576871337622-98d48d1cf531?w=300&h=400&fit=crop',
+          isWishlisted: true
+        }
       ]
     };
   },
+  
   computed: {
-    ...mapGetters('products', ['productById', 'allProducts', 'categories']),
-    ...mapGetters('cart', ['cartItems']),
+    ...mapGetters('products', ['productById', 'allProducts']),
     
     productId() {
       return this.$route.params.id;
     },
     
     currentPrice() {
-      if (this.selectedVariant.size) {
-        return this.selectedVariant.size.price;
-      }
       return this.product?.price || 0;
     },
     
     originalPrice() {
-      if (this.selectedVariant.size) {
-        return this.selectedVariant.size.originalPrice;
-      }
       return this.product?.originalPrice;
     },
     
-    discountPercentage() {
-      if (this.originalPrice && this.originalPrice > this.currentPrice) {
-        return Math.round(((this.originalPrice - this.currentPrice) / this.originalPrice) * 100);
-      }
-      return null;
+    selectedColorName() {
+      const color = this.product?.colors?.find(c => c.id === this.selectedColor);
+      return color ? color.name : 'Red';
     },
-    
-    availableStock() {
-      if (this.selectedVariant.size) {
-        return this.selectedVariant.size.stock;
-      }
-      return this.product?.stock || 50;
-    },
-    
-    maxQuantity() {
-      return Math.min(this.availableStock, 10);
-    },
-    
-    defaultSize() {
-      if (this.product?.sizes && this.product.sizes.length > 0) {
-        // Find popular size or middle option
-        const popularSize = this.product.sizes.find(size => size.popular);
-        if (popularSize) return popularSize.id;
-        
-        const middleIndex = Math.floor(this.product.sizes.length / 2);
-        return this.product.sizes[middleIndex].id;
-      }
-      return null;
-    },
-    
-    defaultColor() {
-      if (this.product?.colors && this.product.colors.length > 0) {
-        return this.product.colors[0].id;
-      }
-      return null;
-    },
-    
+
     productReviews() {
-      // Sample reviews - in real app this would come from API
       return [
         {
           id: 1,
-          userName: 'Priya Sharma',
-          userAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b1bb?w=100&h=100&fit=crop&crop=face',
+          userName: 'Jane Cooper',
+          userAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b1bb?w=50&h=50&fit=crop&crop=face',
           rating: 5,
-          title: 'Amazing Results!',
-          text: 'This serum has transformed my skin! I\'ve been using it for 3 weeks and my skin looks so much brighter. The texture is lightweight and absorbs quickly. Definitely worth the investment.',
-          date: '2024-01-15',
-          verified: true,
-          media: [
-            { type: 'image', url: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=300&h=300&fit=crop' }
-          ],
-          helpfulCount: 12,
-          expanded: false,
-          tags: ['Brightening', 'Effective']
+          title: 'Very Good',
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         },
         {
           id: 2,
-          userName: 'Ananya Patel',
-          userAvatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face',
+          userName: 'Jane Cooper',
+          userAvatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop&crop=face',
           rating: 4,
-          title: 'Good product overall',
-          text: 'Good product overall. I noticed some brightening after 2 weeks of use. The packaging is premium and the dropper works well. Would recommend for those with dull skin.',
-          date: '2024-01-10',
-          verified: true,
-          helpfulCount: 8,
-          expanded: false
+          title: 'Very Good',
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.',
+        },
+        {
+          id: 3,
+          userName: 'Jane Cooper',
+          userAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&crop=face',
+          rating: 5,
+          title: 'Very Good',
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         }
       ];
-    },
-    
-    relatedProducts() {
-      // Filter products from same category or brand
-      return this.allProducts
-        .filter(p => 
-          p.id !== this.product?.id && 
-          (p.category === this.product?.category || p.brand === this.product?.brand)
-        )
-        .slice(0, 8);
-    },
-    
-    recentlyViewed() {
-      // Get from localStorage or Vuex store
-      const recent = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
-      return this.allProducts.filter(p => recent.includes(p.id) && p.id !== this.product?.id);
     }
   },
+  
   methods: {
-    ...mapActions('products', ['setCurrentProduct']),
-    ...mapActions('cart', ['addToCart', 'openCart']),
+    ...mapActions('cart', ['addToCart']),
     
     async loadProduct() {
       this.loading = true;
-
       try {
-        // Try to get from store first
-        let product = this.productById(this.productId);
-
-        if (product) {
-          // Enhance store product with additional data
-          product = this.enhanceStoreProduct(product);
-        } else {
-          // For demo purposes, use sample product
-          if (this.productId === '1') {
-            product = this.sampleProduct;
-          } else {
-            // In real app, make API call here
-            throw new Error('Product not found');
-          }
-        }
-
-        this.product = product;
-        this.setCurrentProduct(product);
-
-        // Add to recently viewed
-        this.addToRecentlyViewed(product.id);
-
-        // Update page title
-        document.title = `${product.name} | Beauty Store`;
-
+        // Use sample product for demo
+        this.product = this.sampleProduct;
       } catch (error) {
         console.error('Error loading product:', error);
         this.product = null;
@@ -647,269 +418,174 @@ export default {
       }
     },
     
-    addToRecentlyViewed(productId) {
-      let recent = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
-      recent = recent.filter(id => id !== productId);
-      recent.unshift(productId);
-      recent = recent.slice(0, 10); // Keep last 10
-      localStorage.setItem('recentlyViewed', JSON.stringify(recent));
+    selectColor(color) {
+      this.selectedColor = color.id;
     },
     
-    setActiveTab(tabId) {
-      this.activeTab = tabId;
+    selectSize(size) {
+      this.selectedSize = size.id;
     },
     
-    scrollToReviews() {
-      this.setActiveTab('reviews');
-      this.$nextTick(() => {
-        const reviewsSection = document.querySelector('.product-details-section');
-        if (reviewsSection) {
-          reviewsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+    increaseQuantity() {
+      this.quantity++;
+    },
+    
+    decreaseQuantity() {
+      if (this.quantity > 1) {
+        this.quantity--;
+      }
+    },
+    
+    removeItem() {
+      this.quantity = 1;
+    },
+    
+    addToCart() {
+      console.log('Adding to cart:', {
+        product: this.product,
+        color: this.selectedColor,
+        size: this.selectedSize,
+        quantity: this.quantity
       });
     },
     
-    handleVariantChange(variant) {
-      this.selectedVariant = variant;
+    openRatingModal() {
+      console.log('Opening rating modal');
     },
     
-    handleSizeSelected(size) {
-      this.selectedVariant.size = size;
+    showAllReviews() {
+      console.log('Showing all reviews');
     },
     
-    handleColorSelected(color) {
-      this.selectedVariant.color = color;
-    },
-    
-    handleAddedToCart(data) {
-      console.log('Product added to cart:', data);
-    },
-    
-    showCartConfirmation(data) {
-      this.cartModalData = data;
-      this.showCartModal = true;
-    },
-    
-    closeCartModal() {
-      this.showCartModal = false;
-      this.cartModalData = {};
-    },
-    
-    continueShopping() {
-      this.closeCartModal();
-    },
-    
-    goToCart() {
-      this.closeCartModal();
-      this.openCart();
-      this.$router.push('/cart');
-    },
-    
-    handleRelatedProductClick(product) {
-      this.$router.push(`/product/${product.id}`);
-    },
-    
-    handleRelatedAddToCart(product) {
-      this.addToCart({
-        ...product,
-        quantity: 1
-      });
-    },
-    
-    handleReviewSubmitted(review) {
-      console.log('New review submitted:', review);
-      // In real app, update product rating/reviews
-    },
-    
-    getCategoryName(categoryId) {
-      const category = this.categories.find(cat => cat.id === categoryId);
-      return category ? category.name : categoryId;
+    addRelatedToCart(product) {
+      console.log('Adding related product to cart:', product);
     },
     
     formatPrice(price) {
-      // Convert USD to INR for store products (approximate conversion)
-      const convertedPrice = typeof price === 'number' && price < 100 ? Math.round(price * 83) : price;
-      return new Intl.NumberFormat('en-IN').format(convertedPrice);
-    },
-
-    enhanceStoreProduct(product) {
-      // Enhance store products with additional data needed for detailed view
-      const enhanced = {
-        ...product,
-        images: product.images || [product.image, product.image, product.image],
-        sizes: product.sizes || [
-          { id: 'small', value: '30ml', price: Math.round((product.price < 100 ? product.price * 83 : product.price) * 0.7), stock: 15 },
-          { id: 'medium', value: '50ml', price: Math.round(product.price < 100 ? product.price * 83 : product.price), stock: 25, popular: true },
-          { id: 'large', value: '100ml', price: Math.round((product.price < 100 ? product.price * 83 : product.price) * 1.4), stock: 10 }
-        ],
-        colors: product.colors ? product.colors.map((color, index) => ({
-          id: `color-${index}`,
-          name: color,
-          hex: this.getColorHex(color),
-          stock: 20
-        })) : null,
-        howToUse: product.howToUse || [
-          {
-            title: 'Apply',
-            description: `Apply ${product.name.toLowerCase()} as directed.`,
-            icon: 'fas fa-hand-paper'
-          },
-          {
-            title: 'Massage',
-            description: 'Gently massage into skin until absorbed.',
-            icon: 'fas fa-spa'
-          }
-        ],
-        ingredients: product.ingredients ? product.ingredients.map(ing => ({
-          name: ing,
-          benefit: 'Provides beneficial properties for skin health',
-          icon: 'fas fa-leaf'
-        })) : [],
-        quickRef: {
-          frequency: 'Daily',
-          timing: 'Morning & Evening',
-          duration: '2-3 minutes',
-          results: 'In 2-4 weeks'
-        },
-        dosDonts: {
-          dos: [
-            'Use consistently for best results',
-            'Apply to clean skin',
-            'Store in cool, dry place'
-          ],
-          donts: [
-            'Don\'t use if allergic to ingredients',
-            'Don\'t apply to broken skin',
-            'Don\'t use past expiration date'
-          ]
-        }
-      };
-
-      return enhanced;
-    },
-
-    getColorHex(colorName) {
-      const colorMap = {
-        'Ruby Red': '#DC143C',
-        'Berry Bliss': '#8B008B',
-        'Nude Rose': '#E6B3B3',
-        'Coral Dream': '#FF7F50',
-        'Clear': '#f8f9fa',
-        'Amber': '#ffc107',
-        'Cobalt': '#0056b3'
-      };
-      return colorMap[colorName] || '#ec4899';
+      return new Intl.NumberFormat('en-US', { 
+        minimumFractionDigits: 2, 
+        maximumFractionDigits: 2 
+      }).format(price);
     }
   },
   
   async created() {
     await this.loadProduct();
-  },
-  
-  watch: {
-    '$route.params.id': {
-      handler() {
-        this.loadProduct();
-      }
-    }
   }
 };
 </script>
 
 <style scoped>
 .product-detail-page {
+  background: #f8f9fa;
   min-height: 100vh;
-  background: linear-gradient(135deg, #faf7ff 0%, #f8faff 50%, #fff5f8 100%);
 }
 
-/* Breadcrumb */
-.breadcrumb-container {
-  background: white;
-  border-bottom: 1px solid var(--market-border);
-  padding: 16px 0;
-}
-
-.breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-}
-
-.breadcrumb-item {
-  color: var(--market-text-light);
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.breadcrumb-item:hover {
-  color: var(--market-primary);
-}
-
-.breadcrumb-item.current {
-  color: var(--market-text);
-  font-weight: 500;
-}
-
-.breadcrumb i {
-  color: var(--market-text-light);
-  font-size: 12px;
-}
-
-/* Product Hero */
-.product-hero {
-  padding: 40px 0;
-}
-
-.product-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: start;
-}
-
-.product-images {
-  position: sticky;
-  top: 20px;
-}
-
-.product-info {
+/* Purple Header */
+.purple-header {
+  background: #663399;
+  color: white;
   padding: 20px 0;
 }
 
-/* Product Header */
-.product-header {
-  margin-bottom: 32px;
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.brand-name {
-  font-size: 14px;
+.category-title {
+  font-size: 24px;
   font-weight: 600;
-  color: var(--market-primary);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
+  margin: 0;
 }
 
-.product-title {
+/* Main Product Section */
+.main-product-container {
+  background: white;
+  padding: 40px 0;
+}
+
+.product-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.product-image-section {
+  position: relative;
+}
+
+.image-container {
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.main-product-image {
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+  display: block;
+}
+
+.image-controls {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  pointer-events: none;
+}
+
+.control-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  pointer-events: all;
+  color: #333;
+  font-size: 18px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.control-btn:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+/* Product Information */
+.product-info-section {
+  padding: 20px 0;
+}
+
+.product-name {
   font-size: 36px;
   font-weight: 700;
-  color: var(--market-text);
-  line-height: 1.2;
-  margin-bottom: 16px;
+  color: #333;
+  margin: 0 0 16px 0;
 }
 
 .rating-section {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.rating-display {
-  display: flex;
-  align-items: center;
   gap: 12px;
+  margin-bottom: 20px;
 }
 
 .stars {
@@ -917,553 +593,631 @@ export default {
   gap: 2px;
 }
 
-.star {
-  color: #d1d5db;
+.stars i {
+  color: #ddd;
   font-size: 18px;
-  transition: color 0.2s ease;
 }
 
-.star.filled {
-  color: #fbbf24;
+.stars i.filled {
+  color: #ffc107;
 }
 
-.rating-text {
-  color: var(--market-text-light);
+.review-count {
+  color: #666;
   font-size: 14px;
 }
 
-.view-reviews-btn {
-  background: none;
-  border: 1px solid var(--market-primary);
-  color: var(--market-primary);
-  padding: 8px 16px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.view-reviews-btn:hover {
-  background: var(--market-primary);
-  color: white;
-}
-
-/* Price Section */
 .price-section {
   margin-bottom: 24px;
-  padding: 24px;
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-}
-
-.price-display {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 8px;
 }
 
 .current-price {
   font-size: 32px;
   font-weight: 700;
-  color: var(--market-primary);
+  color: #333;
 }
 
 .original-price {
   font-size: 20px;
-  color: var(--market-text-light);
+  color: #999;
   text-decoration: line-through;
+  margin-left: 12px;
 }
 
-.discount-badge {
-  background: #22c55e;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.payment-options {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.emi-text {
-  font-size: 14px;
-  color: var(--market-text-light);
-}
-
-/* Description */
-.description-section {
+/* Selection Groups */
+.selection-group {
   margin-bottom: 24px;
 }
 
-.product-description {
-  color: var(--market-text);
-  line-height: 1.6;
-  font-size: 16px;
-  margin: 0;
-}
-
-/* Benefits */
-.benefits-section {
-  margin-bottom: 32px;
-}
-
-.benefits-title {
-  font-size: 18px;
+.selection-label {
+  display: block;
   font-weight: 600;
-  color: var(--market-text);
-  margin-bottom: 16px;
+  color: #333;
+  margin-bottom: 12px;
 }
 
-.benefits-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.selected-value {
+  font-weight: 700;
 }
 
-.benefit-item {
+.color-options {
   display: flex;
-  align-items: center;
   gap: 12px;
-  color: var(--market-text);
-  font-size: 14px;
+  flex-wrap: wrap;
 }
 
-.benefit-item i {
-  color: #22c55e;
-  font-size: 12px;
+.color-option {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
-/* Variants */
-.variants-section {
-  margin-bottom: 32px;
+.color-option.active {
+  border-color: #333;
+  transform: scale(1.1);
 }
 
-/* Add to Cart */
-.add-to-cart-section {
-  margin-bottom: 32px;
+.color-option::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  transition: border-color 0.3s ease;
 }
 
-/* Trust Indicators */
-.trust-indicators {
+.color-option.active::after {
+  border-color: #333;
+}
+
+.size-options {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 20px;
-  background: var(--market-secondary);
-  border-radius: 12px;
-}
-
-.trust-item {
-  display: flex;
-  align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
-.trust-item i {
-  color: var(--market-primary);
-  font-size: 20px;
-  width: 24px;
+.size-option {
+  background: white;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 60px;
   text-align: center;
 }
 
-.trust-content {
+.size-option:hover {
+  border-color: #663399;
+}
+
+.size-option.active {
+  background: #663399;
+  color: white;
+  border-color: #663399;
+}
+
+/* Quantity Section */
+.quantity-section {
+  margin-bottom: 32px;
+}
+
+.quantity-label {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quantity-btn {
+  background: white;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.quantity-btn:hover {
+  border-color: #663399;
+  color: #663399;
+}
+
+.quantity-value {
+  background: white;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 600;
+  min-width: 60px;
+  text-align: center;
+}
+
+.remove-btn {
+  background: #ff4757;
+  border: none;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.remove-btn:hover {
+  background: #ff3742;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.add-to-cart-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 16px 32px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
   flex: 1;
 }
 
-.trust-title {
-  font-weight: 600;
-  color: var(--market-text);
-  font-size: 14px;
-  margin-bottom: 2px;
+.add-to-cart-btn:hover {
+  background: #c82333;
+  transform: translateY(-2px);
 }
 
-.trust-subtitle {
-  font-size: 12px;
-  color: var(--market-text-light);
+.rating-review-btn {
+  background: #663399;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 16px 32px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.rating-review-btn:hover {
+  background: #552288;
+  transform: translateY(-2px);
+}
+
+/* Delivery Info */
+.delivery-info {
+  border-top: 1px solid #eee;
+  padding-top: 24px;
+}
+
+.delivery-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.delivery-icon {
+  width: 50px;
+  height: 50px;
+  background: #f8f9fa;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #663399;
+  font-size: 20px;
+}
+
+.delivery-title {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.delivery-subtitle {
+  color: #666;
+  font-size: 14px;
 }
 
 /* Product Details Section */
 .product-details-section {
-  padding: 80px 0;
   background: white;
+  padding: 60px 0;
+  border-top: 1px solid #eee;
 }
 
 .details-container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 20px;
 }
 
-.tabs-navigation {
+.section-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 32px;
+}
+
+.tab-navigation {
   display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 40px;
-  border-bottom: 2px solid #f3f4f6;
+  gap: 0;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #eee;
 }
 
 .tab-btn {
-  padding: 16px 24px;
+  background: none;
   border: none;
-  background: transparent;
-  cursor: pointer;
+  padding: 16px 32px;
   font-weight: 600;
-  color: var(--market-text-light);
-  border-bottom: 3px solid transparent;
+  color: #666;
+  cursor: pointer;
   transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.tab-btn:hover {
-  color: var(--market-primary);
+  border-bottom: 3px solid transparent;
 }
 
 .tab-btn.active {
-  color: var(--market-primary);
-  border-bottom-color: var(--market-primary);
+  color: #333;
+  border-bottom-color: #663399;
+  background: #f8f9fa;
+}
+
+.tab-btn:hover {
+  color: #333;
 }
 
 .tab-content {
-  min-height: 400px;
+  min-height: 200px;
 }
 
 .tab-panel {
   animation: fadeIn 0.3s ease;
 }
 
-/* Ingredients Content */
-.ingredients-content {
-  text-align: center;
+.product-description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #666;
+  margin-bottom: 24px;
 }
 
-.ingredients-title {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--market-text);
-  margin-bottom: 40px;
-}
-
-.ingredients-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-}
-
-.ingredient-card {
-  background: var(--market-secondary);
-  border-radius: 16px;
-  padding: 24px;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.ingredient-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-}
-
-.ingredient-icon {
-  width: 60px;
-  height: 60px;
-  background: var(--market-gradient);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 24px;
-  margin: 0 auto 16px;
-}
-
-.ingredient-name {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--market-text);
-  margin-bottom: 8px;
-}
-
-.ingredient-benefit {
-  color: var(--market-text-light);
-  line-height: 1.5;
-  margin-bottom: 8px;
-}
-
-.ingredient-concentration {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--market-primary);
-  background: rgba(236, 72, 153, 0.1);
-  padding: 4px 8px;
-  border-radius: 8px;
-  display: inline-block;
-}
-
-/* Shipping Content */
-.shipping-content h3 {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--market-text);
-  margin-bottom: 32px;
-  text-align: center;
-}
-
-.shipping-info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 24px;
-  margin-bottom: 40px;
-}
-
-.shipping-card {
-  background: var(--market-secondary);
-  border-radius: 16px;
-  padding: 24px;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.shipping-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-}
-
-.shipping-card i {
-  font-size: 32px;
-  color: var(--market-primary);
-  margin-bottom: 16px;
-}
-
-.shipping-card h4 {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--market-text);
-  margin-bottom: 8px;
-}
-
-.shipping-card p {
-  color: var(--market-text-light);
-  margin-bottom: 8px;
-}
-
-.shipping-price {
-  font-weight: 600;
-  color: var(--market-primary);
-}
-
-.returns-info {
-  background: var(--market-secondary);
-  border-radius: 16px;
-  padding: 24px;
-}
-
-.returns-info h4 {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--market-text);
-  margin-bottom: 16px;
-}
-
-.returns-info ul {
+.product-features,
+.care-instructions {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.returns-info li {
+.product-features li,
+.care-instructions li {
   padding: 8px 0;
-  color: var(--market-text);
+  color: #666;
   position: relative;
   padding-left: 20px;
 }
 
-.returns-info li::before {
-  content: '✓';
+.product-features li::before,
+.care-instructions li::before {
+  content: '•';
   position: absolute;
   left: 0;
-  color: #22c55e;
+  color: #663399;
   font-weight: bold;
 }
 
-/* Related Products */
-.related-products-section,
-.recently-viewed-section {
-  padding: 40px 0;
+/* Reviews Section */
+.reviews-section {
+  background: #f8f9fa;
+  padding: 60px 0;
 }
 
-/* Cart Modal */
-.cart-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+.reviews-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.reviews-header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 60px;
+  margin-bottom: 40px;
+  align-items: start;
+}
+
+.overall-rating {
+  text-align: center;
+}
+
+.rating-score {
+  font-size: 64px;
+  font-weight: 700;
+  color: #333;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.rating-stars {
+  margin-bottom: 8px;
+}
+
+.rating-stars i {
+  color: #ddd;
+  font-size: 20px;
+  margin: 0 1px;
+}
+
+.rating-stars i.filled {
+  color: #ffc107;
+}
+
+.rating-text {
+  color: #666;
+  font-size: 14px;
+}
+
+.rating-breakdown {
+  max-width: 400px;
+}
+
+.rating-bar {
   display: flex;
   align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  backdrop-filter: blur(5px);
+  gap: 12px;
+  margin-bottom: 8px;
 }
 
-.cart-modal {
-  background: white;
-  border-radius: 20px;
-  max-width: 500px;
-  width: 90vw;
+.bar-label {
+  font-size: 14px;
+  color: #666;
+  min-width: 50px;
+}
+
+.bar-container {
+  flex: 1;
+  height: 8px;
+  background: #e9ecef;
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: modalSlideUp 0.3s ease;
 }
 
-.modal-header {
-  padding: 24px 24px 16px;
-  text-align: center;
-  position: relative;
+.bar-fill {
+  height: 100%;
+  background: #ffc107;
+  transition: width 0.3s ease;
 }
 
-.success-icon {
-  font-size: 48px;
-  color: #22c55e;
+.bar-percentage {
+  font-size: 14px;
+  color: #666;
+  min-width: 35px;
+  text-align: right;
+}
+
+/* Reviews List */
+.reviews-list {
+  margin-bottom: 32px;
+}
+
+.review-item {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.review-header {
+  display: flex;
+  gap: 16px;
   margin-bottom: 16px;
 }
 
-.modal-header h3 {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--market-text);
-  margin: 0;
-}
-
-.close-modal {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 32px;
-  height: 32px;
+.reviewer-avatar {
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  border: none;
-  background: var(--market-secondary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
-.modal-content {
-  padding: 0 24px 16px;
-}
-
-.added-product {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  padding: 16px;
-  background: var(--market-secondary);
-  border-radius: 12px;
-}
-
-.added-product-image {
-  width: 60px;
-  height: 60px;
-  border-radius: 8px;
+.reviewer-avatar img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
-.added-product-info {
-  flex: 1;
-}
-
-.added-product-name {
+.reviewer-name {
   font-weight: 600;
-  color: var(--market-text);
+  color: #333;
   margin-bottom: 4px;
 }
 
-.added-product-details {
+.review-rating {
+  margin-bottom: 4px;
+}
+
+.review-rating i {
+  color: #ddd;
   font-size: 14px;
-  color: var(--market-text-light);
 }
 
-.modal-actions {
-  padding: 16px 24px 24px;
-  display: flex;
-  gap: 12px;
+.review-rating i.filled {
+  color: #ffc107;
 }
 
-.continue-btn,
-.view-cart-btn {
-  flex: 1;
-  padding: 12px 20px;
+.review-title {
+  font-weight: 600;
+  color: #666;
+  font-size: 14px;
+}
+
+.review-text {
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.see-all-btn {
+  background: #4a4a9e;
+  color: white;
+  border: none;
   border-radius: 8px;
+  padding: 16px 32px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  display: block;
+  margin: 0 auto;
 }
 
-.continue-btn {
+.see-all-btn:hover {
+  background: #3d3d8a;
+  transform: translateY(-2px);
+}
+
+/* Related Products */
+.related-products-section {
   background: white;
-  color: var(--market-text);
-  border: 2px solid var(--market-border);
+  padding: 60px 0;
 }
 
-.continue-btn:hover {
-  border-color: var(--market-primary);
-  color: var(--market-primary);
+.related-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.view-cart-btn {
-  background: var(--market-gradient);
-  color: white;
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
 }
 
-.view-cart-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+.product-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
 }
 
-/* Loading & Not Found */
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.product-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.product-image img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.1);
+}
+
+.wishlist-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
   background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #666;
 }
 
-.loading-spinner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
+.wishlist-btn:hover {
+  background: white;
+  color: #dc3545;
+}
+
+.wishlist-btn.active {
+  color: #dc3545;
+  background: white;
+}
+
+.product-info {
+  padding: 20px;
+}
+
+.product-card .product-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+}
+
+.product-price {
   font-size: 18px;
-  color: var(--market-text);
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 16px;
 }
 
-.loading-spinner i {
-  font-size: 32px;
-  color: var(--market-primary);
+.product-card .add-to-cart-btn {
+  width: 100%;
+  background: #f8f9fa;
+  color: #333;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  padding: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
+.product-card .add-to-cart-btn:hover {
+  background: #663399;
+  color: white;
+  border-color: #663399;
+}
+
+/* Product Not Found */
 .product-not-found {
   min-height: 60vh;
   display: flex;
@@ -1478,28 +1232,28 @@ export default {
 
 .not-found-icon {
   font-size: 64px;
-  color: var(--market-text-light);
+  color: #ddd;
   margin-bottom: 24px;
 }
 
 .not-found-content h2 {
   font-size: 32px;
   font-weight: 700;
-  color: var(--market-text);
+  color: #333;
   margin-bottom: 16px;
 }
 
 .not-found-content p {
-  color: var(--market-text-light);
+  color: #666;
   margin-bottom: 32px;
   line-height: 1.6;
 }
 
 .back-home-btn {
-  background: var(--market-gradient);
+  background: #663399;
   color: white;
   text-decoration: none;
-  padding: 12px 24px;
+  padding: 16px 32px;
   border-radius: 8px;
   font-weight: 600;
   display: inline-flex;
@@ -1509,39 +1263,30 @@ export default {
 }
 
 .back-home-btn:hover {
+  background: #552288;
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+  text-decoration: none;
+  color: white;
 }
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes modalSlideUp {
-  from { transform: translateY(50px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-/* Mobile Responsive */
-@media (max-width: 1024px) {
-  .product-layout {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-  
-  .product-images {
-    position: static;
-  }
-}
-
+/* Responsive Design */
 @media (max-width: 768px) {
-  .product-hero {
-    padding: 20px 0;
+  .product-content {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
   
-  .product-title {
+  .main-product-image {
+    height: 400px;
+  }
+  
+  .product-name {
     font-size: 28px;
   }
   
@@ -1549,59 +1294,45 @@ export default {
     font-size: 24px;
   }
   
-  .rating-section {
+  .action-buttons {
     flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
   }
   
-  .tabs-navigation {
-    flex-wrap: wrap;
-    justify-content: flex-start;
-  }
-  
-  .tab-btn {
-    padding: 12px 16px;
-    font-size: 14px;
-  }
-  
-  .ingredients-grid {
+  .reviews-header {
     grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: center;
   }
   
-  .shipping-info-grid {
-    grid-template-columns: 1fr;
+  .products-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
   }
   
-  .trust-indicators {
-    gap: 12px;
+  .rating-score {
+    font-size: 48px;
   }
 }
 
 @media (max-width: 480px) {
-  .breadcrumb {
-    font-size: 12px;
+  .purple-header,
+  .main-product-container,
+  .product-details-section,
+  .reviews-section,
+  .related-products-section {
+    padding: 20px 0;
   }
   
-  .product-title {
-    font-size: 22px;
+  .header-container,
+  .product-content,
+  .details-container,
+  .reviews-container,
+  .related-container {
+    padding: 0 16px;
   }
   
-  .current-price {
-    font-size: 20px;
-  }
-  
-  .price-section {
-    padding: 16px;
-  }
-  
-  .ingredient-card,
-  .shipping-card {
-    padding: 16px;
-  }
-  
-  .modal-actions {
-    flex-direction: column;
+  .products-grid {
+    grid-template-columns: 1fr 1fr;
   }
 }
 </style>
