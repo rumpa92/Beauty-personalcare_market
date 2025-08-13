@@ -168,15 +168,10 @@
 
     <!-- Step 3: Success Modal -->
     <div v-if="showSuccess" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px;" @click="closeSuccess">
-      <div style="background: white; border-radius: 24px; width: 100%; max-width: 500px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3); text-align: center; padding: 48px 32px; animation: successSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);" @click.stop>
-
-        <!-- Success Icon -->
-        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #22c55e, #16a34a); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px auto; animation: successPulse 2s infinite;">
-          <span style="font-size: 36px; color: white;">✓</span>
-        </div>
+      <div style="background: white; border-radius: 24px; width: 100%; max-width: 500px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3); text-align: left; padding: 48px 32px; animation: successSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);" @click.stop>
 
         <!-- Success Message -->
-        <h2 style="font-size: 28px; font-weight: 700; color: #1f2937; margin: 0 0 16px 0;">✅ Refund Successful!</h2>
+        <h2 style="font-size: 28px; font-weight: 700; color: #1f2937; margin: 0 0 16px 0; text-align: left;">Refund Successful!</h2>
         <p style="color: #6b7280; margin: 0 0 32px 0; line-height: 1.6; font-size: 16px;">
           Your refund of <strong style="color: #15803d;">₹2,499.00</strong> has been added to your Store Wallet.
         </p>
@@ -194,17 +189,11 @@
               <span style="color: #f59e0b; font-weight: 700; font-size: 16px;">+₹125</span>
             </div>
           </div>
-          <div style="margin-top: 16px; padding: 12px; background: #22c55e; border-radius: 8px; text-align: center;">
-            <span style="color: white; font-weight: 600; font-size: 14px;">Ready to Shop Now! 🛍️</span>
-          </div>
         </div>
 
-        <!-- Action Buttons -->
-        <div style="display: flex; gap: 12px;">
-          <button @click="closeSuccess" style="flex: 1; background: white; color: #6b7280; border: 2px solid #e5e7eb; padding: 16px 24px; border-radius: 12px; font-weight: 600; font-size: 16px; cursor: pointer;">
-            View Wallet
-          </button>
-          <button @click="closeSuccess" style="flex: 2; background: linear-gradient(135deg, #22c55e, #16a34a); color: white; border: none; padding: 16px 24px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);">
+        <!-- Action Button -->
+        <div style="text-align: right;">
+          <button @click="goToHome" style="background: linear-gradient(135deg, #22c55e, #16a34a); color: white; border: none; padding: 16px 32px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);">
             <i class="fas fa-shopping-bag" style="margin-right: 8px;"></i>
             Continue Shopping
           </button>
