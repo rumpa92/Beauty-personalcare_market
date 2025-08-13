@@ -742,22 +742,40 @@ export default {
   background: white;
   border: 2px solid #ddd;
   border-radius: 8px;
-  padding: 12px 20px;
+  padding: 12px 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  min-width: 60px;
+  min-width: 80px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
 .size-option:hover {
   border-color: #663399;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 51, 153, 0.2);
 }
 
 .size-option.active {
   background: #663399;
   color: white;
   border-color: #663399;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 51, 153, 0.3);
+}
+
+.size-value {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.size-price {
+  font-size: 12px;
+  opacity: 0.8;
 }
 
 /* Quantity Section */
