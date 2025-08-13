@@ -484,25 +484,6 @@ export default {
   min-height: 100vh;
 }
 
-/* Purple Header */
-.purple-header {
-  background: #663399;
-  color: white;
-  padding: 20px 0;
-}
-
-.header-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.category-title {
-  font-size: 24px;
-  font-weight: 600;
-  margin: 0;
-}
-
 /* Main Product Section */
 .main-product-container {
   background: white;
