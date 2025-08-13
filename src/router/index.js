@@ -116,7 +116,7 @@ const routes = [
   {
     path: '/returns',
     name: 'Returns',
-    component: Returns,
+    component: ReturnsSimple,
     meta: { title: 'Returns & Refunds - Beauty Market' }
   },
   {
