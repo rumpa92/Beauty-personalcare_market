@@ -401,13 +401,26 @@ export default {
     },
     
     selectColor(color) {
+      console.log('Selecting color:', color.name, 'ID:', color.id);
       this.selectedColor = color.id;
+
+      // Log the current image that should be displayed
+      console.log('New image URL:', this.product?.images?.[color.id]);
+
       // Update price if sizes have different prices
       if (this.product?.sizes) {
         const selectedSize = this.product.sizes.find(s => s.id === this.selectedSize);
         if (selectedSize && selectedSize.price) {
           this.product.price = selectedSize.price;
         }
+      }
+
+      // Show notification for color selection
+      if (this.$store) {
+        this.$store.dispatch('ui/showNotification', {
+          type: 'info',
+          message: `Selected ${color.name} shade`
+        });
       }
     },
     
