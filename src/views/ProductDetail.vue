@@ -210,7 +210,7 @@
     <!-- You May Also Like -->
     <section class="related-products-section">
       <div class="related-container">
-        <h2 class="section-title">You May Also Like</h2>
+        <h2 class="section-title">Beauty & Personal Care You May Also Like</h2>
         <div class="products-grid">
           <div v-for="product in relatedProducts.slice(0, 5)" :key="product.id" class="product-card">
             <div class="product-image">
