@@ -178,21 +178,21 @@
 
     <!-- Confirmation Modal -->
     <div v-if="showConfirmation" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px;" @click="closeConfirmation">
-      <div style="background: white; border-radius: 24px; width: 100%; max-width: 480px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); animation: modalSlideIn 0.4s ease; position: relative;" @click.stop>
+      <div style="background: white; border-radius: 16px; width: 100%; max-width: 380px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2); animation: modalSlideIn 0.4s ease; position: relative;" @click.stop>
 
         <!-- Confirmation Header -->
-        <div style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); padding: 32px 24px; border-radius: 24px 24px 0 0; text-align: center; color: white; position: relative; overflow: hidden;">
+        <div style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); padding: 20px 16px; border-radius: 16px 16px 0 0; text-align: center; color: white; position: relative; overflow: hidden;">
           <div style="position: relative; z-index: 1;">
-            <div style="width: 64px; height: 64px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; backdrop-filter: blur(10px);">
-              <i class="fas fa-wallet" style="font-size: 28px;"></i>
+            <div style="width: 48px; height: 48px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; backdrop-filter: blur(10px);">
+              <i class="fas fa-wallet" style="font-size: 20px;"></i>
             </div>
-            <h2 style="font-size: 24px; font-weight: 700; margin: 0 0 8px 0;">Instant Store Wallet Refund</h2>
-            <p style="opacity: 0.9; margin: 0; font-size: 14px;">Fastest refund method with bonus credits</p>
+            <h2 style="font-size: 18px; font-weight: 700; margin: 0 0 6px 0;">Instant Store Wallet Refund</h2>
+            <p style="opacity: 0.9; margin: 0; font-size: 12px;">Fastest refund method with bonus credits</p>
           </div>
         </div>
 
         <!-- Confirmation Content -->
-        <div style="padding: 32px 24px;">
+        <div style="padding: 20px 16px;">
 
           <!-- Refund Amount Display -->
           <div style="text-align: center; margin-bottom: 24px;">
