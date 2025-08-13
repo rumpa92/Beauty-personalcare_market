@@ -488,12 +488,67 @@ export default {
     
     addRelatedToCart(product) {
       console.log('Adding related product to cart:', product);
+      // Navigate to the clicked product
+      this.$router.push(`/product/${product.id}`);
     },
-    
+
+    enhanceProductData(storeProduct) {
+      // Convert store product data to the format expected by the UI
+      return {
+        ...storeProduct,
+        images: [storeProduct.image, storeProduct.image], // Use main image
+        colors: storeProduct.colors ? storeProduct.colors.map((color, index) => ({
+          id: color.toLowerCase().replace(/\s+/g, '-'),
+          name: color,
+          hex: this.getColorHex(color)
+        })) : [
+          { id: 'red', name: 'Red', hex: '#DC2626' },
+          { id: 'blue', name: 'Blue', hex: '#2563EB' },
+          { id: 'green', name: 'Green', hex: '#059669' }
+        ],
+        sizes: storeProduct.sizes || [
+          { id: 'xs', value: 'XS' },
+          { id: 's', value: 'S' },
+          { id: 'm', value: 'M' },
+          { id: 'l', value: 'L' }
+        ],
+        features: storeProduct.ingredients || storeProduct.benefits || [
+          'Premium quality materials',
+          'Dermatologically tested',
+          'Suitable for all skin types'
+        ],
+        careInstructions: [
+          'Store in a cool, dry place',
+          'Keep away from direct sunlight',
+          'For external use only',
+          'Discontinue use if irritation occurs'
+        ]
+      };
+    },
+
+    getColorHex(colorName) {
+      const colorMap = {
+        'Ruby Red': '#DC143C',
+        'Berry Bliss': '#8B008B',
+        'Nude Rose': '#E6B3B3',
+        'Coral Dream': '#FF7F50',
+        'Red': '#DC2626',
+        'Blue': '#2563EB',
+        'Green': '#059669',
+        'Purple': '#7C3AED',
+        'Orange': '#EA580C',
+        'Champagne': '#F7E7CE',
+        'Rose Gold': '#E8B4A0',
+        'Bronze': '#CD7F32',
+        'Pearl': '#F8F6F0'
+      };
+      return colorMap[colorName] || '#DC2626';
+    },
+
     formatPrice(price) {
-      return new Intl.NumberFormat('en-US', { 
-        minimumFractionDigits: 2, 
-        maximumFractionDigits: 2 
+      return new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
       }).format(price);
     }
   },
