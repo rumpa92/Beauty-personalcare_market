@@ -178,29 +178,25 @@
         <h2 class="section-title">Explore Related Products</h2>
         <div class="products-grid">
           <div
-            v-for="colorVariant in lipstickColorVariants"
-            :key="colorVariant.colorId"
-            class="product-card lipstick-variant"
-            :class="{ 'selected-variant': colorVariant.colorId === selectedColor }"
-            @click="selectColorVariant(colorVariant)"
+            v-for="product in lipstickColorVariants"
+            :key="product.id"
+            class="product-card"
+            @click="viewProduct(product)"
           >
             <div class="product-image">
-              <img :src="colorVariant.image" :alt="colorVariant.name" />
-              <button class="wishlist-btn" :class="{ active: colorVariant.isWishlisted }">
+              <img :src="product.image" :alt="product.name" />
+              <button class="wishlist-btn" :class="{ active: product.isWishlisted }">
                 <i class="fas fa-heart"></i>
               </button>
             </div>
             <div class="product-info">
-              <h3 class="product-name">{{ colorVariant.name }}</h3>
-              <div class="color-name">{{ colorVariant.colorName }}</div>
-              <div class="product-price">${{ formatPrice(colorVariant.price) }}</div>
+              <h3 class="product-name">{{ product.name }}</h3>
+              <div class="product-price">${{ formatPrice(product.price) }}</div>
               <button
-                @click.stop="addColorVariantToCart(colorVariant)"
+                @click.stop="addRelatedToCart(product)"
                 class="add-to-cart-btn"
-                :class="{ 'selected-color': colorVariant.colorId === selectedColor }"
               >
-                <span v-if="colorVariant.colorId === selectedColor">Current Selection</span>
-                <span v-else>Add to cart</span>
+                Add to cart
               </button>
             </div>
           </div>
