@@ -472,6 +472,9 @@ export default {
 
       this.selectedColor = color.id;
 
+      // Reset image index to first image when changing colors
+      this.currentImageIndex = 0;
+
       // Log the current image that should be displayed
       console.log('New image URL:', this.product?.images?.[color.id]);
 
