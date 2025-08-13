@@ -518,6 +518,15 @@ export default {
   
   async created() {
     await this.loadProduct();
+  },
+
+  watch: {
+    '$route.params.id': {
+      handler() {
+        this.loadProduct();
+      },
+      immediate: false
+    }
   }
 };
 </script>
