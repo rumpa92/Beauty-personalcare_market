@@ -1,6 +1,7 @@
 <template>
   <div id="app" :class="{ 'dark-theme': isDarkTheme }">
     <TopSearchBar
+      v-if="isHomePage"
       @location-detected="handleLocationDetected"
       @location-selected="handleLocationSelected"
       @search="handleSearch"
@@ -52,6 +53,9 @@ export default {
     ...mapGetters('ui', ['theme']),
     isDarkTheme() {
       return this.theme === 'dark';
+    },
+    isHomePage() {
+      return this.$route.path === '/' || this.$route.name === 'Home';
     }
   },
   methods: {
