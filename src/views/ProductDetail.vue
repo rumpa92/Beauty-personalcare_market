@@ -6,7 +6,7 @@
         <!-- Product Image -->
         <div class="product-image-section">
           <div class="image-container">
-            <img :src="product.images[0]" :alt="product.name" class="main-product-image" />
+            <img :src="currentProductImage" :alt="product.name" class="main-product-image" />
             <div class="image-controls">
               <button class="control-btn prev">
                 <i class="fas fa-chevron-left"></i>
@@ -203,51 +203,50 @@ export default {
       loading: true,
       product: null,
       activeTab: 'details',
-      selectedColor: 'red',
-      selectedSize: 's',
+      selectedColor: 'ruby-red',
+      selectedSize: 'standard',
       quantity: 1,
       
-      // Sample fashion product data
+      // Sample matte lipstick collection data
       sampleProduct: {
-        id: 1,
-        name: 'Silk Blend Maxi Dress',
-        brand: 'Fashion Brand',
-        price: 299.00,
-        originalPrice: 399.00,
-        category: 'fashion',
-        rating: 4.5,
-        reviewCount: 238,
-        description: 'A stunning silk blend maxi dress perfect for any special occasion. Features a flattering A-line silhouette and elegant drape.',
-        images: [
-          'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&h=800&fit=crop',
-          'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=600&h=800&fit=crop'
-        ],
+        id: 3,
+        name: 'Matte Lipstick Collection',
+        brand: 'Beauty Pro',
+        price: 24.99,
+        originalPrice: 34.99,
+        category: 'makeup',
+        rating: 4.7,
+        reviewCount: 324,
+        description: 'Experience bold, long-lasting color with our Matte Lipstick Collection designed for all-day wear without drying your lips. Each shade glides on smoothly, delivering rich pigmentation and a soft, velvety finish.',
+        images: {
+          'ruby-red': 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&h=600&fit=crop',
+          'berry-bliss': 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&h=600&fit=crop',
+          'nude-rose': 'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=600&h=600&fit=crop',
+          'coral-dream': 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&h=600&fit=crop'
+        },
         colors: [
-          { id: 'red', name: 'Red', hex: '#DC2626' },
-          { id: 'orange', name: 'Orange', hex: '#EA580C' },
-          { id: 'blue', name: 'Blue', hex: '#2563EB' },
-          { id: 'green', name: 'Green', hex: '#059669' },
-          { id: 'purple', name: 'Purple', hex: '#7C3AED' }
+          { id: 'ruby-red', name: 'Ruby Red', hex: '#DC143C' },
+          { id: 'berry-bliss', name: 'Berry Bliss', hex: '#8B008B' },
+          { id: 'nude-rose', name: 'Nude Rose', hex: '#E6B3B3' },
+          { id: 'coral-dream', name: 'Coral Dream', hex: '#FF7F50' }
         ],
         sizes: [
-          { id: 'xxs', value: 'XXS' },
-          { id: 'xs', value: 'XS' },
-          { id: 's', value: 'S' },
-          { id: 'm', value: 'M' },
-          { id: 'l', value: 'L' }
+          { id: 'mini', value: '1.5ml', price: 12.99 },
+          { id: 'standard', value: '3.5ml', price: 24.99 },
+          { id: 'jumbo', value: '5ml', price: 34.99 }
         ],
         features: [
-          '95% Silk, 5% Elastane',
-          'Side slit detail',
-          'Adjustable straps',
-          'Back zipper closure',
-          'Made in Italy'
+          'Long-lasting matte finish',
+          'Transfer-resistant formula',
+          'Enriched with Vitamin E',
+          'Cruelty-free & vegan',
+          'Dermatologically tested'
         ],
         careInstructions: [
-          'Dry clean only',
-          'Do not bleach',
-          'Iron on low heat',
-          'Store hanging'
+          'Store in a cool, dry place',
+          'Keep cap tightly closed',
+          'Remove with makeup remover',
+          'For external use only'
         ]
       },
 
@@ -279,7 +278,14 @@ export default {
 
     selectedColorName() {
       const color = this.product?.colors?.find(c => c.id === this.selectedColor);
-      return color ? color.name : 'Red';
+      return color ? color.name : 'Ruby Red';
+    },
+
+    currentProductImage() {
+      if (this.product?.images && typeof this.product.images === 'object') {
+        return this.product.images[this.selectedColor] || Object.values(this.product.images)[0];
+      }
+      return this.product?.images?.[0] || 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&h=600&fit=crop';
     },
 
     // Get beauty & personal care products for "You May Also Like"
@@ -359,10 +365,21 @@ export default {
     
     selectColor(color) {
       this.selectedColor = color.id;
+      // Update price if sizes have different prices
+      if (this.product?.sizes) {
+        const selectedSize = this.product.sizes.find(s => s.id === this.selectedSize);
+        if (selectedSize && selectedSize.price) {
+          this.product.price = selectedSize.price;
+        }
+      }
     },
     
     selectSize(size) {
       this.selectedSize = size.id;
+      // Update price based on selected size
+      if (size.price) {
+        this.product.price = size.price;
+      }
     },
     
     increaseQuantity() {
@@ -376,20 +393,57 @@ export default {
     },
     
     removeItem() {
-      this.quantity = 1;
+      // Remove item from cart or reset quantity
+      if (this.quantity > 1) {
+        this.quantity = 1;
+      } else {
+        // If in cart, remove completely
+        this.$store.dispatch('ui/showNotification', {
+          type: 'info',
+          message: 'Item removed from selection'
+        });
+        this.quantity = 1;
+      }
     },
     
-    addToCart() {
-      console.log('Adding to cart:', {
-        product: this.product,
-        color: this.selectedColor,
-        size: this.selectedSize,
-        quantity: this.quantity
-      });
+    async addToCart() {
+      try {
+        const cartItem = {
+          id: this.product.id,
+          name: this.product.name,
+          price: this.product.price,
+          image: this.currentProductImage,
+          color: this.selectedColorName,
+          size: this.product.sizes.find(s => s.id === this.selectedSize)?.value,
+          quantity: this.quantity,
+          selectedColor: this.selectedColor,
+          selectedSize: this.selectedSize
+        };
+
+        await this.$store.dispatch('cart/addToCart', cartItem);
+
+        this.$store.dispatch('ui/showNotification', {
+          type: 'success',
+          message: `${this.product.name} (${this.selectedColorName}) added to cart!`
+        });
+      } catch (error) {
+        this.$store.dispatch('ui/showNotification', {
+          type: 'error',
+          message: 'Failed to add item to cart'
+        });
+      }
     },
     
     openRatingModal() {
-      console.log('Opening rating modal');
+      // Open rating and review modal
+      this.$store.dispatch('ui/showNotification', {
+        type: 'info',
+        message: 'Rating & Review feature coming soon!'
+      });
+
+      // TODO: Implement rating modal
+      // You could create a modal component for ratings and reviews
+      console.log('Opening rating modal for product:', this.product.name);
     },
     
     showAllReviews() {
