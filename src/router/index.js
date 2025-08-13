@@ -30,6 +30,7 @@ import AddAddress from '../views/AddAddress.vue';
 import Returns from '../views/Returns.vue';
 import RefundDemo from '../views/RefundDemo.vue';
 import CartDemo from '../views/CartDemo.vue';
+import ModernProductDetail from '../views/ModernProductDetail.vue';
 
 Vue.use(VueRouter);
 
