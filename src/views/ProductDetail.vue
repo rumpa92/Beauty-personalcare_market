@@ -727,7 +727,9 @@ export default {
     },
     
     formatPrice(price) {
-      return new Intl.NumberFormat('en-IN').format(price);
+      // Convert USD to INR for store products (approximate conversion)
+      const convertedPrice = typeof price === 'number' && price < 100 ? Math.round(price * 83) : price;
+      return new Intl.NumberFormat('en-IN').format(convertedPrice);
     },
 
     enhanceStoreProduct(product) {
