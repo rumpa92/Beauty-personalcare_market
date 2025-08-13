@@ -275,18 +275,21 @@
           Your refund of <strong style="color: #15803d;">₹{{ refundAmount }}</strong> has been added to your Store Wallet.
         </p>
 
-        <!-- Request Details -->
-        <div style="background: linear-gradient(135deg, #f8f4f6, #fef8f6); border-radius: 16px; padding: 24px; margin-bottom: 32px; text-align: left; border: 1px solid #f0e6e6;">
-          <h3 style="font-size: 16px; font-weight: 700; color: #1f2937; margin: 0 0 16px 0; text-align: center;">Request Details</h3>
+        <!-- Wallet Details -->
+        <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: 16px; padding: 24px; margin-bottom: 32px; text-align: left; border: 2px solid #22c55e;">
+          <h3 style="font-size: 16px; font-weight: 700; color: #15803d; margin: 0 0 16px 0; text-align: center;">💰 Store Wallet Updated</h3>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-            <div style="background: #fff; padding: 16px; border-radius: 12px; border: 1px solid #f0f0f0; text-align: center;">
-              <span style="font-size: 14px; color: #6b7280; font-weight: 500; display: block; margin-bottom: 4px;">Request ID</span>
-              <span style="color: #8b4e9f; font-weight: 700; font-size: 16px;">#{{ requestId }}</span>
+            <div style="background: #fff; padding: 16px; border-radius: 12px; border: 1px solid #22c55e; text-align: center;">
+              <span style="font-size: 14px; color: #6b7280; font-weight: 500; display: block; margin-bottom: 4px;">Refund Amount</span>
+              <span style="color: #15803d; font-weight: 700; font-size: 16px;">₹{{ refundAmount }}</span>
             </div>
-            <div style="background: #fff; padding: 16px; border-radius: 12px; border: 1px solid #f0f0f0; text-align: center;">
-              <span style="font-size: 14px; color: #6b7280; font-weight: 500; display: block; margin-bottom: 4px;">Processing Time</span>
-              <span style="color: #15803d; font-weight: 700; font-size: 16px;">5-7 days</span>
+            <div style="background: #fff; padding: 16px; border-radius: 12px; border: 1px solid #22c55e; text-align: center;">
+              <span style="font-size: 14px; color: #6b7280; font-weight: 500; display: block; margin-bottom: 4px;">Bonus Credits</span>
+              <span style="color: #f59e0b; font-weight: 700; font-size: 16px;">+₹{{ Math.round(parseFloat(refundAmount.replace(',', '')) * 0.05) }}</span>
             </div>
+          </div>
+          <div style="margin-top: 16px; padding: 12px; background: #22c55e; border-radius: 8px; text-align: center;">
+            <span style="color: white; font-weight: 600; font-size: 14px;">Ready to Shop Now! 🛍️</span>
           </div>
         </div>
 
