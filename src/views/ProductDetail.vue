@@ -1,5 +1,6 @@
 <template>
-  <div class="product-detail-page" v-if="product">
+  <div class="product-detail-wrapper">
+    <div class="product-detail-page" v-if="product">
     <!-- Main Product Section -->
     <div class="main-product-container">
       <div class="product-content">
@@ -53,6 +54,21 @@
             <span v-if="originalPrice && originalPrice > currentPrice" class="original-price">
               ${{ formatPrice(originalPrice) }}
             </span>
+          </div>
+
+          <!-- Color Selection -->
+          <div class="selection-group">
+            <label class="selection-label">Color: <span class="selected-value">{{ selectedColorName }}</span></label>
+            <div class="color-options">
+              <button
+                v-for="color in product.colors"
+                :key="color.id"
+                @click="selectColor(color)"
+                :class="['color-option', { active: selectedColor === color.id }]"
+                :style="{ backgroundColor: color.hex }"
+                :title="color.name"
+              />
+            </div>
           </div>
 
           <!-- Size Selection -->
@@ -160,62 +176,70 @@
     <!-- Matte Lipstick Collection Colors -->
     <section class="related-products-section">
       <div class="related-container">
-        <h2 class="section-title">Matte Lipstick Collection - All Shades</h2>
+        <h2 class="section-title">Explore Related Products</h2>
         <div class="products-grid">
           <div
-            v-for="colorVariant in lipstickColorVariants"
-            :key="colorVariant.colorId"
-            class="product-card lipstick-variant"
-            :class="{ 'selected-variant': colorVariant.colorId === selectedColor }"
-            @click="selectColorVariant(colorVariant)"
+            v-for="product in lipstickColorVariants"
+            :key="product.id"
+            class="product-card"
+            @click="viewProduct(product)"
           >
             <div class="product-image">
-              <img :src="colorVariant.image" :alt="colorVariant.name" />
-              <div class="color-indicator" :style="{ backgroundColor: colorVariant.hex }"></div>
-              <button class="wishlist-btn" :class="{ active: colorVariant.isWishlisted }">
+              <img :src="product.image" :alt="product.name" />
+              <button class="wishlist-btn" :class="{ active: product.isWishlisted }">
                 <i class="fas fa-heart"></i>
               </button>
             </div>
             <div class="product-info">
-              <h3 class="product-name">{{ colorVariant.name }}</h3>
-              <div class="color-name">{{ colorVariant.colorName }}</div>
-              <div class="product-price">${{ formatPrice(colorVariant.price) }}</div>
+              <h3 class="product-name">{{ product.name }}</h3>
+              <div class="product-price">${{ formatPrice(product.price) }}</div>
               <button
-                @click.stop="addColorVariantToCart(colorVariant)"
+                @click.stop="addRelatedToCart(product)"
                 class="add-to-cart-btn"
-                :class="{ 'selected-color': colorVariant.colorId === selectedColor }"
               >
-                <span v-if="colorVariant.colorId === selectedColor">Current Selection</span>
-                <span v-else>Add to cart</span>
+                Add to cart
               </button>
             </div>
           </div>
         </div>
       </div>
     </section>
-  </div>
+    </div>
 
-  <!-- Product Not Found -->
-  <div v-else-if="!loading" class="product-not-found">
-    <div class="market-container">
-      <div class="not-found-content">
-        <i class="fas fa-search not-found-icon"></i>
-        <h2>Product Not Found</h2>
-        <p>The product you're looking for doesn't exist or has been removed.</p>
-        <router-link to="/" class="back-home-btn">
-          <i class="fas fa-arrow-left"></i>
-          Back to Home
-        </router-link>
+    <!-- Product Not Found -->
+    <div v-else-if="!loading" class="product-not-found">
+      <div class="market-container">
+        <div class="not-found-content">
+          <i class="fas fa-search not-found-icon"></i>
+          <h2>Product Not Found</h2>
+          <p>The product you're looking for doesn't exist or has been removed.</p>
+          <router-link to="/" class="back-home-btn">
+            <i class="fas fa-arrow-left"></i>
+            Back to Home
+          </router-link>
+        </div>
       </div>
     </div>
+
+    <!-- Rating & Review Modal -->
+    <RatingReviewModal
+      :is-visible="showRatingModal"
+      :product="modalProductData"
+      @close="closeRatingModal"
+      @review-submitted="handleReviewSubmitted"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import RatingReviewModal from '@/components/product/RatingReviewModal.vue';
 
 export default {
   name: 'ProductDetail',
+  components: {
+    RatingReviewModal
+  },
   data() {
     return {
       loading: true,
@@ -226,6 +250,7 @@ export default {
       quantity: 1,
       imageChanging: false,
       currentImageIndex: 0,
+      showRatingModal: false,
       
       // Sample matte lipstick collection data
       sampleProduct: {
@@ -333,21 +358,37 @@ export default {
     },
 
     lipstickColorVariants() {
-      if (!this.product?.colors || !this.product?.images) return [];
-
-      return this.product.colors.map(color => ({
-        id: `${this.product.id}-${color.id}`,
-        colorId: color.id,
-        name: this.product.name,
-        colorName: color.name,
-        price: this.product.price,
-        image: this.product.images[color.id] || Object.values(this.product.images)[0],
-        hex: color.hex,
-        isWishlisted: false,
-        brand: this.product.brand,
-        rating: this.product.rating,
-        reviewCount: this.product.reviewCount
-      }));
+      // Return products related to Matte Lipstick Collection with reliable matching images
+      return [
+        {
+          id: 'matte-lipstick-1',
+          name: 'Matte Liquid Lipstick',
+          price: 22.99,
+          image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&h=600&fit=crop',
+          isWishlisted: false
+        },
+        {
+          id: 'matte-lipstick-2',
+          name: 'Matte Lip Liner Set',
+          price: 19.99,
+          image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&h=600&fit=crop',
+          isWishlisted: false
+        },
+        {
+          id: 'matte-lipstick-3',
+          name: 'Matte Lip Balm',
+          price: 15.99,
+          image: 'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=600&h=600&fit=crop',
+          isWishlisted: false
+        },
+        {
+          id: 'matte-lipstick-4',
+          name: 'Matte Lip Primer',
+          price: 16.99,
+          image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&h=600&fit=crop',
+          isWishlisted: false
+        }
+      ];
     },
 
     // Get beauty & personal care products for "You May Also Like"
@@ -369,6 +410,17 @@ export default {
           image: product.image,
           isWishlisted: false // You can connect this to wishlist state later
         }));
+    },
+
+    modalProductData() {
+      if (!this.product) return {};
+
+      return {
+        id: this.product.id,
+        name: this.product.name,
+        image: this.currentProductImage,
+        price: this.product.price
+      };
     },
 
     productReviews() {
@@ -546,15 +598,25 @@ export default {
     },
     
     openRatingModal() {
-      // Open rating and review modal
+      this.showRatingModal = true;
+      console.log('Opening rating modal for product:', this.product.name);
+    },
+
+    closeRatingModal() {
+      this.showRatingModal = false;
+    },
+
+    handleReviewSubmitted(review) {
+      console.log('Review submitted:', review);
+
+      // Show success notification
       this.$store.dispatch('ui/showNotification', {
-        type: 'info',
-        message: 'Rating & Review feature coming soon!'
+        type: 'success',
+        message: 'Thank you for your review! It will be visible after verification.'
       });
 
-      // TODO: Implement rating modal
-      // You could create a modal component for ratings and reviews
-      console.log('Opening rating modal for product:', this.product.name);
+      // Close modal
+      this.showRatingModal = false;
     },
     
     showAllReviews() {
@@ -563,6 +625,12 @@ export default {
     
     addRelatedToCart(product) {
       console.log('Adding related product to cart:', product);
+      // Navigate to the clicked product
+      this.$router.push(`/product/${product.id}`);
+    },
+
+    viewProduct(product) {
+      console.log('Viewing product:', product);
       // Navigate to the clicked product
       this.$router.push(`/product/${product.id}`);
     },
@@ -962,14 +1030,18 @@ export default {
 }
 
 .color-option {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
+  width: 120px;
+  height: 50px;
+  border-radius: 25px;
   border: 3px solid transparent;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .color-option:hover {
@@ -979,7 +1051,7 @@ export default {
 
 .color-option.active {
   border-color: #333;
-  transform: scale(1.15);
+  transform: scale(1.05);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
@@ -988,13 +1060,14 @@ export default {
   position: absolute;
   inset: -6px;
   border: 2px solid transparent;
-  border-radius: 50%;
+  border-radius: 31px;
   transition: border-color 0.3s ease;
 }
 
 .color-option.active::after {
   border-color: #333;
 }
+
 
 .size-options {
   display: flex;
