@@ -128,6 +128,12 @@ const routes = [
     meta: { title: 'Refund Demo - Beauty Market' }
   },
   {
+    path: '/cart-demo',
+    name: 'CartDemo',
+    component: CartDemo,
+    meta: { title: 'Cart Demo - Beauty Market' }
+  },
+  {
     path: '/checkout',
     name: 'Checkout',
     component: Checkout,
