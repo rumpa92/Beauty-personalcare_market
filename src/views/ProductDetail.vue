@@ -156,22 +156,37 @@
       </div>
     </section>
 
-    <!-- You May Also Like -->
+    <!-- Matte Lipstick Collection Colors -->
     <section class="related-products-section">
       <div class="related-container">
-        <h2 class="section-title">Beauty & Personal Care You May Also Like</h2>
+        <h2 class="section-title">Matte Lipstick Collection - All Shades</h2>
         <div class="products-grid">
-          <div v-for="product in relatedProducts.slice(0, 5)" :key="product.id" class="product-card">
+          <div
+            v-for="colorVariant in lipstickColorVariants"
+            :key="colorVariant.colorId"
+            class="product-card lipstick-variant"
+            :class="{ 'selected-variant': colorVariant.colorId === selectedColor }"
+            @click="selectColorVariant(colorVariant)"
+          >
             <div class="product-image">
-              <img :src="product.image" :alt="product.name" />
-              <button class="wishlist-btn" :class="{ active: product.isWishlisted }">
+              <img :src="colorVariant.image" :alt="colorVariant.name" />
+              <div class="color-indicator" :style="{ backgroundColor: colorVariant.hex }"></div>
+              <button class="wishlist-btn" :class="{ active: colorVariant.isWishlisted }">
                 <i class="fas fa-heart"></i>
               </button>
             </div>
             <div class="product-info">
-              <h3 class="product-name">{{ product.name }}</h3>
-              <div class="product-price">${{ product.price }}</div>
-              <button @click="addRelatedToCart(product)" class="add-to-cart-btn">Add to cart</button>
+              <h3 class="product-name">{{ colorVariant.name }}</h3>
+              <div class="color-name">{{ colorVariant.colorName }}</div>
+              <div class="product-price">${{ formatPrice(colorVariant.price) }}</div>
+              <button
+                @click.stop="addColorVariantToCart(colorVariant)"
+                class="add-to-cart-btn"
+                :class="{ 'selected-color': colorVariant.colorId === selectedColor }"
+              >
+                <span v-if="colorVariant.colorId === selectedColor">Current Selection</span>
+                <span v-else>Add to cart</span>
+              </button>
             </div>
           </div>
         </div>
