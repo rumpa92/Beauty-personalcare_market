@@ -144,15 +144,6 @@
             ></textarea>
           </div>
 
-          <!-- Compact Info Banner -->
-          <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 16px;">💰</span>
-            <div>
-              <div style="font-size: 14px; color: #0369a1; font-weight: 600;">Refund: ₹2,499.00</div>
-              <div style="font-size: 12px; color: #0369a1;">Processed within 5-7 business days</div>
-            </div>
-          </div>
-
           <!-- Compact Buttons -->
           <div style="display: flex; gap: 12px;">
             <button @click="closeModal" style="flex: 1; padding: 12px; border: 2px solid #e5e7eb; background: #fff; color: #6b7280; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer;">
@@ -177,7 +168,7 @@
                 gap: '6px'
               }"
             >
-              📋 Submit Request
+              Continue
             </button>
           </div>
 
