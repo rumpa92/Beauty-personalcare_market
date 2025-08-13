@@ -66,9 +66,7 @@
                 :class="['color-option', { active: selectedColor === color.id }]"
                 :style="{ backgroundColor: color.hex }"
                 :title="color.name"
-              >
-                <span class="color-label">{{ color.name }}</span>
-              </button>
+              />
             </div>
           </div>
 
@@ -177,7 +175,7 @@
     <!-- Matte Lipstick Collection Colors -->
     <section class="related-products-section">
       <div class="related-container">
-        <h2 class="section-title">Matte Lipstick Collection - All Shades</h2>
+        <h2 class="section-title">Explore Related Produts</h2>
         <div class="products-grid">
           <div
             v-for="colorVariant in lipstickColorVariants"
@@ -188,7 +186,6 @@
           >
             <div class="product-image">
               <img :src="colorVariant.image" :alt="colorVariant.name" />
-              <div class="color-indicator" :style="{ backgroundColor: colorVariant.hex }"></div>
               <button class="wishlist-btn" :class="{ active: colorVariant.isWishlisted }">
                 <i class="fas fa-heart"></i>
               </button>
