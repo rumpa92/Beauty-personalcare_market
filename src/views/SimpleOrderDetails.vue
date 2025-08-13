@@ -228,10 +228,12 @@ export default {
   data() {
     return {
       showModal: false,
+      showConfirmation: false,
       showSuccess: false,
       requestId: '',
       refundReason: '',
       refundComments: '',
+      refundAmount: '2,499.00',
       items: [
         {
           id: 1,
