@@ -215,31 +215,31 @@
 
           <!-- Benefits List -->
           <div style="margin-bottom: 20px;">
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-              <div style="width: 32px; height: 32px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <i class="fas fa-zap" style="color: white; font-size: 14px;"></i>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <div style="width: 24px; height: 24px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <i class="fas fa-zap" style="color: white; font-size: 11px;"></i>
               </div>
               <div>
-                <div style="font-weight: 600; color: #1f2937; font-size: 14px;">Instant Credit</div>
-                <div style="color: #6b7280; font-size: 12px;">Money available immediately</div>
+                <div style="font-weight: 600; color: #1f2937; font-size: 12px;">Instant Credit</div>
+                <div style="color: #6b7280; font-size: 10px;">Money available immediately</div>
               </div>
             </div>
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-              <div style="width: 32px; height: 32px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <i class="fas fa-gift" style="color: white; font-size: 14px;"></i>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <div style="width: 24px; height: 24px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <i class="fas fa-gift" style="color: white; font-size: 11px;"></i>
               </div>
               <div>
-                <div style="font-weight: 600; color: #1f2937; font-size: 14px;">5% Bonus Credits</div>
-                <div style="color: #6b7280; font-size: 12px;">Extra ₹{{ Math.round(parseFloat(refundAmount.replace(',', '')) * 0.05) }} bonus</div>
+                <div style="font-weight: 600; color: #1f2937; font-size: 12px;">5% Bonus Credits</div>
+                <div style="color: #6b7280; font-size: 10px;">Extra ₹{{ Math.round(parseFloat(refundAmount.replace(',', '')) * 0.05) }} bonus</div>
               </div>
             </div>
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <div style="width: 32px; height: 32px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <i class="fas fa-shopping-bag" style="color: white; font-size: 14px;"></i>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 24px; height: 24px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <i class="fas fa-shopping-bag" style="color: white; font-size: 11px;"></i>
               </div>
               <div>
-                <div style="font-weight: 600; color: #1f2937; font-size: 14px;">Shop Immediately</div>
-                <div style="color: #6b7280; font-size: 12px;">Use credits for next purchase</div>
+                <div style="font-weight: 600; color: #1f2937; font-size: 12px;">Shop Immediately</div>
+                <div style="color: #6b7280; font-size: 10px;">Use credits for next purchase</div>
               </div>
             </div>
           </div>
