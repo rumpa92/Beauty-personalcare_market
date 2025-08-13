@@ -5,7 +5,7 @@
       <div class="product-content">
         <!-- Product Image -->
         <div class="product-image-section">
-          <div class="image-container">
+          <div class="image-container" :class="{ changing: imageChanging }">
             <img :src="currentProductImage" :alt="product.name" :key="selectedColor" class="main-product-image" />
             <div class="image-controls">
               <button class="control-btn prev">
