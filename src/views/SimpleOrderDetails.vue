@@ -293,10 +293,16 @@
           </div>
         </div>
 
-        <!-- Action Button -->
-        <button @click="closeSuccess" style="background: linear-gradient(135deg, #8b4e9f, #7c3aed); color: white; border: none; padding: 16px 40px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(139, 78, 159, 0.3);">
-          Continue Shopping
-        </button>
+        <!-- Action Buttons -->
+        <div style="display: flex; gap: 12px;">
+          <button @click="closeSuccess" style="flex: 1; background: white; color: #6b7280; border: 2px solid #e5e7eb; padding: 16px 24px; border-radius: 12px; font-weight: 600; font-size: 16px; cursor: pointer; transition: all 0.3s ease;">
+            View Wallet
+          </button>
+          <button @click="closeSuccess" style="flex: 2; background: linear-gradient(135deg, #22c55e, #16a34a); color: white; border: none; padding: 16px 24px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);">
+            <i class="fas fa-shopping-bag" style="margin-right: 8px;"></i>
+            Continue Shopping
+          </button>
+        </div>
       </div>
     </div>
 
