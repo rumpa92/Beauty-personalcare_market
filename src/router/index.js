@@ -27,6 +27,7 @@ import RatingsReviews from '../views/RatingsReviews.vue';
 import SelectAddress from '../views/SelectAddress.vue';
 import EditAddress from '../views/EditAddress.vue';
 import AddAddress from '../views/AddAddress.vue';
+import Returns from '../views/Returns.vue';
 
 Vue.use(VueRouter);
 
