@@ -479,9 +479,7 @@ export default {
         sizes: storeProduct.sizes || [
           { id: 'mini', value: '1.5ml', price: 12.99 },
           { id: 'standard', value: '3.5ml', price: 24.99 },
-          { id: 's', value: 'S' },
-          { id: 'm', value: 'M' },
-          { id: 'l', value: 'L' }
+          { id: 'jumbo', value: '5ml', price: 34.99 }
         ],
         features: storeProduct.ingredients || storeProduct.benefits || [
           'Premium quality materials',
@@ -974,7 +972,7 @@ export default {
 
 .product-features li::before,
 .care-instructions li::before {
-  content: '���';
+  content: '•';
   position: absolute;
   left: 0;
   color: #663399;
