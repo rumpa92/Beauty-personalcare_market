@@ -403,6 +403,13 @@ export default {
     
     selectColor(color) {
       console.log('Selecting color:', color.name, 'ID:', color.id);
+
+      // Trigger image changing animation
+      this.imageChanging = true;
+      setTimeout(() => {
+        this.imageChanging = false;
+      }, 500);
+
       this.selectedColor = color.id;
 
       // Log the current image that should be displayed
