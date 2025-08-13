@@ -240,6 +240,7 @@ export default {
       selectedSize: 'standard',
       quantity: 1,
       imageChanging: false,
+      currentImageIndex: 0,
       
       // Sample matte lipstick collection data
       sampleProduct: {
