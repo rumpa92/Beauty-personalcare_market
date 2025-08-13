@@ -424,6 +424,21 @@ export default {
         const availableWidth = containerWidth - (this.gap * (this.cardsToShow - 1));
         this.cardWidth = Math.floor(availableWidth / this.cardsToShow);
       }
+    },
+
+    handleQuickViewAddToCart(data) {
+      this.showToastMessage(`${data.product.name} added to cart!`, 'success');
+      this.$emit('add-to-cart', data.product);
+    },
+
+    handleWishlistToggle(data) {
+      const message = data.isInWishlist ? 'Added to wishlist' : 'Removed from wishlist';
+      this.showToastMessage(message, 'success');
+      this.$emit('wishlist-toggle', data);
+    },
+
+    handleViewFullDetails(product) {
+      this.$emit('product-click', product);
     }
   },
   
