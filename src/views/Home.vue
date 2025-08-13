@@ -38,29 +38,6 @@
       </button>
     </section>
 
-    <!-- AI-Based Personalized Recommendations -->
-    <section v-if="isAuthenticated" class="personalized-recommendations">
-      <div class="container">
-        <div class="section-header ai-header">
-          <div class="ai-badge">
-            <i class="fas fa-magic"></i>
-            <span>AI Powered</span>
-          </div>
-          <h2 class="section-title">Just for You, {{ userProfile.name }}</h2>
-          <p class="section-subtitle">Curated picks based on your beauty preferences and skin profile</p>
-        </div>
-        <div class="recommendations-grid">
-          <ProductCard 
-            v-for="product in personalizedProducts.slice(0, 6)" 
-            :key="product.id"
-            :product="product"
-            :show-reason="true"
-            class="recommendation-card"
-          />
-        </div>
-      </div>
-    </section>
-
     <!-- Shop by Skin Type / Hair Type -->
     <section class="type-selector-section">
       <div class="container">
@@ -958,54 +935,6 @@ export default {
 
 .banner-nav.next {
   right: 30px;
-}
-
-/* AI Personalized Recommendations */
-.personalized-recommendations {
-  padding: 80px 0;
-  background: linear-gradient(135deg, #faf5ff 0%, #f0f9ff 50%, #fdf2f8 100%);
-}
-
-.personalized-recommendations .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.ai-header {
-  text-align: center;
-  margin-bottom: 60px;
-}
-
-.ai-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, var(--primary-500), var(--purple-600));
-  color: white;
-  padding: 8px 20px;
-  border-radius: 25px;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 16px rgba(168, 85, 247, 0.3);
-}
-
-.recommendations-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  justify-content: center;
-}
-
-.recommendation-card {
-  transform: translateY(0);
-  transition: all 0.3s ease;
-}
-
-.recommendation-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
 /* Type Selector Section */

@@ -32,6 +32,10 @@ import RefundDemo from '../views/RefundDemo.vue';
 import CartDemo from '../views/CartDemo.vue';
 import ModernProductDetail from '../views/ModernProductDetail.vue';
 import ProductDemo from '../views/ProductDemo.vue';
+import ProductDetailTest from '../views/ProductDetailTest.vue';
+import TestProductNavigation from '../views/TestProductNavigation.vue';
+import ProductNavigationDemo from '../views/ProductNavigationDemo.vue';
+import QuickViewTest from '../views/QuickViewTest.vue';
 
 Vue.use(VueRouter);
 
@@ -147,6 +151,30 @@ const routes = [
     name: 'ProductDemo',
     component: ProductDemo,
     meta: { title: 'Product Demo - Beauty Market' }
+  },
+  {
+    path: '/product-detail-test',
+    name: 'ProductDetailTest',
+    component: ProductDetailTest,
+    meta: { title: 'Product Detail Test - Beauty Market' }
+  },
+  {
+    path: '/test-navigation',
+    name: 'TestProductNavigation',
+    component: TestProductNavigation,
+    meta: { title: 'Test Product Navigation - Beauty Market' }
+  },
+  {
+    path: '/navigation-demo',
+    name: 'ProductNavigationDemo',
+    component: ProductNavigationDemo,
+    meta: { title: 'Product Navigation Demo - Beauty Market' }
+  },
+  {
+    path: '/quick-view-test',
+    name: 'QuickViewTest',
+    component: QuickViewTest,
+    meta: { title: 'Quick View Test - Beauty Market' }
   },
   {
     path: '/checkout',

@@ -1,124 +1,120 @@
 <template>
-  <div class="product-image-carousel">
-    <!-- Main Image Display -->
-    <div class="main-image-container">
-      <div 
+  <div class="image-carousel-container">
+    <!-- Share Icons Overlay -->
+    <div class="share-overlay">
+      <button @click="shareProduct('whatsapp')" class="share-btn whatsapp-share" title="Share on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+      </button>
+      <button @click="shareProduct('instagram')" class="share-btn instagram-share" title="Share on Instagram">
+        <i class="fab fa-instagram"></i>
+      </button>
+      <button @click="shareProduct('facebook')" class="share-btn facebook-share" title="Share on Facebook">
+        <i class="fab fa-facebook"></i>
+      </button>
+      <button @click="copyLink" class="share-btn copy-link" title="Copy Link">
+        <i class="fas fa-link"></i>
+      </button>
+    </div>
+
+    <!-- Main Image Container -->
+    <div 
+      class="main-image-wrapper"
+      @mousemove="handleZoom"
+      @mouseleave="resetZoom"
+      @touchstart="handleTouchStart"
+      @touchmove="handleTouchMove"
+      @touchend="handleTouchEnd"
+      ref="imageWrapper"
+    >
+      <img 
+        :src="currentImage" 
+        :alt="imageAlt"
         class="main-image"
-        @mousemove="handleMouseMove"
-        @mouseleave="hideZoom"
+        :style="zoomStyle"
+        ref="mainImage"
         @click="openFullscreen"
-      >
-        <img 
-          :src="currentImage" 
-          :alt="productName"
-          ref="mainImage"
-          class="main-img"
-        >
-        
-        <!-- Zoom Lens -->
-        <div 
-          v-if="showZoom" 
-          class="zoom-lens"
-          :style="lensStyle"
-        ></div>
+      />
+      
+      <!-- Zoom Indicator -->
+      <div v-if="!isMobile" class="zoom-indicator">
+        <i class="fas fa-search-plus"></i>
+        <span>Hover to zoom</span>
       </div>
 
-      <!-- Zoom Result -->
-      <div 
-        v-if="showZoom" 
-        class="zoom-result"
-        :style="zoomStyle"
-      ></div>
-
-      <!-- Image Navigation Arrows -->
+      <!-- Carousel Navigation -->
       <button 
-        v-if="images.length > 1"
         @click="previousImage" 
-        class="nav-arrow prev"
+        class="carousel-nav-btn prev-btn"
+        :disabled="currentIndex === 0"
+        v-if="images.length > 1"
       >
         <i class="fas fa-chevron-left"></i>
       </button>
       <button 
-        v-if="images.length > 1"
         @click="nextImage" 
-        class="nav-arrow next"
+        class="carousel-nav-btn next-btn"
+        :disabled="currentIndex === images.length - 1"
+        v-if="images.length > 1"
       >
         <i class="fas fa-chevron-right"></i>
       </button>
 
-      <!-- Image Indicators -->
-      <div v-if="images.length > 1" class="image-indicators">
-        <span 
-          v-for="(image, index) in images" 
-          :key="index"
-          class="indicator"
-          :class="{ active: currentIndex === index }"
-          @click="setCurrentImage(index)"
-        ></span>
+      <!-- Image Counter -->
+      <div class="image-counter" v-if="images.length > 1">
+        {{ currentIndex + 1 }} / {{ images.length }}
       </div>
-
-      <!-- Fullscreen Button -->
-      <button @click="openFullscreen" class="fullscreen-btn">
-        <i class="fas fa-expand"></i>
-      </button>
     </div>
 
-    <!-- Thumbnail Gallery -->
-    <div class="thumbnail-gallery">
-      <button 
-        v-for="(image, index) in images" 
-        :key="index"
-        class="thumbnail"
-        :class="{ active: currentIndex === index }"
-        @click="setCurrentImage(index)"
-      >
-        <img :src="image" :alt="`${productName} view ${index + 1}`">
-      </button>
+    <!-- Thumbnail Navigation -->
+    <div class="thumbnails-container" v-if="images.length > 1">
+      <div class="thumbnails-wrapper">
+        <button 
+          v-for="(image, index) in images" 
+          :key="index"
+          class="thumbnail-btn"
+          :class="{ active: currentIndex === index }"
+          @click="selectImage(index)"
+        >
+          <img :src="image" :alt="`${imageAlt} view ${index + 1}`" />
+        </button>
+      </div>
     </div>
 
     <!-- Fullscreen Modal -->
-    <div v-if="fullscreenOpen" class="fullscreen-modal" @click="closeFullscreen">
+    <div v-if="showFullscreen" class="fullscreen-modal" @click="closeFullscreen">
       <div class="fullscreen-content" @click.stop>
-        <button @click="closeFullscreen" class="close-btn">
+        <button @click="closeFullscreen" class="close-fullscreen">
           <i class="fas fa-times"></i>
         </button>
+        <img :src="currentImage" :alt="imageAlt" class="fullscreen-image" />
         
-        <div class="fullscreen-image-container">
-          <img 
-            :src="currentImage" 
-            :alt="productName"
-            class="fullscreen-image"
-          >
-          
-          <button 
-            v-if="images.length > 1"
-            @click="previousImage" 
-            class="fullscreen-nav prev"
-          >
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <button 
-            v-if="images.length > 1"
-            @click="nextImage" 
-            class="fullscreen-nav next"
-          >
-            <i class="fas fa-chevron-right"></i>
-          </button>
-        </div>
-        
-        <div class="fullscreen-thumbnails">
-          <button 
-            v-for="(image, index) in images" 
-            :key="index"
-            class="fullscreen-thumbnail"
-            :class="{ active: currentIndex === index }"
-            @click="setCurrentImage(index)"
-          >
-            <img :src="image" :alt="`View ${index + 1}`">
-          </button>
-        </div>
+        <!-- Fullscreen Navigation -->
+        <button 
+          @click="previousImage" 
+          class="fullscreen-nav prev"
+          :disabled="currentIndex === 0"
+          v-if="images.length > 1"
+        >
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button 
+          @click="nextImage" 
+          class="fullscreen-nav next"
+          :disabled="currentIndex === images.length - 1"
+          v-if="images.length > 1"
+        >
+          <i class="fas fa-chevron-right"></i>
+        </button>
       </div>
     </div>
+
+    <!-- Success Toast -->
+    <transition name="toast">
+      <div v-if="showToast" class="toast-notification success">
+        <i class="fas fa-check-circle"></i>
+        <span>{{ toastMessage }}</span>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -128,270 +124,372 @@ export default {
   props: {
     images: {
       type: Array,
-      required: true
+      required: true,
+      default: () => []
     },
     productName: {
       type: String,
-      required: true
+      default: 'Product'
+    },
+    productBrand: {
+      type: String,
+      default: ''
     }
   },
   data() {
     return {
       currentIndex: 0,
-      showZoom: false,
-      fullscreenOpen: false,
-      lensPosition: { x: 0, y: 0 },
-      zoomPosition: { x: 0, y: 0 }
+      zoomStyle: {},
+      touchStartX: null,
+      touchStartY: null,
+      showFullscreen: false,
+      showToast: false,
+      toastMessage: '',
+      isMobile: false
     };
   },
   computed: {
     currentImage() {
-      return this.images[this.currentIndex] || this.images[0];
+      return this.images[this.currentIndex] || '';
     },
-    lensStyle() {
-      return {
-        left: this.lensPosition.x + 'px',
-        top: this.lensPosition.y + 'px'
-      };
-    },
-    zoomStyle() {
-      return {
-        backgroundImage: `url(${this.currentImage})`,
-        backgroundPosition: `-${this.zoomPosition.x}px -${this.zoomPosition.y}px`,
-        backgroundSize: '400% 400%'
-      };
+    imageAlt() {
+      return `${this.productBrand} ${this.productName}`;
     }
   },
   methods: {
-    setCurrentImage(index) {
+    selectImage(index) {
       this.currentIndex = index;
+      this.resetZoom();
     },
+    
     nextImage() {
-      this.currentIndex = (this.currentIndex + 1) % this.images.length;
+      if (this.currentIndex < this.images.length - 1) {
+        this.currentIndex++;
+        this.resetZoom();
+      }
     },
+    
     previousImage() {
-      this.currentIndex = this.currentIndex === 0 ? this.images.length - 1 : this.currentIndex - 1;
+      if (this.currentIndex > 0) {
+        this.currentIndex--;
+        this.resetZoom();
+      }
     },
-    handleMouseMove(event) {
-      const rect = event.currentTarget.getBoundingClientRect();
+
+    // Desktop zoom functionality
+    handleZoom(event) {
+      if (this.isMobile) return;
+      
+      const rect = event.target.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
+      const xPercent = (x / rect.width) * 100;
+      const yPercent = (y / rect.height) * 100;
       
-      const lensSize = 100;
-      const lensX = Math.max(0, Math.min(x - lensSize / 2, rect.width - lensSize));
-      const lensY = Math.max(0, Math.min(y - lensSize / 2, rect.height - lensSize));
-      
-      this.lensPosition = { x: lensX, y: lensY };
-      
-      // Calculate zoom position
-      const zoomFactor = 4;
-      this.zoomPosition = {
-        x: x * zoomFactor - 150,
-        y: y * zoomFactor - 150
+      this.zoomStyle = {
+        transform: 'scale(2.5)',
+        transformOrigin: `${xPercent}% ${yPercent}%`,
+        cursor: 'zoom-in'
       };
+    },
+    
+    resetZoom() {
+      this.zoomStyle = {};
+    },
+
+    // Touch events for mobile swipe
+    handleTouchStart(event) {
+      this.touchStartX = event.touches[0].clientX;
+      this.touchStartY = event.touches[0].clientY;
+    },
+    
+    handleTouchMove(event) {
+      if (!this.touchStartX || !this.touchStartY) return;
       
-      this.showZoom = true;
+      const touchX = event.touches[0].clientX;
+      const touchY = event.touches[0].clientY;
+      const diffX = this.touchStartX - touchX;
+      const diffY = this.touchStartY - touchY;
+      
+      // Only handle horizontal swipes (ignore vertical scrolling)
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+        event.preventDefault();
+        
+        if (diffX > 0) {
+          this.nextImage();
+        } else {
+          this.previousImage();
+        }
+        this.touchStartX = null;
+        this.touchStartY = null;
+      }
     },
-    hideZoom() {
-      this.showZoom = false;
+    
+    handleTouchEnd() {
+      this.touchStartX = null;
+      this.touchStartY = null;
     },
+
+    // Fullscreen functionality
     openFullscreen() {
-      this.fullscreenOpen = true;
+      this.showFullscreen = true;
       document.body.style.overflow = 'hidden';
     },
+
     closeFullscreen() {
-      this.fullscreenOpen = false;
-      document.body.style.overflow = '';
-    }
-  },
-  mounted() {
-    // Auto-advance images every 5 seconds when not interacting
-    this.autoAdvanceInterval = setInterval(() => {
-      if (!this.showZoom && !this.fullscreenOpen) {
-        this.nextImage();
+      this.showFullscreen = false;
+      document.body.style.overflow = 'auto';
+    },
+
+    // Share functionality
+    shareProduct(platform) {
+      const url = window.location.href;
+      const text = `Check out this amazing ${this.productName} from ${this.productBrand}!`;
+      
+      switch (platform) {
+        case 'whatsapp':
+          window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`);
+          break;
+        case 'facebook':
+          window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`);
+          break;
+        case 'instagram':
+          this.showToastMessage('Copy the link to share on Instagram');
+          this.copyLink();
+          break;
       }
-    }, 5000);
-  },
-  beforeDestroy() {
-    if (this.autoAdvanceInterval) {
-      clearInterval(this.autoAdvanceInterval);
+    },
+    
+    copyLink() {
+      navigator.clipboard.writeText(window.location.href);
+      this.showToastMessage('Link copied to clipboard!');
+    },
+
+    showToastMessage(message) {
+      this.toastMessage = message;
+      this.showToast = true;
+      
+      setTimeout(() => {
+        this.showToast = false;
+      }, 3000);
+    },
+
+    checkMobile() {
+      this.isMobile = window.innerWidth <= 768;
     }
-    document.body.style.overflow = '';
+  },
+
+  mounted() {
+    this.checkMobile();
+    window.addEventListener('resize', this.checkMobile);
+    
+    // Keyboard navigation
+    const handleKeydown = (event) => {
+      if (this.showFullscreen) {
+        switch (event.key) {
+          case 'ArrowLeft':
+            this.previousImage();
+            break;
+          case 'ArrowRight':
+            this.nextImage();
+            break;
+          case 'Escape':
+            this.closeFullscreen();
+            break;
+        }
+      }
+    };
+    
+    document.addEventListener('keydown', handleKeydown);
+    
+    // Cleanup
+    this.$once('hook:beforeDestroy', () => {
+      window.removeEventListener('resize', this.checkMobile);
+      document.removeEventListener('keydown', handleKeydown);
+    });
   }
 };
 </script>
 
 <style scoped>
-.product-image-carousel {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.image-carousel-container {
+  position: relative;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
 }
 
-.main-image-container {
+/* Share Overlay */
+.share-overlay {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.share-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.95);
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+}
+
+.share-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.whatsapp-share:hover { color: #25d366; background: rgba(37, 211, 102, 0.1); }
+.instagram-share:hover { color: #e4405f; background: rgba(228, 64, 95, 0.1); }
+.facebook-share:hover { color: #1877f2; background: rgba(24, 119, 242, 0.1); }
+.copy-link:hover { color: #8b5cf6; background: rgba(139, 92, 246, 0.1); }
+
+/* Main Image */
+.main-image-wrapper {
   position: relative;
-  aspect-ratio: 1;
-  background: var(--gray-50);
-  border-radius: 12px;
+  width: 100%;
+  height: 600px;
   overflow: hidden;
   cursor: zoom-in;
 }
 
 .main-image {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.main-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
 
-.zoom-lens {
+.zoom-indicator {
   position: absolute;
-  width: 100px;
-  height: 100px;
-  border: 2px solid var(--primary-500);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
-  pointer-events: none;
-  backdrop-filter: blur(2px);
+  bottom: 20px;
+  left: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.8;
 }
 
-.zoom-result {
-  position: absolute;
-  top: 0;
-  right: -320px;
-  width: 300px;
-  height: 300px;
-  border: 2px solid var(--gray-200);
-  border-radius: 12px;
-  background-repeat: no-repeat;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  z-index: 10;
-}
-
-.nav-arrow {
+/* Carousel Navigation */
+.carousel-nav-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.9);
-  border: none;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  border: none;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
-  color: var(--gray-700);
-  opacity: 0;
-  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  color: #374151;
+  z-index: 5;
 }
 
-.main-image-container:hover .nav-arrow {
-  opacity: 1;
-}
-
-.nav-arrow:hover {
+.carousel-nav-btn:hover:not(:disabled) {
   background: white;
-  color: var(--primary-600);
   transform: translateY(-50%) scale(1.1);
+  color: var(--market-primary);
 }
 
-.nav-arrow.prev {
-  left: 16px;
+.carousel-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
-.nav-arrow.next {
-  right: 16px;
-}
+.prev-btn { left: 20px; }
+.next-btn { right: 20px; }
 
-.image-indicators {
+.image-counter {
   position: absolute;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 8px;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 500;
 }
 
-.indicator {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(10px);
-}
-
-.indicator.active {
-  background: var(--primary-500);
-  transform: scale(1.2);
-}
-
-.fullscreen-btn {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: rgba(255, 255, 255, 0.9);
-  border: none;
-  border-radius: 8px;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: var(--gray-700);
-  opacity: 0;
-  backdrop-filter: blur(10px);
-}
-
-.main-image-container:hover .fullscreen-btn {
-  opacity: 1;
-}
-
-.fullscreen-btn:hover {
+/* Thumbnails */
+.thumbnails-container {
+  padding: 20px;
   background: white;
-  color: var(--primary-600);
 }
 
-.thumbnail-gallery {
+.thumbnails-wrapper {
   display: flex;
   gap: 12px;
   overflow-x: auto;
-  padding: 4px;
+  padding-bottom: 5px;
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
 }
 
-.thumbnail {
+.thumbnails-wrapper::-webkit-scrollbar {
+  height: 4px;
+}
+
+.thumbnails-wrapper::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 2px;
+}
+
+.thumbnails-wrapper::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 2px;
+}
+
+.thumbnail-btn {
   flex-shrink: 0;
   width: 80px;
   height: 80px;
-  border: 2px solid transparent;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.2s ease;
-  background: var(--gray-50);
+  border: 3px solid transparent;
+  transition: all 0.3s ease;
+  background: none;
+  padding: 0;
 }
 
-.thumbnail:hover {
-  border-color: var(--primary-300);
+.thumbnail-btn:hover {
+  border-color: #ec4899;
+  transform: scale(1.05);
 }
 
-.thumbnail.active {
-  border-color: var(--primary-500);
+.thumbnail-btn.active {
+  border-color: #ec4899;
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
 }
 
-.thumbnail img {
+.thumbnail-btn img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -402,13 +500,13 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.9);
-  z-index: 2000;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 9999;
   backdrop-filter: blur(10px);
 }
 
@@ -416,36 +514,6 @@ export default {
   position: relative;
   max-width: 90vw;
   max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.close-btn {
-  position: absolute;
-  top: -60px;
-  right: 0;
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  color: white;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(10px);
-}
-
-.close-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.fullscreen-image-container {
-  position: relative;
-  max-height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -455,115 +523,150 @@ export default {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  border-radius: 12px;
+  border-radius: 8px;
+}
+
+.close-fullscreen {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-fullscreen:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .fullscreen-nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
   border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
   color: white;
+  font-size: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(10px);
 }
 
-.fullscreen-nav:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-50%) scale(1.1);
+.fullscreen-nav:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
 }
 
-.fullscreen-nav.prev {
-  left: -80px;
+.fullscreen-nav:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
-.fullscreen-nav.next {
-  right: -80px;
-}
+.fullscreen-nav.prev { left: -80px; }
+.fullscreen-nav.next { right: -80px; }
 
-.fullscreen-thumbnails {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  overflow-x: auto;
-  padding: 8px;
-}
-
-.fullscreen-thumbnail {
-  flex-shrink: 0;
-  width: 60px;
-  height: 60px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+/* Toast Notification */
+.toast-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #22c55e;
+  color: white;
+  padding: 12px 20px;
   border-radius: 8px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  background: var(--gray-800);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+  font-weight: 500;
 }
 
-.fullscreen-thumbnail:hover {
-  border-color: rgba(255, 255, 255, 0.6);
+.toast-enter-active, .toast-leave-active {
+  transition: all 0.3s ease;
 }
 
-.fullscreen-thumbnail.active {
-  border-color: var(--primary-400);
+.toast-enter, .toast-leave-to {
+  opacity: 0;
+  transform: translateX(100%);
 }
 
-.fullscreen-thumbnail img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-@media (max-width: 1024px) {
-  .zoom-result {
-    display: none;
-  }
-}
-
+/* Mobile Responsive */
 @media (max-width: 768px) {
-  .thumbnail-gallery {
-    gap: 8px;
+  .main-image-wrapper {
+    height: 400px;
   }
   
-  .thumbnail {
+  .share-overlay {
+    top: 10px;
+    right: 10px;
+  }
+  
+  .share-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 14px;
+  }
+  
+  .carousel-nav-btn {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .prev-btn { left: 10px; }
+  .next-btn { right: 10px; }
+  
+  .thumbnails-container {
+    padding: 15px;
+  }
+  
+  .thumbnail-btn {
     width: 60px;
     height: 60px;
   }
   
-  .fullscreen-nav.prev {
-    left: -60px;
+  .zoom-indicator {
+    display: none;
   }
   
-  .fullscreen-nav.next {
-    right: -60px;
-  }
+  .fullscreen-nav.prev { left: -60px; }
+  .fullscreen-nav.next { right: -60px; }
 }
 
 @media (max-width: 480px) {
-  .thumbnail {
+  .main-image-wrapper {
+    height: 350px;
+  }
+  
+  .thumbnails-container {
+    padding: 10px;
+  }
+  
+  .thumbnail-btn {
     width: 50px;
     height: 50px;
   }
   
-  .fullscreen-nav.prev,
-  .fullscreen-nav.next {
-    position: relative;
-    left: auto;
-    right: auto;
-    margin: 0 10px;
+  .fullscreen-nav {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
   }
   
-  .fullscreen-image-container {
-    flex-direction: column;
-  }
+  .fullscreen-nav.prev { left: 10px; }
+  .fullscreen-nav.next { right: 10px; }
 }
 </style>
