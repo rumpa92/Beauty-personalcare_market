@@ -25,12 +25,6 @@
           </div>
         </div>
         <router-link to="/products" class="nav-link">All Products</router-link>
-        <router-link to="/navigation-demo" class="nav-link" style="color: #22c55e; font-weight: 600;">
-          ✅ Demo
-        </router-link>
-        <router-link to="/quick-view-test" class="nav-link" style="color: #e91e63; font-weight: 600;">
-          👁️ Quick View
-        </router-link>
       </nav>
 
       <!-- Brand/Logo Text -->
