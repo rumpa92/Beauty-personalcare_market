@@ -270,9 +270,9 @@
         </div>
 
         <!-- Success Message -->
-        <h2 style="font-size: 28px; font-weight: 700; color: #1f2937; margin: 0 0 16px 0;">Request Received!</h2>
+        <h2 style="font-size: 28px; font-weight: 700; color: #1f2937; margin: 0 0 16px 0;">✅ Refund Successful!</h2>
         <p style="color: #6b7280; margin: 0 0 32px 0; line-height: 1.6; font-size: 16px;">
-          Your refund request has been received. You'll be notified once it's processed.
+          Your refund of <strong style="color: #15803d;">₹{{ refundAmount }}</strong> has been added to your Store Wallet.
         </p>
 
         <!-- Request Details -->
