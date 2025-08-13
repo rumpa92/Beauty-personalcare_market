@@ -121,6 +121,12 @@ const routes = [
     meta: { title: 'Returns & Refunds - Beauty Market' }
   },
   {
+    path: '/refund-demo',
+    name: 'RefundDemo',
+    component: RefundDemo,
+    meta: { title: 'Refund Demo - Beauty Market' }
+  },
+  {
     path: '/checkout',
     name: 'Checkout',
     component: Checkout,
