@@ -305,6 +305,24 @@ export default {
       return this.product?.images?.[0] || 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=600&h=600&fit=crop';
     },
 
+    lipstickColorVariants() {
+      if (!this.product?.colors || !this.product?.images) return [];
+
+      return this.product.colors.map(color => ({
+        id: `${this.product.id}-${color.id}`,
+        colorId: color.id,
+        name: this.product.name,
+        colorName: color.name,
+        price: this.product.price,
+        image: this.product.images[color.id] || Object.values(this.product.images)[0],
+        hex: color.hex,
+        isWishlisted: false,
+        brand: this.product.brand,
+        rating: this.product.rating,
+        reviewCount: this.product.reviewCount
+      }));
+    },
+
     // Get beauty & personal care products for "You May Also Like"
     relatedProducts() {
       if (!this.product) return [];
