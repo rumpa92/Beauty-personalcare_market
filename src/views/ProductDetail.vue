@@ -175,7 +175,7 @@
     <!-- Matte Lipstick Collection Colors -->
     <section class="related-products-section">
       <div class="related-container">
-        <h2 class="section-title">Explore Related Produts</h2>
+        <h2 class="section-title">Explore Related Products</h2>
         <div class="products-grid">
           <div
             v-for="colorVariant in lipstickColorVariants"
