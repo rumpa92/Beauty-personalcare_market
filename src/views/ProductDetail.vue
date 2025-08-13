@@ -593,6 +593,12 @@ export default {
       this.$router.push(`/product/${product.id}`);
     },
 
+    viewProduct(product) {
+      console.log('Viewing product:', product);
+      // Navigate to the clicked product
+      this.$router.push(`/product/${product.id}`);
+    },
+
     selectColorVariant(colorVariant) {
       // Update the selected color to match the clicked variant
       this.selectedColor = colorVariant.colorId;
