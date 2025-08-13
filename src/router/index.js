@@ -34,6 +34,7 @@ import ModernProductDetail from '../views/ModernProductDetail.vue';
 import ProductDemo from '../views/ProductDemo.vue';
 import ProductDetailTest from '../views/ProductDetailTest.vue';
 import TestProductNavigation from '../views/TestProductNavigation.vue';
+import ProductNavigationDemo from '../views/ProductNavigationDemo.vue';
 
 Vue.use(VueRouter);
 
