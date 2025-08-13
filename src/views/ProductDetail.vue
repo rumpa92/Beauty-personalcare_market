@@ -511,7 +511,7 @@ export default {
         'Bronze': '#CD7F32',
         'Pearl': '#F8F6F0'
       };
-      return colorMap[colorName] || '#DC2626';
+      return colorMap[colorName] || '#DC143C';
     },
 
     formatPrice(price) {
