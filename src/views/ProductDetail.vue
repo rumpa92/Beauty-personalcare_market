@@ -628,6 +628,11 @@ export default {
           type: 'success',
           message: `${colorVariant.name} (${colorVariant.colorName}) added to cart!`
         });
+
+        // Redirect to cart page after successful add to cart
+        setTimeout(() => {
+          this.$router.push('/cart');
+        }, 1000); // Small delay to show the success notification
       } catch (error) {
         this.$store.dispatch('ui/showNotification', {
           type: 'error',
