@@ -11,84 +11,49 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import ProductQuickViewModal from './ProductQuickViewModal.vue';
 
 export default {
   name: 'ProductQuickView',
-  data() {
-    return {
-      quantity: 1,
-      isAddingToCart: false
-    };
+  components: {
+    ProductQuickViewModal
   },
   computed: {
     ...mapGetters('ui', ['getModal']),
-    ...mapGetters('user', ['isInWishlist']),
     isOpen() {
       return this.getModal('productQuickView').open;
     },
     product() {
-      return this.getModal('productQuickView').product;
-    }
-  },
-  watch: {
-    product(newProduct) {
-      if (newProduct) {
-        this.quantity = 1;
-        this.isAddingToCart = false;
-      }
+      return this.getModal('productQuickView').data;
     }
   },
   methods: {
     ...mapActions('ui', ['closeModal', 'showNotification']),
-    ...mapActions('cart', ['addToCart']),
-    ...mapActions('user', ['toggleWishlist']),
-    increaseQuantity() {
-      if (this.quantity < 10) {
-        this.quantity++;
-      }
-    },
-    decreaseQuantity() {
-      if (this.quantity > 1) {
-        this.quantity--;
-      }
-    },
-    async handleAddToCart() {
-      if (!this.product) return;
 
-      this.isAddingToCart = true;
-
-      try {
-        await this.addToCart({
-          ...this.product,
-          quantity: this.quantity
-        });
-
-        this.closeModal('productQuickView');
-      } catch (error) {
-        this.showNotification({
-          type: 'error',
-          message: 'Failed to add product to cart'
-        });
-      } finally {
-        this.isAddingToCart = false;
-      }
+    handleClose() {
+      this.closeModal('productQuickView');
     },
-    async toggleWishlist() {
-      if (!this.product) return;
-      
-      try {
-        const result = await this.toggleWishlist(this.product);
-        
-        this.showNotification({
-          type: 'success',
-          message: result.message
-        });
-      } catch (error) {
-        this.showNotification({
-          type: 'error',
-          message: 'Failed to update wishlist'
-        });
-      }
+
+    handleAddedToCart(data) {
+      this.showNotification({
+        type: 'success',
+        message: `${data.product.name} added to cart!`
+      });
+      // Optionally close modal after adding to cart
+      // this.closeModal('productQuickView');
+    },
+
+    handleWishlistToggle(data) {
+      const message = data.isInWishlist ? 'Added to wishlist' : 'Removed from wishlist';
+      this.showNotification({
+        type: 'success',
+        message: message
+      });
+    },
+
+    handleViewFullDetails(product) {
+      this.closeModal('productQuickView');
+      this.$router.push(`/product/${product.id}`);
     }
   }
 };
