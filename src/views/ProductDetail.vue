@@ -804,6 +804,8 @@ export default {
 .product-detail-wrapper {
   min-height: 100vh;
   background: #f8f9fa;
+  position: relative;
+  z-index: 1;
 }
 
 .loading-container,
