@@ -15,7 +15,7 @@
             <i class="fas fa-gem"></i>
           </div>
           <div class="beauty-element element-4">
-            <i class="fas fa-sparkles"></i>
+            <i class="fas fa-magic"></i>
           </div>
         </div>
       </div>
@@ -43,34 +43,6 @@
             <p class="auth-subtitle">
               {{ isSignUp ? 'Join our beauty community and discover your perfect look' : 'Sign in to continue your beauty journey' }}
             </p>
-          </div>
-        </div>
-
-        <!-- Social Authentication -->
-        <div class="social-auth-section">
-          <div class="social-buttons">
-            <button @click="signInWithGoogle" class="social-btn google-btn" :disabled="isLoading">
-              <div class="social-icon">
-                <i class="fab fa-google"></i>
-              </div>
-              <span>Google</span>
-            </button>
-            <button @click="signInWithFacebook" class="social-btn facebook-btn" :disabled="isLoading">
-              <div class="social-icon">
-                <i class="fab fa-facebook-f"></i>
-              </div>
-              <span>Facebook</span>
-            </button>
-            <button @click="signInWithApple" class="social-btn apple-btn" :disabled="isLoading">
-              <div class="social-icon">
-                <i class="fab fa-apple"></i>
-              </div>
-              <span>Apple</span>
-            </button>
-          </div>
-          
-          <div class="auth-divider">
-            <span>Or continue with email</span>
           </div>
         </div>
 
@@ -278,6 +250,34 @@
             </span>
           </button>
         </form>
+
+        <!-- Social Authentication (Display Only) -->
+        <div class="social-auth-section">
+          <div class="auth-divider">
+            <span>Or continue with email</span>
+          </div>
+
+          <div class="social-buttons">
+            <div class="social-btn google-btn disabled">
+              <div class="social-icon">
+                <span class="google-logo">G</span>
+              </div>
+              <span>Google</span>
+            </div>
+            <div class="social-btn facebook-btn disabled">
+              <div class="social-icon">
+                <i class="fab fa-facebook-f"></i>
+              </div>
+              <span>Facebook</span>
+            </div>
+            <div class="social-btn apple-btn disabled">
+              <div class="social-icon">
+                <i class="fab fa-apple"></i>
+              </div>
+              <span>Apple</span>
+            </div>
+          </div>
+        </div>
 
         <!-- Switch Mode -->
         <div class="auth-switch">
@@ -686,10 +686,11 @@ export default {
   max-height: 95vh;
   overflow-y: auto;
   position: relative;
-  box-shadow: 
+  box-shadow:
     0 32px 64px rgba(0, 0, 0, 0.25),
     0 0 0 1px rgba(255, 255, 255, 0.1);
   animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  margin: auto;
 }
 
 @keyframes slideIn {
@@ -753,15 +754,16 @@ export default {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(236, 72, 153, 0.9);
   font-size: 18px;
   animation: float 6s ease-in-out infinite;
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 15px rgba(236, 72, 153, 0.2);
 }
 
 .element-1 {
@@ -826,18 +828,18 @@ export default {
 
 /* Content */
 .auth-content {
-  padding: 50px 40px 40px;
+  padding: 30px 40px 30px;
   position: relative;
   z-index: 5;
 }
 
 .auth-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 }
 
 .brand-logo {
-  margin-bottom: 32px;
+  margin-bottom: 20px;
 }
 
 .logo-container {
@@ -899,22 +901,22 @@ export default {
 
 /* Social Authentication */
 .social-auth-section {
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 }
 
 .social-buttons {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
-  margin-bottom: 28px;
+  margin-bottom: 16px;
 }
 
 .social-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 18px 12px;
+  gap: 8px;
+  padding: 14px 12px;
   border: 2px solid var(--gray-200);
   border-radius: 16px;
   background: white;
@@ -923,7 +925,25 @@ export default {
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 14px;
-  min-height: 85px;
+  min-height: 70px;
+  position: relative;
+  overflow: hidden;
+}
+
+.social-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gray-50);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.social-btn:hover::before {
+  opacity: 1;
 }
 
 .social-btn:hover:not(:disabled) {
@@ -947,8 +967,77 @@ export default {
   justify-content: center;
   font-size: 18px;
   background: var(--gray-100);
-  color: var(--gray-600);
+  color: var(--gray-700);
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.social-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.social-icon i {
+  font-size: 18px;
+}
+
+.google-logo {
+  font-weight: bold;
+  font-size: 18px;
+  font-family: 'Arial', sans-serif;
+}
+
+.social-btn span {
+  position: relative;
+  z-index: 2;
+}
+
+.social-btn.disabled {
+  cursor: default;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.social-btn.disabled:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: inherit;
+}
+
+.social-btn.disabled::before {
+  display: none;
+}
+
+.google-btn {
+  border-color: #db4437;
+  color: #db4437;
+}
+
+.google-btn .social-icon {
+  background: #db4437;
+  color: white;
+}
+
+.facebook-btn {
+  border-color: #1877f2;
+  color: #1877f2;
+}
+
+.facebook-btn .social-icon {
+  background: #1877f2;
+  color: white;
+}
+
+.apple-btn {
+  border-color: #333;
+  color: #333;
+}
+
+.apple-btn .social-icon {
+  background: #000;
+  color: white;
 }
 
 .google-btn:hover:not(:disabled) {
@@ -984,7 +1073,7 @@ export default {
 .auth-divider {
   text-align: center;
   position: relative;
-  margin: 32px 0;
+  margin: 20px 0;
 }
 
 .auth-divider::before {
@@ -1008,18 +1097,18 @@ export default {
 
 /* Form */
 .auth-form {
-  margin-bottom: 32px;
+  margin-bottom: 20px;
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 
 .form-group {
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 
 .form-label {

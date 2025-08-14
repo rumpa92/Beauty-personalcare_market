@@ -24,7 +24,6 @@
             </router-link>
           </div>
         </div>
-        <router-link to="/products" class="nav-link">All Products</router-link>
       </nav>
 
       <!-- Brand/Logo Text -->
@@ -194,10 +193,6 @@
           {{ category.name }}
         </router-link>
       </div>
-      <router-link to="/products" class="mobile-nav-link" @click="closeMobileMenu">
-        <i class="fas fa-th-large"></i>
-        All Products
-      </router-link>
       <div v-if="isAuthenticated" class="mobile-user-section">
         <div class="mobile-user-header">
           <div class="user-avatar">

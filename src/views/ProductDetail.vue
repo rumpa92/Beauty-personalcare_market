@@ -1,6 +1,24 @@
 <template>
   <div class="product-detail-wrapper">
-    <div class="product-detail-page" v-if="product">
+    <!-- Back Navigation - Always show -->
+    <div class="back-navigation">
+      <button @click="goToHome" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back</span>
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    <div v-if="loading" class="loading-container">
+      <div class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Loading product details...</p>
+      </div>
+    </div>
+
+    <!-- Product Content -->
+    <div v-else-if="product" class="product-detail-page">
+
     <!-- Main Product Section -->
     <div class="main-product-container">
       <div class="product-content">
@@ -455,7 +473,11 @@ export default {
   
   methods: {
     ...mapActions('cart', ['addToCart']),
-    
+
+    goToHome() {
+      this.$router.push('/');
+    },
+
     async loadProduct() {
       this.loading = true;
       try {
@@ -779,16 +801,119 @@ export default {
 </script>
 
 <style scoped>
+.product-detail-wrapper {
+  min-height: 100vh;
+  background: #f8f9fa;
+  position: relative;
+  z-index: 1;
+}
+
+.loading-container,
+.error-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 40px 20px;
+}
+
+.loading-spinner,
+.error-content {
+  text-align: center;
+  color: #6b7280;
+}
+
+.loading-spinner i {
+  font-size: 48px;
+  color: #ec4899;
+  margin-bottom: 16px;
+}
+
+.loading-spinner p {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.error-content i {
+  font-size: 64px;
+  color: #ef4444;
+  margin-bottom: 24px;
+}
+
+.error-content h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 12px;
+}
+
+.error-content p {
+  font-size: 16px;
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
 .product-detail-page {
   background: #f8f9fa;
   min-height: 100vh;
 }
 
+/* Back Navigation */
+.back-navigation {
+  background: #ffffff;
+  padding: 20px 24px;
+  border-bottom: 2px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  position: relative;
+  top: 0;
+  z-index: 100;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ec4899;
+  border: 2px solid #ec4899;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 12px 20px;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  min-height: 48px;
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+}
+
+.back-btn:hover {
+  background: #db2777;
+  color: white;
+  border-color: #db2777;
+  transform: translateX(-3px);
+  box-shadow: 0 6px 16px rgba(219, 39, 119, 0.4);
+}
+
+.back-btn i {
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+.back-btn:hover i {
+  transform: translateX(-2px);
+}
+
 /* Main Product Section */
 .main-product-container {
   background: white;
-  margin-top: 8px;
-  padding: 26px 0 40px;
+  margin-top: 0;
+  padding: 40px 0 50px;
+  min-height: 80vh;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
 }
 
 .product-content {
@@ -799,6 +924,28 @@ export default {
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   align-items: start;
+}
+
+@media (max-width: 768px) {
+  .back-navigation {
+    padding: 16px 20px;
+  }
+
+  .back-btn {
+    font-size: 15px;
+    padding: 10px 14px;
+    gap: 8px;
+  }
+
+  .product-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 0 16px;
+  }
+
+  .main-product-container {
+    padding: 24px 0 32px;
+  }
 }
 
 .product-image-section {

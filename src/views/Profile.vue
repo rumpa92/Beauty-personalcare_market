@@ -35,12 +35,6 @@
           </a>
         </nav>
         
-        <div class="sidebar-footer">
-          <button @click="logout" class="logout-btn">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Logout</span>
-          </button>
-        </div>
       </aside>
 
       <!-- Main Content Area -->
@@ -547,7 +541,7 @@
 
         <!-- FAQ & Help Center Section -->
         <div v-if="activeSection === 'faq-help'" class="content-section">
-          <div class="section-header">
+          <div v-if="!selectedQuestion" class="section-header">
             <button @click="activeSection = 'customer-support'" class="back-btn">
               <i class="fas fa-arrow-left"></i>
               Back to Support
@@ -561,7 +555,7 @@
             </p>
           </div>
 
-          <div class="faq-search">
+          <div v-if="!selectedQuestion" class="faq-search">
             <div class="search-container">
               <i class="fas fa-search search-icon"></i>
               <input
@@ -576,7 +570,7 @@
             </div>
           </div>
 
-          <div v-if="!faqSearchQuery && !selectedFAQCategory" class="faq-categories">
+          <div v-if="!faqSearchQuery && !selectedFAQCategory && !selectedQuestion" class="faq-categories">
             <div
               v-for="category in faqCategories"
               :key="category.id"
@@ -600,7 +594,7 @@
                   :key="question.id"
                   class="preview-question"
                   :class="{ 'expanded': question.expanded }"
-                  @click="togglePreviewQuestion(question.id)"
+                  @click="selectIndividualQuestion(question)"
                 >
                   <div class="question-text">
                     <span>{{ question.question }}</span>
@@ -631,12 +625,51 @@
             </div>
           </div>
 
+          <!-- Selected Individual Question -->
+          <div v-else-if="selectedQuestion" class="faq-single-question">
+            <div class="question-header-back">
+              <button @click="goBackFromQuestion()" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back
+              </button>
+            </div>
+
+            <div class="single-question-content">
+              <h3>{{ selectedQuestion.categoryTitle }}</h3>
+              <div class="faq-question-item">
+                <div class="question-header">
+                  <h4>{{ selectedQuestion.question }}</h4>
+                </div>
+                <div class="question-answer">
+                  <p>{{ selectedQuestion.answer }}</p>
+                  <div class="faq-actions">
+                    <span class="helpful-text">Was this helpful?</span>
+                    <button
+                      @click="markFAQHelpful(selectedQuestion.id, true)"
+                      class="helpful-btn"
+                      :class="{ active: selectedQuestion.helpful === true }"
+                    >
+                      <i class="fas fa-thumbs-up"></i>
+                    </button>
+                    <button
+                      @click="markFAQHelpful(selectedQuestion.id, false)"
+                      class="helpful-btn"
+                      :class="{ active: selectedQuestion.helpful === false }"
+                    >
+                      <i class="fas fa-thumbs-down"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Selected Category Questions -->
           <div v-else-if="selectedFAQCategory && !faqSearchQuery" class="faq-category-questions">
             <div class="category-header-back">
               <button @click="selectedFAQCategory = null" class="back-btn">
                 <i class="fas fa-arrow-left"></i>
-                Back to Categories
+                Back
               </button>
               <h3>{{ getSelectedCategoryTitle() }}</h3>
             </div>
@@ -646,29 +679,11 @@
                 v-for="question in getSelectedCategoryQuestions()"
                 :key="question.id"
                 class="faq-question-item"
+                @click="selectIndividualQuestion(question)"
               >
                 <div class="question-header">
                   <h4>{{ question.question }}</h4>
-                </div>
-                <div class="question-answer">
-                  <p>{{ question.answer }}</p>
-                  <div class="faq-actions">
-                    <span class="helpful-text">Was this helpful?</span>
-                    <button
-                      @click="markFAQHelpful(question.id, true)"
-                      class="helpful-btn"
-                      :class="{ active: question.helpful === true }"
-                    >
-                      <i class="fas fa-thumbs-up"></i>
-                    </button>
-                    <button
-                      @click="markFAQHelpful(question.id, false)"
-                      class="helpful-btn"
-                      :class="{ active: question.helpful === false }"
-                    >
-                      <i class="fas fa-thumbs-down"></i>
-                    </button>
-                  </div>
+                  <i class="fas fa-chevron-right"></i>
                 </div>
               </div>
             </div>
@@ -717,7 +732,7 @@
             </div>
           </div>
 
-          <div class="contact-support-card">
+          <div v-if="!selectedQuestion" class="contact-support-card">
             <div class="contact-icon">
               <i class="fas fa-headset"></i>
             </div>
@@ -1318,6 +1333,7 @@ export default {
       // Customer Support Data
       faqSearchQuery: '',
       selectedFAQCategory: null,
+      selectedQuestion: null,
       activeTicketTab: 'create',
       currentTicketStep: 1,
       submittingTicket: false,
@@ -1675,14 +1691,6 @@ export default {
       // Implementation for contacting support
       console.log('Contact support for refund:', refund);
     },
-    logout() {
-      // Implementation for logout
-      this.showNotification({
-        type: 'success',
-        message: 'Logged out successfully'
-      });
-      this.$router.push('/');
-    },
 
     // Customer Support Methods
     openAIChat() {
@@ -1729,6 +1737,31 @@ export default {
     getSelectedCategoryQuestions() {
       const category = this.faqCategories.find(cat => cat.id === this.selectedFAQCategory);
       return category ? category.questions : [];
+    },
+
+    selectIndividualQuestion(question) {
+      // Find the category this question belongs to
+      const category = this.faqCategories.find(cat =>
+        cat.questions.some(q => q.id === question.id)
+      );
+
+      this.selectedQuestion = {
+        ...question,
+        categoryTitle: category ? category.title : '',
+        categoryId: category ? category.id : null
+      };
+    },
+
+    goBackFromQuestion() {
+      if (this.selectedQuestion && this.selectedQuestion.categoryId) {
+        // Go back to the category view
+        this.selectedFAQCategory = this.selectedQuestion.categoryId;
+        this.selectedQuestion = null;
+      } else {
+        // Go back to categories list
+        this.selectedQuestion = null;
+        this.selectedFAQCategory = null;
+      }
     },
 
     togglePreviewQuestion(questionId) {
@@ -2010,26 +2043,6 @@ export default {
   border-top: 1px solid var(--gray-200);
 }
 
-.logout-btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: none;
-  border: 2px solid var(--gray-200);
-  border-radius: 8px;
-  color: var(--gray-700);
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.logout-btn:hover {
-  border-color: var(--red-500);
-  color: var(--red-500);
-  background: var(--red-50);
-}
 
 /* Main Content Styles */
 .profile-content {
@@ -4072,5 +4085,102 @@ input:checked + .slider:before {
   .link-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Single Question View Styles */
+.faq-single-question {
+  padding: 0;
+  height: 600px;
+  overflow-y: auto;
+}
+
+.question-header-back {
+  padding: 24px 24px 0 24px;
+  margin-bottom: 24px;
+}
+
+.single-question-content {
+  padding: 0 24px 24px 24px;
+}
+
+.single-question-content h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gray-800);
+  margin: 0 0 24px;
+}
+
+.faq-question-item {
+  background: white;
+  border: 2px solid var(--gray-200);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.faq-category-questions .faq-question-item:hover {
+  border-color: var(--primary-300);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.1);
+}
+
+.question-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: var(--gray-50);
+}
+
+.question-header h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-800);
+  margin: 0;
+  flex: 1;
+}
+
+.question-header i {
+  color: var(--primary-500);
+  font-size: 14px;
+}
+
+.question-answer {
+  padding: 20px 24px;
+  border-top: 1px solid var(--gray-200);
+}
+
+.question-answer p {
+  color: var(--gray-700);
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
+.faq-single-question .faq-question-item {
+  cursor: default;
+}
+
+.faq-single-question .question-header {
+  cursor: default;
+}
+
+.faq-single-question .question-header:hover {
+  background: var(--gray-50);
+}
+
+/* FAQ Questions List Spacing */
+.questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.faq-category-questions .faq-question-item {
+  margin-bottom: 16px;
+}
+
+.faq-category-questions .faq-question-item:last-child {
+  margin-bottom: 0;
 }
 </style>
