@@ -59,7 +59,9 @@
 
           <!-- Typing indicator -->
           <div v-if="isTyping" class="message ai">
-            <div class="message-avatar">🤖</div>
+            <div class="message-avatar">
+              <i class="fas fa-robot"></i>
+            </div>
             <div class="message-bubble typing">
               <div class="typing-dots">
                 <span></span>
@@ -187,7 +189,7 @@ export default {
       }
       
       if (message.includes('dry skin') || message.includes('moisturizer')) {
-        return "For dry skin, I suggest a gentle hydrating routine! 💧 Start with a cream cleanser, followed by a hyaluronic acid serum, and finish with a rich moisturizer. Don't forget SPF during the day!";
+        return "For dry skin, I suggest a gentle hydrating routine! �� Start with a cream cleanser, followed by a hyaluronic acid serum, and finish with a rich moisturizer. Don't forget SPF during the day!";
       }
       
       if (message.includes('trending') || message.includes('popular')) {
