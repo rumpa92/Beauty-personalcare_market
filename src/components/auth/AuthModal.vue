@@ -947,8 +947,23 @@ export default {
   justify-content: center;
   font-size: 18px;
   background: var(--gray-100);
-  color: var(--gray-600);
+  color: var(--gray-700);
   transition: all 0.3s ease;
+}
+
+.google-btn .social-icon {
+  background: #db4437;
+  color: white;
+}
+
+.facebook-btn .social-icon {
+  background: #1877f2;
+  color: white;
+}
+
+.apple-btn .social-icon {
+  background: #000;
+  color: white;
 }
 
 .google-btn:hover:not(:disabled) {
