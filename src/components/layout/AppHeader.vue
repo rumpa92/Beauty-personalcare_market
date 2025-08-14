@@ -1051,8 +1051,8 @@ export default {
 }
 
 .user-avatar-large {
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   overflow: hidden;
   background: linear-gradient(135deg, var(--primary-100), var(--primary-200));
@@ -1060,9 +1060,9 @@ export default {
   align-items: center;
   justify-content: center;
   color: var(--primary-600);
-  font-size: 24px;
-  border: 3px solid white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 20px;
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .user-avatar-large img {
