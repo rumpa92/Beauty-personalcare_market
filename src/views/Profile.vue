@@ -1731,6 +1731,15 @@ export default {
       return category ? category.questions : [];
     },
 
+    togglePreviewQuestion(questionId) {
+      this.faqCategories.forEach(category => {
+        const question = category.questions.find(q => q.id === questionId);
+        if (question) {
+          question.expanded = !question.expanded;
+        }
+      });
+    },
+
     nextTicketStep() {
       if (this.currentTicketStep < 3) {
         this.currentTicketStep++;
