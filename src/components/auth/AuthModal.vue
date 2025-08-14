@@ -994,6 +994,7 @@ export default {
 
 .google-btn {
   border-color: #db4437;
+  color: #db4437;
 }
 
 .google-btn .social-icon {
@@ -1003,6 +1004,7 @@ export default {
 
 .facebook-btn {
   border-color: #1877f2;
+  color: #1877f2;
 }
 
 .facebook-btn .social-icon {
@@ -1012,6 +1014,7 @@ export default {
 
 .apple-btn {
   border-color: #333;
+  color: #333;
 }
 
 .apple-btn .social-icon {
