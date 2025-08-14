@@ -1508,6 +1508,27 @@ export default {
         { value: 'afternoon', label: '12:00 PM - 6:00 PM' },
         { value: 'evening', label: '6:00 PM - 9:00 PM' }
       ];
+    },
+    filteredFAQResults() {
+      if (!this.faqSearchQuery) return [];
+
+      const query = this.faqSearchQuery.toLowerCase();
+      const results = [];
+
+      this.faqCategories.forEach(category => {
+        category.questions.forEach(question => {
+          if (question.question.toLowerCase().includes(query) ||
+              question.answer.toLowerCase().includes(query)) {
+            results.push({
+              ...question,
+              categoryTitle: category.title,
+              expanded: false
+            });
+          }
+        });
+      });
+
+      return results;
     }
   },
   mounted() {
