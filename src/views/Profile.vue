@@ -4168,4 +4168,19 @@ input:checked + .slider:before {
 .faq-single-question .question-header:hover {
   background: var(--gray-50);
 }
+
+/* FAQ Questions List Spacing */
+.questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.faq-category-questions .faq-question-item {
+  margin-bottom: 16px;
+}
+
+.faq-category-questions .faq-question-item:last-child {
+  margin-bottom: 0;
+}
 </style>
