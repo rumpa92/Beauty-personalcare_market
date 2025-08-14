@@ -47,6 +47,12 @@
           <span class="mobile-only sr-only">Search</span>
         </button>
 
+        <button class="action-btn wishlist-btn" @click="toggleWishlist" :title="`Wishlist (${wishlistCount})`">
+          <i class="fas fa-heart"></i>
+          <span class="badge" v-if="wishlistCount">{{ wishlistCount }}</span>
+          <span class="wishlist-text">Wishlist</span>
+        </button>
+
         <button class="action-btn cart-btn" @click="toggleCart">
           <i class="fas fa-shopping-bag"></i>
           <span class="badge" v-if="cartItemCount">{{ cartItemCount }}</span>
@@ -138,17 +144,6 @@
               <i class="fas fa-chevron-right item-arrow"></i>
             </router-link>
 
-            <div class="dropdown-divider"></div>
-
-            <button @click="logoutUser" class="dropdown-item logout-item">
-              <div class="item-icon">
-                <i class="fas fa-sign-out-alt"></i>
-              </div>
-              <div class="item-content">
-                <span class="item-title">Sign Out</span>
-                <span class="item-description">Logout from your account</span>
-              </div>
-            </button>
           </div>
         </div>
 
@@ -478,7 +473,7 @@ export default {
 .desktop-nav {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 19px;
 }
 
 .nav-link {
