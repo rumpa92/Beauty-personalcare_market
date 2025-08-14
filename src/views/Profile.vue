@@ -1318,6 +1318,7 @@ export default {
       // Customer Support Data
       faqSearchQuery: '',
       selectedFAQCategory: null,
+      selectedQuestion: null,
       activeTicketTab: 'create',
       currentTicketStep: 1,
       submittingTicket: false,
