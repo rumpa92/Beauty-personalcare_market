@@ -599,8 +599,33 @@
                   v-for="question in category.questions.slice(0, 3)"
                   :key="question.id"
                   class="preview-question"
+                  :class="{ 'expanded': question.expanded }"
+                  @click="togglePreviewQuestion(question.id)"
                 >
-                  {{ question.question }}
+                  <div class="question-text">
+                    <span>{{ question.question }}</span>
+                    <i class="fas fa-chevron-down expansion-icon" :class="{ 'rotated': question.expanded }"></i>
+                  </div>
+                  <div v-if="question.expanded" class="question-answer">
+                    <p>{{ question.answer }}</p>
+                    <div class="faq-actions">
+                      <span class="helpful-text">Was this helpful?</span>
+                      <button
+                        @click.stop="markFAQHelpful(question.id, true)"
+                        class="helpful-btn"
+                        :class="{ active: question.helpful === true }"
+                      >
+                        <i class="fas fa-thumbs-up"></i>
+                      </button>
+                      <button
+                        @click.stop="markFAQHelpful(question.id, false)"
+                        class="helpful-btn"
+                        :class="{ active: question.helpful === false }"
+                      >
+                        <i class="fas fa-thumbs-down"></i>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
