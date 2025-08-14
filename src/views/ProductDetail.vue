@@ -19,14 +19,6 @@
     <!-- Product Content -->
     <div v-else-if="product" class="product-detail-page">
 
-    <!-- Back Navigation -->
-    <div class="back-navigation">
-      <button @click="goToHome" class="back-btn">
-        <i class="fas fa-arrow-left"></i>
-        <span>Back</span>
-      </button>
-    </div>
-
     <!-- Main Product Section -->
     <div class="main-product-container">
       <div class="product-content">
