@@ -128,7 +128,7 @@
               <i class="fas fa-chevron-right item-arrow"></i>
             </router-link>
 
-            <button @click="openSignIn" class="dropdown-item" @click="closeUserMenu">
+            <button @click="handleSignInClick" class="dropdown-item">
               <div class="item-icon">
                 <i class="fas fa-sign-in-alt"></i>
               </div>
@@ -139,7 +139,7 @@
               <i class="fas fa-chevron-right item-arrow"></i>
             </button>
 
-            <button @click="openSignUp" class="dropdown-item" @click="closeUserMenu">
+            <button @click="handleSignUpClick" class="dropdown-item">
               <div class="item-icon">
                 <i class="fas fa-user-plus"></i>
               </div>
