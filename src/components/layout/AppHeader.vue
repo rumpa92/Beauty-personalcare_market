@@ -236,7 +236,7 @@
 
     <!-- Authentication Modal -->
     <AuthModal
-      :isVisible="showAuthModal"
+      :isVisible="true"
       :initialMode="authMode"
       @close="closeAuthModal"
       @auth-success="handleAuthSuccess"
