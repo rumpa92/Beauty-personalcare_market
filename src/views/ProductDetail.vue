@@ -1,6 +1,15 @@
 <template>
   <div class="product-detail-wrapper">
-    <div class="product-detail-page" v-if="product">
+    <!-- Loading State -->
+    <div v-if="loading" class="loading-container">
+      <div class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Loading product details...</p>
+      </div>
+    </div>
+
+    <!-- Product Content -->
+    <div v-else-if="product" class="product-detail-page">
 
     <!-- Back Navigation -->
     <div class="back-navigation">
