@@ -4123,13 +4123,18 @@ input:checked + .slider:before {
 
 /* Single Question View Styles */
 .faq-single-question {
-  padding: 24px;
+  padding: 0;
   height: 600px;
   overflow-y: auto;
 }
 
 .question-header-back {
+  padding: 24px 24px 0 24px;
   margin-bottom: 24px;
+}
+
+.single-question-content {
+  padding: 0 24px 24px 24px;
 }
 
 .single-question-content h3 {
