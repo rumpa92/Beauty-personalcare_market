@@ -1,5 +1,13 @@
 <template>
   <div class="product-detail-wrapper">
+    <!-- Back Navigation - Always show -->
+    <div class="back-navigation">
+      <button @click="goToHome" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back</span>
+      </button>
+    </div>
+
     <!-- Loading State -->
     <div v-if="loading" class="loading-container">
       <div class="loading-spinner">
