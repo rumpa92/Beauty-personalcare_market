@@ -39,6 +39,7 @@ import ProductQuickView from './components/product/ProductQuickView.vue';
 import TopSearchBar from './components/search/TopSearchBar.vue';
 import AddToCartConfirmationWrapper from './components/cart/AddToCartConfirmationWrapper.vue';
 import FloatingChatButton from './components/support/FloatingChatButton.vue';
+import SupportPanel from './components/support/SupportPanel.vue';
 
 export default {
   name: 'App',
