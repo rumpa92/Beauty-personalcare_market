@@ -1072,14 +1072,14 @@ export default {
 }
 
 .user-details h4 {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--gray-800);
-  margin: 0 0 4px;
+  margin: 0 0 2px;
 }
 
 .user-details p {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--gray-600);
   margin: 0;
 }
