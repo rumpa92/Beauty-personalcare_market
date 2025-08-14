@@ -939,13 +939,14 @@ export default {
 
 /* Type Selector Section */
 .type-selector-section {
-  padding: 80px 0;
+  padding-bottom: 80px;
+  margin-top: 200px;
   background: white;
 }
 
 .type-selector-section .container {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 200px auto 0;
   padding: 0 20px;
 }
 
@@ -1095,7 +1096,7 @@ export default {
 
 /* Enhanced Categories */
 .enhanced-categories {
-  padding: 80px 0;
+  padding: 40px 0 80px;
   background: var(--gray-50);
 }
 
