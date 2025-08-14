@@ -37,6 +37,7 @@ import NotificationContainer from './components/ui/NotificationContainer.vue';
 import ProductQuickView from './components/product/ProductQuickView.vue';
 import TopSearchBar from './components/search/TopSearchBar.vue';
 import AddToCartConfirmationWrapper from './components/cart/AddToCartConfirmationWrapper.vue';
+import FloatingChatButton from './components/support/FloatingChatButton.vue';
 
 export default {
   name: 'App',
