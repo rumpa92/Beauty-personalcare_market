@@ -979,6 +979,16 @@ export default {
   fill: currentColor;
 }
 
+.social-icon i {
+  font-size: 18px;
+}
+
+.google-logo {
+  font-weight: bold;
+  font-size: 18px;
+  font-family: 'Arial', sans-serif;
+}
+
 .social-btn span {
   position: relative;
   z-index: 2;
