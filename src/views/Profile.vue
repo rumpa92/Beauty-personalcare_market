@@ -580,6 +580,411 @@
           </div>
         </div>
 
+        <!-- FAQ & Help Center Section -->
+        <div v-if="activeSection === 'faq-help'" class="content-section">
+          <div class="section-header">
+            <button @click="activeSection = 'customer-support'" class="back-btn">
+              <i class="fas fa-arrow-left"></i>
+              Back to Support
+            </button>
+            <h2 class="section-title">
+              <i class="fas fa-question-circle"></i>
+              FAQ & Help Center
+            </h2>
+            <p class="section-description">
+              Find answers to your beauty and shopping questions
+            </p>
+          </div>
+
+          <div class="faq-search">
+            <div class="search-container">
+              <i class="fas fa-search search-icon"></i>
+              <input
+                v-model="faqSearchQuery"
+                type="text"
+                placeholder="Search for help articles..."
+                class="search-input"
+              >
+              <div v-if="faqSearchQuery" class="search-clear" @click="faqSearchQuery = ''">
+                <i class="fas fa-times"></i>
+              </div>
+            </div>
+          </div>
+
+          <div v-if="!faqSearchQuery" class="faq-categories">
+            <div
+              v-for="category in faqCategories"
+              :key="category.id"
+              class="faq-category-card"
+              @click="selectedFAQCategory = category.id"
+            >
+              <div class="category-header">
+                <div class="category-icon" :style="{ backgroundColor: category.color }">
+                  <i :class="category.icon"></i>
+                </div>
+                <div class="category-info">
+                  <h3>{{ category.title }}</h3>
+                  <p>{{ category.questions.length }} articles</p>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </div>
+
+              <div class="category-preview">
+                <div
+                  v-for="question in category.questions.slice(0, 3)"
+                  :key="question.id"
+                  class="preview-question"
+                >
+                  {{ question.question }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div v-else class="faq-search-results">
+            <h3>Search Results for "{{ faqSearchQuery }}"</h3>
+            <div
+              v-for="result in filteredFAQResults"
+              :key="result.id"
+              class="faq-result-item"
+              @click="toggleFAQAnswer(result.id)"
+            >
+              <div class="result-header">
+                <h4>{{ result.question }}</h4>
+                <i :class="result.expanded ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+              </div>
+              <div v-if="result.expanded" class="result-answer">
+                <p>{{ result.answer }}</p>
+                <div class="faq-actions">
+                  <span class="helpful-text">Was this helpful?</span>
+                  <button
+                    @click.stop="markFAQHelpful(result.id, true)"
+                    class="helpful-btn"
+                    :class="{ active: result.helpful === true }"
+                  >
+                    <i class="fas fa-thumbs-up"></i>
+                  </button>
+                  <button
+                    @click.stop="markFAQHelpful(result.id, false)"
+                    class="helpful-btn"
+                    :class="{ active: result.helpful === false }"
+                  >
+                    <i class="fas fa-thumbs-down"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div v-if="filteredFAQResults.length === 0" class="no-results">
+              <i class="fas fa-search"></i>
+              <h4>No results found</h4>
+              <p>Try different keywords or browse our categories</p>
+              <button @click="faqSearchQuery = ''" class="btn btn-outline">
+                Browse Categories
+              </button>
+            </div>
+          </div>
+
+          <div class="contact-support-card">
+            <div class="contact-icon">
+              <i class="fas fa-headset"></i>
+            </div>
+            <div class="contact-content">
+              <h3>Still need help?</h3>
+              <p>Can't find what you're looking for? Our beauty experts are here to help!</p>
+            </div>
+            <button @click="activeSection = 'ticketing'" class="btn btn-primary">
+              Contact Support
+            </button>
+          </div>
+        </div>
+
+        <!-- Ticketing Section -->
+        <div v-if="activeSection === 'ticketing'" class="content-section">
+          <div class="section-header">
+            <button @click="activeSection = 'customer-support'" class="back-btn">
+              <i class="fas fa-arrow-left"></i>
+              Back to Support
+            </button>
+            <h2 class="section-title">
+              <i class="fas fa-ticket-alt"></i>
+              Support Tickets
+            </h2>
+            <p class="section-description">
+              Create and track your support requests
+            </p>
+          </div>
+
+          <div class="ticket-tabs">
+            <button
+              @click="activeTicketTab = 'create'"
+              :class="['ticket-tab', { active: activeTicketTab === 'create' }]"
+            >
+              <i class="fas fa-plus"></i>
+              Create Ticket
+            </button>
+            <button
+              @click="activeTicketTab = 'existing'"
+              :class="['ticket-tab', { active: activeTicketTab === 'existing' }]"
+            >
+              <i class="fas fa-list"></i>
+              My Tickets
+              <span v-if="existingTickets.length" class="tab-badge">{{ existingTickets.length }}</span>
+            </button>
+          </div>
+
+          <!-- Create Ticket -->
+          <div v-if="activeTicketTab === 'create'" class="ticket-form">
+            <div class="form-steps">
+              <div :class="['step', { active: currentTicketStep >= 1, completed: currentTicketStep > 1 }]">
+                <div class="step-number">1</div>
+                <span>Issue Details</span>
+              </div>
+              <div :class="['step', { active: currentTicketStep >= 2, completed: currentTicketStep > 2 }]">
+                <div class="step-number">2</div>
+                <span>Attachments</span>
+              </div>
+              <div :class="['step', { active: currentTicketStep >= 3 }]">
+                <div class="step-number">3</div>
+                <span>Submit</span>
+              </div>
+            </div>
+
+            <!-- Step 1: Issue Details -->
+            <div v-if="currentTicketStep === 1" class="ticket-step">
+              <h3>Tell us about your issue</h3>
+
+              <div class="form-group">
+                <label>Issue Type</label>
+                <select v-model="newTicket.issueType" class="form-select" required>
+                  <option value="">Select an issue type</option>
+                  <option value="order">Order & Shipping</option>
+                  <option value="product">Product Questions</option>
+                  <option value="returns">Returns & Refunds</option>
+                  <option value="account">Account Issues</option>
+                  <option value="technical">Technical Problems</option>
+                  <option value="beauty-advice">Beauty Advice</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Subject</label>
+                <input
+                  v-model="newTicket.subject"
+                  type="text"
+                  placeholder="Brief description of your issue"
+                  class="form-input"
+                  required
+                >
+              </div>
+
+              <div class="form-group">
+                <label>Description</label>
+                <textarea
+                  v-model="newTicket.description"
+                  placeholder="Please provide detailed information about your issue..."
+                  class="form-textarea"
+                  rows="6"
+                  required
+                ></textarea>
+              </div>
+
+              <div class="form-group">
+                <label>Priority</label>
+                <div class="priority-options">
+                  <div
+                    v-for="priority in priorityOptions"
+                    :key="priority.value"
+                    :class="['priority-option', priority.value, { selected: newTicket.priority === priority.value }]"
+                    @click="newTicket.priority = priority.value"
+                  >
+                    <div class="priority-indicator"></div>
+                    <div class="priority-text">
+                      <strong>{{ priority.label }}</strong>
+                      <span>{{ priority.description }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                @click="nextTicketStep"
+                class="btn btn-primary"
+                :disabled="!newTicket.issueType || !newTicket.subject || !newTicket.description"
+              >
+                Next: Add Attachments
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+
+            <!-- Step 2: Attachments -->
+            <div v-if="currentTicketStep === 2" class="ticket-step">
+              <h3>Attach files (optional)</h3>
+              <p>Add screenshots, photos, or documents that help explain your issue</p>
+
+              <div class="file-upload-area" @click="$refs.fileInput.click()">
+                <div class="upload-content">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  <h4>Drop files here or click to browse</h4>
+                  <p>PNG, JPG, PDF files up to 10MB each</p>
+                </div>
+                <input
+                  ref="fileInput"
+                  type="file"
+                  multiple
+                  accept=".png,.jpg,.jpeg,.pdf,.gif"
+                  @change="handleFileUpload"
+                  style="display: none"
+                >
+              </div>
+
+              <div v-if="newTicket.attachments.length" class="attached-files">
+                <h4>Attached Files</h4>
+                <div
+                  v-for="(file, index) in newTicket.attachments"
+                  :key="index"
+                  class="attached-file"
+                >
+                  <div class="file-icon">
+                    <i :class="getFileIcon(file.type)"></i>
+                  </div>
+                  <div class="file-info">
+                    <span class="file-name">{{ file.name }}</span>
+                    <span class="file-size">{{ formatFileSize(file.size) }}</span>
+                  </div>
+                  <button @click="removeAttachment(index)" class="remove-file">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="step-actions">
+                <button @click="currentTicketStep = 1" class="btn btn-outline">
+                  <i class="fas fa-arrow-left"></i>
+                  Back
+                </button>
+                <button @click="nextTicketStep" class="btn btn-primary">
+                  Next: Review & Submit
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 3: Review & Submit -->
+            <div v-if="currentTicketStep === 3" class="ticket-step">
+              <h3>Review your ticket</h3>
+
+              <div class="ticket-review">
+                <div class="review-section">
+                  <h4>Issue Details</h4>
+                  <div class="review-item">
+                    <strong>Type:</strong> {{ getIssueTypeLabel(newTicket.issueType) }}
+                  </div>
+                  <div class="review-item">
+                    <strong>Subject:</strong> {{ newTicket.subject }}
+                  </div>
+                  <div class="review-item">
+                    <strong>Priority:</strong>
+                    <span :class="['priority-badge', newTicket.priority]">
+                      {{ getPriorityLabel(newTicket.priority) }}
+                    </span>
+                  </div>
+                  <div class="review-item">
+                    <strong>Description:</strong>
+                    <p>{{ newTicket.description }}</p>
+                  </div>
+                </div>
+
+                <div v-if="newTicket.attachments.length" class="review-section">
+                  <h4>Attachments ({{ newTicket.attachments.length }})</h4>
+                  <div class="attachment-list">
+                    <div
+                      v-for="file in newTicket.attachments"
+                      :key="file.name"
+                      class="attachment-item"
+                    >
+                      <i :class="getFileIcon(file.type)"></i>
+                      <span>{{ file.name }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="step-actions">
+                <button @click="currentTicketStep = 2" class="btn btn-outline">
+                  <i class="fas fa-arrow-left"></i>
+                  Back
+                </button>
+                <button @click="submitTicket" class="btn btn-primary" :disabled="submittingTicket">
+                  <i v-if="!submittingTicket" class="fas fa-paper-plane"></i>
+                  <i v-else class="fas fa-spinner fa-spin"></i>
+                  {{ submittingTicket ? 'Submitting...' : 'Submit Ticket' }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Existing Tickets -->
+          <div v-if="activeTicketTab === 'existing'" class="existing-tickets">
+            <div v-if="existingTickets.length === 0" class="empty-state">
+              <i class="fas fa-ticket-alt"></i>
+              <h3>No tickets yet</h3>
+              <p>You haven't created any support tickets. Need help?</p>
+              <button @click="activeTicketTab = 'create'" class="btn btn-primary">
+                Create Your First Ticket
+              </button>
+            </div>
+
+            <div v-else class="tickets-list">
+              <div
+                v-for="ticket in existingTickets"
+                :key="ticket.id"
+                class="ticket-card"
+                @click="viewTicketDetails(ticket)"
+              >
+                <div class="ticket-header">
+                  <div class="ticket-info">
+                    <h4>{{ ticket.subject }}</h4>
+                    <span class="ticket-id">Ticket #{{ ticket.id }}</span>
+                  </div>
+                  <div :class="['ticket-status', ticket.status]">
+                    {{ ticket.status }}
+                  </div>
+                </div>
+
+                <div class="ticket-meta">
+                  <div class="meta-item">
+                    <i class="fas fa-tag"></i>
+                    <span>{{ getIssueTypeLabel(ticket.category) }}</span>
+                  </div>
+                  <div class="meta-item">
+                    <i class="fas fa-calendar"></i>
+                    <span>{{ formatDate(ticket.createdAt) }}</span>
+                  </div>
+                  <div class="meta-item">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span :class="['priority-text', ticket.priority]">
+                      {{ getPriorityLabel(ticket.priority) }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="ticket-preview">
+                  {{ ticket.messages[0]?.message || ticket.description }}
+                </div>
+
+                <div class="ticket-actions">
+                  <span class="last-updated">
+                    Last updated {{ formatTimeAgo(ticket.updatedAt) }}
+                  </span>
+                  <i class="fas fa-chevron-right"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Delivery Management -->
         <div v-if="activeSection === 'delivery'" class="content-section">
           <div class="section-header">
