@@ -692,13 +692,14 @@ export default {
   border-radius: 32px;
   max-width: 520px;
   width: 100%;
-  max-height: 95vh;
-  overflow-y: auto;
+  max-height: 90vh;
+  overflow: hidden;
   position: relative;
-  box-shadow: 
+  box-shadow:
     0 32px 64px rgba(0, 0, 0, 0.25),
     0 0 0 1px rgba(255, 255, 255, 0.1);
   animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  margin: auto;
 }
 
 @keyframes slideIn {
