@@ -217,6 +217,11 @@
         <i class="fas fa-box"></i>
         My Orders
       </router-link>
+      <router-link to="/wishlist" class="mobile-nav-link" @click="closeMobileMenu">
+        <i class="fas fa-heart"></i>
+        Wishlist
+        <span v-if="wishlistCount > 0" class="mobile-badge">{{ wishlistCount }}</span>
+      </router-link>
       <router-link to="/profile?tab=settings" class="mobile-nav-link" @click="closeMobileMenu">
         <i class="fas fa-cog"></i>
         Settings
