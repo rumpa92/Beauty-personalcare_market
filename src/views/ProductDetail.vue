@@ -876,16 +876,17 @@ export default {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #f8fafc;
-  border: 2px solid #e2e8f0;
-  color: #475569;
+  background: #ec4899;
+  border: 2px solid #ec4899;
+  color: white;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  padding: 12px 16px;
+  padding: 12px 20px;
   border-radius: 10px;
   transition: all 0.2s ease;
   min-height: 48px;
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
 }
 
 .back-btn:hover {
