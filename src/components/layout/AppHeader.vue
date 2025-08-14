@@ -24,7 +24,6 @@
             </router-link>
           </div>
         </div>
-        <router-link to="/products" class="nav-link">All Products</router-link>
       </nav>
 
       <!-- Brand/Logo Text -->
