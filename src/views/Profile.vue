@@ -112,6 +112,88 @@
           </div>
         </div>
 
+        <!-- Customer Support Section -->
+        <div v-if="activeSection === 'customer-support'" class="content-section">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i class="fas fa-headset"></i>
+              Customer Support
+            </h2>
+            <p class="section-description">
+              Get help with your beauty questions, orders, and account issues
+            </p>
+          </div>
+
+          <div class="support-options">
+            <div class="support-card" @click="activeSection = 'faq-help'">
+              <div class="support-icon">
+                <i class="fas fa-question-circle"></i>
+              </div>
+              <div class="support-content">
+                <h3>FAQ & Help Center</h3>
+                <p>Find quick answers to common questions about beauty products, orders, and more</p>
+                <div class="support-stats">
+                  <span>📚 50+ Articles</span>
+                  <span>⚡ Instant Search</span>
+                </div>
+              </div>
+              <i class="fas fa-chevron-right support-arrow"></i>
+            </div>
+
+            <div class="support-card" @click="activeSection = 'ticketing'">
+              <div class="support-icon">
+                <i class="fas fa-ticket-alt"></i>
+              </div>
+              <div class="support-content">
+                <h3>Submit a Ticket</h3>
+                <p>Need personalized help? Create a support ticket and our beauty experts will assist you</p>
+                <div class="support-stats">
+                  <span>🎫 Track Status</span>
+                  <span>📎 Attach Images</span>
+                </div>
+              </div>
+              <i class="fas fa-chevron-right support-arrow"></i>
+            </div>
+
+            <div class="support-card" @click="openAIChat">
+              <div class="support-icon">
+                <i class="fas fa-robot"></i>
+              </div>
+              <div class="support-content">
+                <h3>AI Beauty Assistant</h3>
+                <p>Chat with our AI assistant for instant beauty advice and product recommendations</p>
+                <div class="support-stats">
+                  <span>🤖 24/7 Available</span>
+                  <span>✨ Beauty Expert</span>
+                </div>
+              </div>
+              <i class="fas fa-chevron-right support-arrow"></i>
+            </div>
+          </div>
+
+          <div class="quick-help">
+            <h3>Quick Help</h3>
+            <div class="quick-help-grid">
+              <div class="quick-help-item">
+                <i class="fas fa-shipping-fast"></i>
+                <span>Track Order</span>
+              </div>
+              <div class="quick-help-item">
+                <i class="fas fa-undo"></i>
+                <span>Return Item</span>
+              </div>
+              <div class="quick-help-item">
+                <i class="fas fa-credit-card"></i>
+                <span>Payment Help</span>
+              </div>
+              <div class="quick-help-item">
+                <i class="fas fa-user-circle"></i>
+                <span>Account Issues</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Notifications Section -->
         <div v-if="activeSection === 'notifications'" class="content-section">
           <div class="section-header">
