@@ -800,33 +800,45 @@ export default {
 /* Back Navigation */
 .back-navigation {
   background: white;
-  padding: 16px 20px;
+  padding: 20px 24px;
   border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .back-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  color: #6b7280;
+  gap: 10px;
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  color: #475569;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 12px 16px;
+  border-radius: 10px;
   transition: all 0.2s ease;
+  min-height: 48px;
 }
 
 .back-btn:hover {
-  background: #f3f4f6;
-  color: #374151;
+  background: #ec4899;
+  color: white;
+  border-color: #ec4899;
   transform: translateX(-2px);
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.2);
 }
 
 .back-btn i {
-  font-size: 14px;
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+.back-btn:hover i {
+  transform: translateX(-2px);
 }
 
 /* Main Product Section */
