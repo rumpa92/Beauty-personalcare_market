@@ -890,11 +890,11 @@ export default {
 }
 
 .back-btn:hover {
-  background: #ec4899;
+  background: #db2777;
   color: white;
-  border-color: #ec4899;
-  transform: translateX(-2px);
-  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.2);
+  border-color: #db2777;
+  transform: translateX(-3px);
+  box-shadow: 0 6px 16px rgba(219, 39, 119, 0.4);
 }
 
 .back-btn i {
