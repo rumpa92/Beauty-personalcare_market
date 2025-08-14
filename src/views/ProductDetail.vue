@@ -801,6 +801,56 @@ export default {
 </script>
 
 <style scoped>
+.product-detail-wrapper {
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+.loading-container,
+.error-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 40px 20px;
+}
+
+.loading-spinner,
+.error-content {
+  text-align: center;
+  color: #6b7280;
+}
+
+.loading-spinner i {
+  font-size: 48px;
+  color: #ec4899;
+  margin-bottom: 16px;
+}
+
+.loading-spinner p {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.error-content i {
+  font-size: 64px;
+  color: #ef4444;
+  margin-bottom: 24px;
+}
+
+.error-content h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 12px;
+}
+
+.error-content p {
+  font-size: 16px;
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
 .product-detail-page {
   background: #f8f9fa;
   min-height: 100vh;
