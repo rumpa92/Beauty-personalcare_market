@@ -863,12 +863,13 @@ export default {
 
 @media (max-width: 768px) {
   .back-navigation {
-    padding: 12px 16px;
+    padding: 16px 20px;
   }
 
   .back-btn {
-    font-size: 14px;
-    padding: 6px 8px;
+    font-size: 15px;
+    padding: 10px 14px;
+    gap: 8px;
   }
 
   .product-content {
