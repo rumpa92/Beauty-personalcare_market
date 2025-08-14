@@ -724,6 +724,7 @@ export default {
       navigationItems: [
         { id: 'feed', label: 'Personal Feed', icon: 'fas fa-star' },
         { id: 'notifications', label: 'Notifications', icon: 'fas fa-bell', badge: '3' },
+        { id: 'customer-support', label: 'Customer Support', icon: 'fas fa-headset' },
         { id: 'language', label: 'Language & Region', icon: 'fas fa-globe' },
         { id: 'privacy', label: 'Privacy & Terms', icon: 'fas fa-shield-alt' },
         { id: 'account-deletion', label: 'Account Deletion', icon: 'fas fa-user-times' },
