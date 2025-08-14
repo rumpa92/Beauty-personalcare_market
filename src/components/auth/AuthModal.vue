@@ -915,8 +915,8 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 18px 12px;
+  gap: 8px;
+  padding: 14px 12px;
   border: 2px solid var(--gray-200);
   border-radius: 16px;
   background: white;
@@ -925,7 +925,7 @@ export default {
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 14px;
-  min-height: 85px;
+  min-height: 70px;
   position: relative;
   overflow: hidden;
 }
