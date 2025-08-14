@@ -797,11 +797,43 @@ export default {
   min-height: 100vh;
 }
 
+/* Back Navigation */
+.back-navigation {
+  background: white;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  background: #f3f4f6;
+  color: #374151;
+  transform: translateX(-2px);
+}
+
+.back-btn i {
+  font-size: 14px;
+}
+
 /* Main Product Section */
 .main-product-container {
   background: white;
-  margin-top: 8px;
-  padding: 26px 0 40px;
+  margin-top: 0;
+  padding: 32px 0 40px;
 }
 
 .product-content {
