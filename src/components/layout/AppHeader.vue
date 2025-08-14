@@ -1103,7 +1103,7 @@ export default {
 .user-dropdown-menu .dropdown-item:hover {
   background: var(--gray-50);
   color: var(--primary-600);
-  padding-left: 24px;
+  padding-left: 20px;
 }
 
 .item-icon {
