@@ -993,6 +993,22 @@ export default {
   z-index: 2;
 }
 
+.social-btn.disabled {
+  cursor: default;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.social-btn.disabled:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: inherit;
+}
+
+.social-btn.disabled::before {
+  display: none;
+}
+
 .google-btn {
   border-color: #db4437;
   color: #db4437;
