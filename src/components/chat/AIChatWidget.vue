@@ -49,7 +49,7 @@
             :class="message.type"
           >
             <div v-if="message.type === 'ai'" class="message-avatar">
-              🤖
+              <i class="fas fa-robot"></i>
             </div>
             <div class="message-bubble">
               <p>{{ message.text }}</p>
