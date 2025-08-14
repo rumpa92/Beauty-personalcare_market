@@ -981,6 +981,12 @@ export default {
   z-index: 2;
 }
 
+.social-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
 .social-btn span {
   position: relative;
   z-index: 2;
