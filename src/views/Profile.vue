@@ -1691,14 +1691,6 @@ export default {
       // Implementation for contacting support
       console.log('Contact support for refund:', refund);
     },
-    logout() {
-      // Implementation for logout
-      this.showNotification({
-        type: 'success',
-        message: 'Logged out successfully'
-      });
-      this.$router.push('/');
-    },
 
     // Customer Support Methods
     openAIChat() {
