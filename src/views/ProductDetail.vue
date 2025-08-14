@@ -846,6 +846,27 @@ export default {
   align-items: start;
 }
 
+@media (max-width: 768px) {
+  .back-navigation {
+    padding: 12px 16px;
+  }
+
+  .back-btn {
+    font-size: 14px;
+    padding: 6px 8px;
+  }
+
+  .product-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 0 16px;
+  }
+
+  .main-product-container {
+    padding: 24px 0 32px;
+  }
+}
+
 .product-image-section {
   position: relative;
 }
