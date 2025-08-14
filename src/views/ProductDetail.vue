@@ -860,13 +860,16 @@ export default {
 
 /* Back Navigation */
 .back-navigation {
-  background: white;
+  background: #ffffff;
   padding: 20px 24px;
-  border-bottom: 1px solid #e5e7eb;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  position: sticky;
+  border-bottom: 2px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  position: relative;
   top: 0;
   z-index: 100;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
 }
 
 .back-btn {
