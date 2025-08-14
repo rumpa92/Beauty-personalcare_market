@@ -36,6 +36,7 @@ import ProductDetailTest from '../views/ProductDetailTest.vue';
 import TestProductNavigation from '../views/TestProductNavigation.vue';
 import ProductNavigationDemo from '../views/ProductNavigationDemo.vue';
 import QuickViewTest from '../views/QuickViewTest.vue';
+import AuthDemo from '../views/AuthDemo.vue';
 
 Vue.use(VueRouter);
 
