@@ -901,14 +901,14 @@ export default {
 
 /* Social Authentication */
 .social-auth-section {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .social-buttons {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
-  margin-bottom: 28px;
+  margin-bottom: 16px;
 }
 
 .social-btn {
