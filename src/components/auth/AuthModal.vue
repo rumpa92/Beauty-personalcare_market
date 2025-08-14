@@ -1,18 +1,27 @@
 <template>
   <div class="auth-overlay" v-if="isVisible" @click="closeModal">
     <div class="auth-modal" @click.stop>
-      <!-- Background Animation -->
+      <!-- Animated Background -->
       <div class="auth-background">
-        <div class="floating-shapes">
-          <div class="shape shape-1"></div>
-          <div class="shape shape-2"></div>
-          <div class="shape shape-3"></div>
-          <div class="shape shape-4"></div>
+        <div class="gradient-overlay"></div>
+        <div class="floating-elements">
+          <div class="beauty-element element-1">
+            <i class="fas fa-heart"></i>
+          </div>
+          <div class="beauty-element element-2">
+            <i class="fas fa-star"></i>
+          </div>
+          <div class="beauty-element element-3">
+            <i class="fas fa-gem"></i>
+          </div>
+          <div class="beauty-element element-4">
+            <i class="fas fa-sparkles"></i>
+          </div>
         </div>
       </div>
 
       <!-- Close Button -->
-      <button @click="closeModal" class="close-btn">
+      <button @click="closeModal" class="close-btn" aria-label="Close modal">
         <i class="fas fa-times"></i>
       </button>
 
@@ -20,116 +29,145 @@
       <div class="auth-content">
         <!-- Header -->
         <div class="auth-header">
-          <div class="auth-logo">
-            <div class="logo-icon">
+          <div class="brand-logo">
+            <div class="logo-container">
               <i class="fas fa-gem"></i>
             </div>
-            <span class="logo-text">Beauty Market</span>
+            <h1 class="brand-name">Beauty Market</h1>
           </div>
-          <h2 class="auth-title">{{ isSignUp ? 'Create Your Beauty Account' : 'Welcome Back to Beauty' }}</h2>
-          <p class="auth-subtitle">
-            {{ isSignUp 
-              ? 'Join thousands of beauty enthusiasts and discover your perfect products' 
-              : 'Sign in to access your personalized beauty experience' 
-            }}
-          </p>
+          
+          <div class="welcome-section">
+            <h2 class="auth-title">
+              {{ isSignUp ? 'Create Your Account' : 'Welcome Back' }}
+            </h2>
+            <p class="auth-subtitle">
+              {{ isSignUp 
+                ? 'Glow starts here ✨ Join our beauty community' 
+                : 'Sign in to your beautiful world 🌸' 
+              }}
+            </p>
+          </div>
         </div>
 
         <!-- Social Authentication -->
-        <div class="social-auth">
-          <button @click="signInWithGoogle" class="social-btn google-btn">
-            <i class="fab fa-google"></i>
-            <span>{{ isSignUp ? 'Sign up' : 'Continue' }} with Google</span>
-          </button>
-          <button @click="signInWithFacebook" class="social-btn facebook-btn">
-            <i class="fab fa-facebook-f"></i>
-            <span>{{ isSignUp ? 'Sign up' : 'Continue' }} with Facebook</span>
-          </button>
-        </div>
-
-        <div class="auth-divider">
-          <span>or</span>
+        <div class="social-auth-section">
+          <div class="social-buttons">
+            <button @click="signInWithGoogle" class="social-btn google-btn" :disabled="isLoading">
+              <div class="social-icon">
+                <i class="fab fa-google"></i>
+              </div>
+              <span>Google</span>
+            </button>
+            <button @click="signInWithFacebook" class="social-btn facebook-btn" :disabled="isLoading">
+              <div class="social-icon">
+                <i class="fab fa-facebook-f"></i>
+              </div>
+              <span>Facebook</span>
+            </button>
+            <button @click="signInWithApple" class="social-btn apple-btn" :disabled="isLoading">
+              <div class="social-icon">
+                <i class="fab fa-apple"></i>
+              </div>
+              <span>Apple</span>
+            </button>
+          </div>
+          
+          <div class="auth-divider">
+            <span>Or continue with email</span>
+          </div>
         </div>
 
         <!-- Authentication Form -->
         <form @submit.prevent="handleSubmit" class="auth-form">
-          <!-- Sign Up Fields -->
-          <div v-if="isSignUp" class="form-row">
-            <div class="form-group">
-              <label class="form-label">First Name</label>
-              <div class="input-wrapper">
-                <i class="fas fa-user input-icon"></i>
-                <input
-                  v-model="form.firstName"
-                  type="text"
-                  class="form-input"
-                  :class="{ error: errors.firstName }"
-                  placeholder="Enter your first name"
-                  required
-                >
-              </div>
-              <span v-if="errors.firstName" class="error-message">{{ errors.firstName }}</span>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label">Last Name</label>
-              <div class="input-wrapper">
-                <i class="fas fa-user input-icon"></i>
-                <input
-                  v-model="form.lastName"
-                  type="text"
-                  class="form-input"
-                  :class="{ error: errors.lastName }"
-                  placeholder="Enter your last name"
-                  required
-                >
-              </div>
-              <span v-if="errors.lastName" class="error-message">{{ errors.lastName }}</span>
-            </div>
-          </div>
-
           <!-- Email Field -->
           <div class="form-group">
-            <label class="form-label">Email Address</label>
-            <div class="input-wrapper">
-              <i class="fas fa-envelope input-icon"></i>
+            <label class="form-label" for="email">Email Address</label>
+            <div class="input-container">
+              <div class="input-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
               <input
+                id="email"
                 v-model="form.email"
                 type="email"
                 class="form-input"
-                :class="{ error: errors.email }"
-                placeholder="Enter your email address"
+                :class="{ 'error': errors.email }"
+                placeholder="Enter your email"
                 required
+                autocomplete="email"
               >
             </div>
-            <span v-if="errors.email" class="error-message">{{ errors.email }}</span>
+            <div v-if="errors.email" class="error-message" role="alert">
+              <i class="fas fa-exclamation-circle"></i>
+              {{ errors.email }}
+            </div>
           </div>
 
           <!-- Password Field -->
           <div class="form-group">
-            <label class="form-label">Password</label>
-            <div class="input-wrapper">
-              <i class="fas fa-lock input-icon"></i>
+            <label class="form-label" for="password">Password</label>
+            <div class="input-container">
+              <div class="input-icon">
+                <i class="fas fa-lock"></i>
+              </div>
               <input
+                id="password"
                 v-model="form.password"
                 :type="showPassword ? 'text' : 'password'"
                 class="form-input"
-                :class="{ error: errors.password }"
+                :class="{ 'error': errors.password }"
                 placeholder="Enter your password"
                 required
+                autocomplete="current-password"
               >
               <button 
                 type="button" 
                 @click="togglePassword" 
                 class="password-toggle"
+                :aria-label="showPassword ? 'Hide password' : 'Show password'"
               >
                 <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
               </button>
             </div>
-            <span v-if="errors.password" class="error-message">{{ errors.password }}</span>
+            <div v-if="errors.password" class="error-message" role="alert">
+              <i class="fas fa-exclamation-circle"></i>
+              {{ errors.password }}
+            </div>
+          </div>
+
+          <!-- Confirm Password (Sign Up only) -->
+          <div v-if="isSignUp" class="form-group">
+            <label class="form-label" for="confirmPassword">Confirm Password</label>
+            <div class="input-container">
+              <div class="input-icon">
+                <i class="fas fa-lock"></i>
+              </div>
+              <input
+                id="confirmPassword"
+                v-model="form.confirmPassword"
+                :type="showConfirmPassword ? 'text' : 'password'"
+                class="form-input"
+                :class="{ 'error': errors.confirmPassword }"
+                placeholder="Confirm your password"
+                required
+                autocomplete="new-password"
+              >
+              <button 
+                type="button" 
+                @click="toggleConfirmPassword" 
+                class="password-toggle"
+                :aria-label="showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'"
+              >
+                <i :class="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+              </button>
+            </div>
+            <div v-if="errors.confirmPassword" class="error-message" role="alert">
+              <i class="fas fa-exclamation-circle"></i>
+              {{ errors.confirmPassword }}
+            </div>
             
-            <!-- Password Strength Meter (Sign Up) -->
-            <div v-if="isSignUp && form.password" class="password-strength">
+            <!-- Password Strength Indicator -->
+            <div v-if="form.password" class="password-strength">
               <div class="strength-bar">
                 <div 
                   class="strength-fill" 
@@ -143,57 +181,16 @@
             </div>
           </div>
 
-          <!-- Confirm Password (Sign Up) -->
-          <div v-if="isSignUp" class="form-group">
-            <label class="form-label">Confirm Password</label>
-            <div class="input-wrapper">
-              <i class="fas fa-lock input-icon"></i>
-              <input
-                v-model="form.confirmPassword"
-                :type="showConfirmPassword ? 'text' : 'password'"
-                class="form-input"
-                :class="{ error: errors.confirmPassword }"
-                placeholder="Confirm your password"
-                required
-              >
-              <button 
-                type="button" 
-                @click="toggleConfirmPassword" 
-                class="password-toggle"
-              >
-                <i :class="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-              </button>
-            </div>
-            <span v-if="errors.confirmPassword" class="error-message">{{ errors.confirmPassword }}</span>
-          </div>
-
-          <!-- Beauty Preferences (Sign Up) -->
-          <div v-if="isSignUp" class="form-group">
-            <label class="form-label">Beauty Interests (Optional)</label>
-            <div class="checkbox-group">
-              <label v-for="interest in beautyInterests" :key="interest.id" class="checkbox-label">
-                <input 
-                  type="checkbox" 
-                  :value="interest.id"
-                  v-model="form.interests"
-                  class="checkbox-input"
-                >
-                <span class="checkbox-custom"></span>
-                <span class="checkbox-text">{{ interest.name }}</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Remember Me / Forgot Password -->
+          <!-- Form Options -->
           <div class="form-options">
-            <label v-if="!isSignUp" class="remember-label">
+            <label v-if="!isSignUp" class="remember-checkbox">
               <input type="checkbox" v-model="form.rememberMe" class="checkbox-input">
               <span class="checkbox-custom"></span>
-              <span>Remember me</span>
+              <span class="checkbox-text">Remember me</span>
             </label>
             
-            <div v-if="isSignUp" class="terms-checkbox">
-              <label class="checkbox-label">
+            <div v-if="isSignUp" class="terms-agreement">
+              <label class="remember-checkbox">
                 <input 
                   type="checkbox" 
                   v-model="form.agreeToTerms" 
@@ -202,8 +199,8 @@
                 >
                 <span class="checkbox-custom"></span>
                 <span class="checkbox-text">
-                  I agree to the <a href="/terms-of-service" target="_blank">Terms of Service</a> 
-                  and <a href="/privacy-policy" target="_blank">Privacy Policy</a>
+                  I agree to the <a href="/terms" target="_blank">Terms of Service</a> 
+                  and <a href="/privacy" target="_blank">Privacy Policy</a>
                 </span>
               </label>
             </div>
@@ -211,8 +208,8 @@
             <button 
               v-if="!isSignUp" 
               type="button" 
-              @click="showForgotPassword" 
-              class="forgot-link"
+              @click="showForgotPasswordModal = true" 
+              class="forgot-password-link"
             >
               Forgot Password?
             </button>
@@ -221,15 +218,15 @@
           <!-- Submit Button -->
           <button 
             type="submit" 
-            class="auth-submit-btn"
+            class="submit-btn"
             :disabled="isLoading || (isSignUp && !form.agreeToTerms)"
-            :class="{ loading: isLoading }"
+            :class="{ 'loading': isLoading }"
           >
-            <span v-if="!isLoading">
-              <i class="fas" :class="isSignUp ? 'fa-user-plus' : 'fa-sign-in-alt'"></i>
+            <span v-if="!isLoading" class="btn-content">
+              <i class="fas" :class="isSignUp ? 'fa-sparkles' : 'fa-sign-in-alt'"></i>
               {{ isSignUp ? 'Create Account' : 'Sign In' }}
             </span>
-            <span v-else class="loading-content">
+            <span v-else class="btn-loading">
               <i class="fas fa-spinner fa-spin"></i>
               {{ isSignUp ? 'Creating Account...' : 'Signing In...' }}
             </span>
@@ -238,59 +235,61 @@
 
         <!-- Switch Mode -->
         <div class="auth-switch">
-          <p>
+          <p class="switch-text">
             {{ isSignUp ? 'Already have an account?' : "Don't have an account?" }}
-            <button @click="toggleMode" class="switch-btn">
+            <button @click="toggleMode" class="switch-link">
               {{ isSignUp ? 'Sign In' : 'Sign Up' }}
             </button>
           </p>
         </div>
 
         <!-- Trust Indicators -->
-        <div class="trust-indicators">
+        <div class="trust-section">
           <div class="trust-item">
             <i class="fas fa-shield-alt"></i>
-            <span>Secure & Encrypted</span>
+            <span>Secure</span>
           </div>
           <div class="trust-item">
             <i class="fas fa-user-shield"></i>
-            <span>Privacy Protected</span>
+            <span>Private</span>
           </div>
           <div class="trust-item">
             <i class="fas fa-heart"></i>
-            <span>Join 100K+ Users</span>
+            <span>Trusted</span>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Forgot Password Modal -->
-    <div v-if="showForgotPasswordModal" class="forgot-password-overlay" @click="closeForgotPassword">
-      <div class="forgot-password-modal" @click.stop>
+    <div v-if="showForgotPasswordModal" class="forgot-overlay" @click="showForgotPasswordModal = false">
+      <div class="forgot-modal" @click.stop>
         <div class="forgot-header">
-          <h3>Reset Your Password</h3>
-          <p>Enter your email address and we'll send you a link to reset your password.</p>
+          <h3>Reset Password</h3>
+          <p>Enter your email and we'll send you a reset link</p>
         </div>
         
         <form @submit.prevent="handleForgotPassword" class="forgot-form">
           <div class="form-group">
-            <div class="input-wrapper">
-              <i class="fas fa-envelope input-icon"></i>
+            <div class="input-container">
+              <div class="input-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
               <input
                 v-model="forgotEmail"
                 type="email"
                 class="form-input"
-                placeholder="Enter your email address"
+                placeholder="Enter your email"
                 required
               >
             </div>
           </div>
           
           <div class="forgot-actions">
-            <button type="button" @click="closeForgotPassword" class="btn-cancel">
+            <button type="button" @click="showForgotPasswordModal = false" class="cancel-btn">
               Cancel
             </button>
-            <button type="submit" class="btn-submit" :disabled="!forgotEmail">
+            <button type="submit" class="reset-btn" :disabled="!forgotEmail">
               Send Reset Link
             </button>
           </div>
@@ -310,7 +309,7 @@ export default {
     },
     initialMode: {
       type: String,
-      default: 'signin' // 'signin' or 'signup'
+      default: 'signin'
     }
   },
   data() {
@@ -322,24 +321,13 @@ export default {
       showForgotPasswordModal: false,
       forgotEmail: '',
       form: {
-        firstName: '',
-        lastName: '',
         email: '',
         password: '',
         confirmPassword: '',
         rememberMe: false,
-        agreeToTerms: false,
-        interests: []
+        agreeToTerms: false
       },
-      errors: {},
-      beautyInterests: [
-        { id: 'skincare', name: 'Skincare' },
-        { id: 'makeup', name: 'Makeup' },
-        { id: 'haircare', name: 'Hair Care' },
-        { id: 'fragrance', name: 'Fragrance' },
-        { id: 'tools', name: 'Beauty Tools' },
-        { id: 'wellness', name: 'Wellness' }
-      ]
+      errors: {}
     };
   },
   computed: {
@@ -348,27 +336,12 @@ export default {
       if (!password) return { width: '0%', class: '', text: '' };
       
       let score = 0;
-      let feedback = [];
       
-      // Length check
       if (password.length >= 8) score += 2;
-      else feedback.push('at least 8 characters');
-      
-      // Uppercase check
       if (/[A-Z]/.test(password)) score += 1;
-      else feedback.push('uppercase letter');
-      
-      // Lowercase check
       if (/[a-z]/.test(password)) score += 1;
-      else feedback.push('lowercase letter');
-      
-      // Number check
       if (/\d/.test(password)) score += 1;
-      else feedback.push('number');
-      
-      // Special character check
       if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) score += 1;
-      else feedback.push('special character');
       
       if (score <= 2) {
         return { width: '25%', class: 'weak', text: 'Weak' };
@@ -396,46 +369,25 @@ export default {
       this.showConfirmPassword = !this.showConfirmPassword;
     },
     
-    showForgotPassword() {
-      this.showForgotPasswordModal = true;
-    },
-    
-    closeForgotPassword() {
-      this.showForgotPasswordModal = false;
-      this.forgotEmail = '';
-    },
-    
     validateForm() {
       this.errors = {};
       
-      // Email validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(this.form.email)) {
         this.errors.email = 'Please enter a valid email address';
       }
       
-      // Password validation
       if (this.form.password.length < 8) {
-        this.errors.password = 'Password must be at least 8 characters long';
+        this.errors.password = 'Password must be at least 8 characters';
       }
       
       if (this.isSignUp) {
-        // Name validations
-        if (!this.form.firstName.trim()) {
-          this.errors.firstName = 'First name is required';
-        }
-        if (!this.form.lastName.trim()) {
-          this.errors.lastName = 'Last name is required';
-        }
-        
-        // Confirm password validation
         if (this.form.password !== this.form.confirmPassword) {
           this.errors.confirmPassword = 'Passwords do not match';
         }
         
-        // Terms validation
         if (!this.form.agreeToTerms) {
-          this.errors.terms = 'You must agree to the terms and conditions';
+          this.errors.terms = 'You must agree to the terms';
         }
       }
       
@@ -461,30 +413,24 @@ export default {
     },
     
     async signUp() {
-      // Simulate API call
       await this.delay(2000);
       
       const userData = {
-        firstName: this.form.firstName,
-        lastName: this.form.lastName,
-        email: this.form.email,
-        interests: this.form.interests
+        email: this.form.email
       };
       
-      // Store user data
       this.$store.dispatch('user/createAccount', userData);
       
       this.$emit('auth-success', {
         type: 'signup',
         user: userData,
-        message: 'Account created successfully! Welcome to Beauty Market!'
+        message: 'Welcome to Beauty Market! Your account has been created ✨'
       });
       
       this.closeModal();
     },
     
     async signIn() {
-      // Simulate API call
       await this.delay(1500);
       
       const userData = {
@@ -492,13 +438,12 @@ export default {
         rememberMe: this.form.rememberMe
       };
       
-      // Authenticate user
       this.$store.dispatch('user/signIn', userData);
       
       this.$emit('auth-success', {
         type: 'signin',
         user: userData,
-        message: 'Welcome back! You have been signed in successfully.'
+        message: 'Welcome back! Ready to glow? 🌟'
       });
       
       this.closeModal();
@@ -507,7 +452,6 @@ export default {
     async signInWithGoogle() {
       this.isLoading = true;
       try {
-        // Simulate Google OAuth
         await this.delay(1000);
         
         const userData = {
@@ -521,7 +465,7 @@ export default {
         this.$emit('auth-success', {
           type: 'social',
           user: userData,
-          message: 'Successfully signed in with Google!'
+          message: 'Successfully signed in with Google! ✨'
         });
         
         this.closeModal();
@@ -535,7 +479,6 @@ export default {
     async signInWithFacebook() {
       this.isLoading = true;
       try {
-        // Simulate Facebook OAuth
         await this.delay(1000);
         
         const userData = {
@@ -549,7 +492,34 @@ export default {
         this.$emit('auth-success', {
           type: 'social',
           user: userData,
-          message: 'Successfully signed in with Facebook!'
+          message: 'Successfully signed in with Facebook! 💕'
+        });
+        
+        this.closeModal();
+      } catch (error) {
+        this.handleAuthError(error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    
+    async signInWithApple() {
+      this.isLoading = true;
+      try {
+        await this.delay(1000);
+        
+        const userData = {
+          name: 'Apple User',
+          email: 'user@icloud.com',
+          provider: 'apple'
+        };
+        
+        this.$store.dispatch('user/socialSignIn', userData);
+        
+        this.$emit('auth-success', {
+          type: 'social',
+          user: userData,
+          message: 'Successfully signed in with Apple! 🍃'
         });
         
         this.closeModal();
@@ -563,15 +533,15 @@ export default {
     async handleForgotPassword() {
       this.isLoading = true;
       try {
-        // Simulate password reset API call
         await this.delay(1000);
         
         this.$emit('password-reset-sent', {
           email: this.forgotEmail,
-          message: 'Password reset link sent to your email!'
+          message: 'Password reset link sent! Check your email 📧'
         });
         
-        this.closeForgotPassword();
+        this.showForgotPasswordModal = false;
+        this.forgotEmail = '';
       } catch (error) {
         this.handleAuthError(error);
       } finally {
@@ -581,20 +551,17 @@ export default {
     
     handleAuthError(error) {
       this.$emit('auth-error', {
-        message: error.message || 'Authentication failed. Please try again.'
+        message: error.message || 'Something went wrong. Please try again.'
       });
     },
     
     clearForm() {
       this.form = {
-        firstName: '',
-        lastName: '',
         email: '',
         password: '',
         confirmPassword: '',
         rememberMe: false,
-        agreeToTerms: false,
-        interests: []
+        agreeToTerms: false
       };
     },
     
@@ -627,14 +594,14 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2000;
   padding: 20px;
-  backdrop-filter: blur(8px);
-  animation: fadeIn 0.3s ease-out;
+  backdrop-filter: blur(12px);
+  animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes fadeIn {
@@ -644,20 +611,22 @@ export default {
 
 .auth-modal {
   background: white;
-  border-radius: 24px;
+  border-radius: 32px;
   max-width: 480px;
   width: 100%;
-  max-height: 90vh;
+  max-height: 95vh;
   overflow-y: auto;
   position: relative;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-  animation: slideIn 0.4s ease-out;
+  box-shadow: 
+    0 32px 64px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(30px) scale(0.95);
+    transform: translateY(40px) scale(0.9);
   }
   to {
     opacity: 1;
@@ -665,144 +634,182 @@ export default {
   }
 }
 
+/* Animated Background */
 .auth-background {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 200px;
-  background: linear-gradient(135deg, 
-    var(--primary-500) 0%,
-    var(--primary-600) 25%,
-    var(--purple-600) 50%,
-    var(--pink-500) 75%,
-    var(--primary-500) 100%);
-  border-radius: 24px 24px 0 0;
+  background: linear-gradient(
+    135deg,
+    #fdf2f8 0%,
+    #fce7f3 25%,
+    #e0e7ff 50%,
+    #f3e8ff 75%,
+    #fdf2f8 100%
+  );
+  border-radius: 32px 32px 0 0;
   overflow: hidden;
 }
 
-.floating-shapes {
+.gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(236, 72, 153, 0.1) 0%,
+    rgba(168, 85, 247, 0.1) 50%,
+    rgba(251, 146, 60, 0.1) 100%
+  );
+  animation: gradientShift 8s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+.floating-elements {
   position: absolute;
   width: 100%;
   height: 100%;
 }
 
-.shape {
+.beauty-element {
   position: absolute;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
   animation: float 6s ease-in-out infinite;
+  backdrop-filter: blur(10px);
 }
 
-.shape-1 {
-  width: 60px;
-  height: 60px;
+.element-1 {
   top: 20%;
-  left: 10%;
+  left: 15%;
   animation-delay: 0s;
 }
 
-.shape-2 {
-  width: 40px;
-  height: 40px;
+.element-2 {
   top: 60%;
-  left: 80%;
-  animation-delay: 1s;
+  right: 20%;
+  animation-delay: 1.5s;
 }
 
-.shape-3 {
-  width: 80px;
-  height: 80px;
-  top: 10%;
+.element-3 {
+  top: 15%;
   right: 15%;
-  animation-delay: 2s;
+  animation-delay: 3s;
 }
 
-.shape-4 {
-  width: 30px;
-  height: 30px;
-  bottom: 20%;
+.element-4 {
+  bottom: 25%;
   left: 20%;
-  animation-delay: 3s;
+  animation-delay: 4.5s;
 }
 
 @keyframes float {
   0%, 100% { 
     transform: translateY(0px) rotate(0deg);
-    opacity: 0.3;
+    opacity: 0.4;
   }
   50% { 
-    transform: translateY(-20px) rotate(180deg);
-    opacity: 0.6;
+    transform: translateY(-15px) rotate(180deg);
+    opacity: 0.8;
   }
 }
 
 .close-btn {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background: rgba(255, 255, 255, 0.2);
+  top: 24px;
+  right: 24px;
+  background: rgba(255, 255, 255, 0.9);
   border: none;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  color: white;
-  font-size: 16px;
+  color: var(--gray-600);
+  font-size: 18px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   z-index: 10;
   backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .close-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: scale(1.1);
+  background: rgba(255, 255, 255, 1);
+  color: var(--gray-800);
+  transform: scale(1.05);
 }
 
+/* Content */
 .auth-content {
-  padding: 40px;
-  padding-top: 180px;
+  padding: 48px 40px 40px;
   position: relative;
   z-index: 5;
 }
 
 .auth-header {
   text-align: center;
+  margin-bottom: 40px;
+}
+
+.brand-logo {
   margin-bottom: 32px;
 }
 
-.auth-logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.logo-icon {
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
-  border-radius: 12px;
+.logo-container {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #ec4899, #db2777);
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 24px;
-  box-shadow: 0 8px 16px rgba(236, 72, 153, 0.3);
+  font-size: 28px;
+  margin: 0 auto 16px;
+  box-shadow: 
+    0 12px 24px rgba(236, 72, 153, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  animation: brandGlow 3s ease-in-out infinite;
 }
 
-.logo-text {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--gray-800);
+@keyframes brandGlow {
+  0%, 100% { box-shadow: 0 12px 24px rgba(236, 72, 153, 0.3); }
+  50% { box-shadow: 0 16px 32px rgba(236, 72, 153, 0.4); }
 }
 
-.auth-title {
+.brand-name {
   font-size: 28px;
   font-weight: 700;
   color: var(--gray-800);
-  margin: 0 0 8px;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.welcome-section {
+  margin-bottom: 8px;
+}
+
+.auth-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--gray-800);
+  margin: 0 0 12px;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
 }
 
 .auth-subtitle {
@@ -810,51 +817,97 @@ export default {
   font-size: 16px;
   line-height: 1.5;
   margin: 0;
+  font-weight: 400;
 }
 
-.social-auth {
-  display: flex;
-  flex-direction: column;
+/* Social Authentication */
+.social-auth-section {
+  margin-bottom: 32px;
+}
+
+.social-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   margin-bottom: 24px;
 }
 
 .social-btn {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 14px 20px;
+  gap: 8px;
+  padding: 16px 12px;
   border: 2px solid var(--gray-200);
-  border-radius: 12px;
+  border-radius: 16px;
   background: white;
   color: var(--gray-700);
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  min-height: 80px;
+}
+
+.social-btn:hover:not(:disabled) {
+  border-color: var(--primary-300);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.social-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.social-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 16px;
+  background: var(--gray-100);
+  color: var(--gray-600);
+  transition: all 0.3s ease;
 }
 
-.social-btn:hover {
-  border-color: var(--gray-300);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.google-btn:hover {
+.google-btn:hover:not(:disabled) {
   border-color: #db4437;
   color: #db4437;
 }
 
-.facebook-btn:hover {
+.google-btn:hover:not(:disabled) .social-icon {
+  background: #db4437;
+  color: white;
+}
+
+.facebook-btn:hover:not(:disabled) {
   border-color: #1877f2;
   color: #1877f2;
 }
 
+.facebook-btn:hover:not(:disabled) .social-icon {
+  background: #1877f2;
+  color: white;
+}
+
+.apple-btn:hover:not(:disabled) {
+  border-color: #000;
+  color: #000;
+}
+
+.apple-btn:hover:not(:disabled) .social-icon {
+  background: #000;
+  color: white;
+}
+
 .auth-divider {
   text-align: center;
-  margin: 24px 0;
   position: relative;
+  margin: 32px 0;
 }
 
 .auth-divider::before {
@@ -864,29 +917,25 @@ export default {
   left: 0;
   right: 0;
   height: 1px;
-  background: var(--gray-200);
+  background: linear-gradient(90deg, transparent, var(--gray-200), transparent);
 }
 
 .auth-divider span {
   background: white;
   color: var(--gray-500);
-  padding: 0 16px;
+  padding: 0 20px;
   font-size: 14px;
+  font-weight: 500;
   position: relative;
 }
 
+/* Form */
 .auth-form {
-  margin-bottom: 24px;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  margin-bottom: 32px;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .form-label {
@@ -897,138 +946,152 @@ export default {
   font-size: 14px;
 }
 
-.input-wrapper {
+.input-container {
   position: relative;
 }
 
 .input-icon {
   position: absolute;
-  left: 16px;
+  left: 20px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--gray-400);
   font-size: 16px;
   z-index: 2;
+  transition: color 0.3s ease;
 }
 
 .form-input {
   width: 100%;
-  padding: 16px 20px 16px 48px;
+  padding: 18px 20px 18px 52px;
   border: 2px solid var(--gray-200);
-  border-radius: 12px;
+  border-radius: 16px;
   font-size: 16px;
-  transition: all 0.2s ease;
-  background: white;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--gray-800);
+  font-weight: 500;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: var(--primary-500);
-  box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+  border-color: var(--primary-400);
+  box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.1);
+  background: white;
+}
+
+.form-input:focus + .input-icon,
+.form-input:not(:placeholder-shown) + .input-icon {
+  color: var(--primary-500);
 }
 
 .form-input.error {
-  border-color: var(--error-500);
+  border-color: var(--red-400);
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+.form-input::placeholder {
+  color: var(--gray-400);
+  font-weight: 400;
 }
 
 .password-toggle {
   position: absolute;
-  right: 16px;
+  right: 20px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
   color: var(--gray-400);
   cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  transition: color 0.2s ease;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-size: 16px;
 }
 
 .password-toggle:hover {
   color: var(--gray-600);
+  background: var(--gray-100);
 }
 
 .error-message {
-  display: block;
-  color: var(--error-500);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--red-600);
   font-size: 12px;
-  margin-top: 4px;
+  font-weight: 500;
+  margin-top: 8px;
 }
 
+.error-message i {
+  font-size: 12px;
+}
+
+/* Password Strength */
 .password-strength {
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
 .strength-bar {
   height: 4px;
   background: var(--gray-200);
-  border-radius: 2px;
+  border-radius: 4px;
   overflow: hidden;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 
 .strength-fill {
   height: 100%;
   transition: all 0.3s ease;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .strength-fill.weak {
-  background: var(--error-500);
+  background: linear-gradient(90deg, #ef4444, #f87171);
 }
 
 .strength-fill.medium {
-  background: var(--warning-500);
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
 }
 
 .strength-fill.good {
-  background: #3b82f6;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
 }
 
 .strength-fill.strong {
-  background: var(--success-500);
+  background: linear-gradient(90deg, #10b981, #34d399);
 }
 
 .strength-text {
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-.strength-text.weak {
-  color: var(--error-500);
+.strength-text.weak { color: #ef4444; }
+.strength-text.medium { color: #f59e0b; }
+.strength-text.good { color: #3b82f6; }
+.strength-text.strong { color: #10b981; }
+
+/* Form Options */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
-.strength-text.medium {
-  color: var(--warning-500);
-}
-
-.strength-text.good {
-  color: #3b82f6;
-}
-
-.strength-text.strong {
-  color: var(--success-500);
-}
-
-.checkbox-group {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
-}
-
-.checkbox-label {
+.remember-checkbox {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 8px;
-  transition: background-color 0.2s ease;
-}
-
-.checkbox-label:hover {
-  background: var(--gray-50);
+  font-size: 14px;
+  color: var(--gray-700);
+  font-weight: 500;
 }
 
 .checkbox-input {
@@ -1036,17 +1099,17 @@ export default {
 }
 
 .checkbox-custom {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border: 2px solid var(--gray-300);
-  border-radius: 4px;
+  border-radius: 6px;
   position: relative;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   flex-shrink: 0;
 }
 
 .checkbox-input:checked + .checkbox-custom {
-  background: var(--primary-500);
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
   border-color: var(--primary-500);
 }
 
@@ -1058,123 +1121,118 @@ export default {
   transform: translate(-50%, -50%);
   color: white;
   font-size: 12px;
-  font-weight: 600;
-}
-
-.checkbox-text {
-  font-size: 14px;
-  color: var(--gray-700);
+  font-weight: 700;
 }
 
 .checkbox-text a {
   color: var(--primary-600);
   text-decoration: none;
+  font-weight: 600;
 }
 
 .checkbox-text a:hover {
   text-decoration: underline;
 }
 
-.form-options {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.remember-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  color: var(--gray-700);
-}
-
-.terms-checkbox {
+.terms-agreement {
   flex: 1;
 }
 
-.forgot-link {
+.forgot-password-link {
   background: none;
   border: none;
   color: var(--primary-600);
   font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
   text-decoration: none;
   padding: 0;
+  transition: color 0.3s ease;
 }
 
-.forgot-link:hover {
+.forgot-password-link:hover {
+  color: var(--primary-700);
   text-decoration: underline;
 }
 
-.auth-submit-btn {
+/* Submit Button */
+.submit-btn {
   width: 100%;
-  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  background: linear-gradient(135deg, #ec4899, #db2777);
   color: white;
   border: none;
-  padding: 16px 24px;
-  border-radius: 12px;
+  padding: 18px 24px;
+  border-radius: 16px;
   font-weight: 600;
   font-size: 16px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   min-height: 56px;
+  box-shadow: 
+    0 8px 16px rgba(236, 72, 153, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
-.auth-submit-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
-  transform: translateY(-1px);
-  box-shadow: 0 8px 16px rgba(236, 72, 153, 0.3);
+.submit-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #db2777, #be185d);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 24px rgba(236, 72, 153, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
-.auth-submit-btn:disabled {
+.submit-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
   transform: none;
 }
 
-.loading-content {
+.btn-content,
+.btn-loading {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
+/* Switch Mode */
 .auth-switch {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
-.auth-switch p {
+.switch-text {
   color: var(--gray-600);
   margin: 0;
+  font-size: 14px;
+  font-weight: 500;
 }
 
-.switch-btn {
+.switch-link {
   background: none;
   border: none;
   color: var(--primary-600);
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   text-decoration: none;
-  margin-left: 4px;
+  margin-left: 6px;
+  font-size: 14px;
+  transition: color 0.3s ease;
 }
 
-.switch-btn:hover {
+.switch-link:hover {
+  color: var(--primary-700);
   text-decoration: underline;
 }
 
-.trust-indicators {
+/* Trust Section */
+.trust-section {
   display: flex;
   justify-content: center;
-  gap: 24px;
+  gap: 32px;
   padding-top: 24px;
   border-top: 1px solid var(--gray-200);
 }
@@ -1183,23 +1241,30 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   text-align: center;
 }
 
 .trust-item i {
   color: var(--primary-500);
-  font-size: 18px;
+  font-size: 20px;
+  background: var(--primary-50);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .trust-item span {
   font-size: 12px;
   color: var(--gray-600);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 /* Forgot Password Modal */
-.forgot-password-overlay {
+.forgot-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -1210,26 +1275,26 @@ export default {
   align-items: center;
   justify-content: center;
   z-index: 2100;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
 }
 
-.forgot-password-modal {
+.forgot-modal {
   background: white;
-  border-radius: 16px;
-  padding: 32px;
+  border-radius: 24px;
+  padding: 40px;
   max-width: 400px;
   width: 90%;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.2);
 }
 
 .forgot-header {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
 .forgot-header h3 {
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--gray-800);
   margin: 0 0 8px;
 }
@@ -1241,7 +1306,7 @@ export default {
 }
 
 .forgot-form {
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .forgot-actions {
@@ -1249,53 +1314,53 @@ export default {
   gap: 12px;
 }
 
-.btn-cancel {
+.cancel-btn,
+.reset-btn {
   flex: 1;
-  background: var(--gray-100);
-  color: var(--gray-700);
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-weight: 500;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
+  border: none;
+  font-size: 14px;
 }
 
-.btn-cancel:hover {
+.cancel-btn {
+  background: var(--gray-100);
+  color: var(--gray-700);
+}
+
+.cancel-btn:hover {
   background: var(--gray-200);
 }
 
-.btn-submit {
-  flex: 1;
-  background: var(--primary-500);
+.reset-btn {
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
   color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-.btn-submit:hover:not(:disabled) {
-  background: var(--primary-600);
+.reset-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+  transform: translateY(-1px);
 }
 
-.btn-submit:disabled {
+.reset-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .auth-modal {
     margin: 10px;
-    border-radius: 16px;
+    border-radius: 24px;
+    max-height: 95vh;
   }
   
   .auth-content {
-    padding: 24px;
-    padding-top: 160px;
+    padding: 32px 24px 24px;
   }
   
   .auth-background {
@@ -1303,11 +1368,22 @@ export default {
   }
   
   .auth-title {
+    font-size: 28px;
+  }
+  
+  .brand-name {
     font-size: 24px;
   }
   
-  .form-row {
+  .social-buttons {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .social-btn {
+    flex-direction: row;
+    min-height: auto;
+    padding: 16px 20px;
   }
   
   .form-options {
@@ -1315,27 +1391,26 @@ export default {
     align-items: flex-start;
   }
   
-  .trust-indicators {
-    gap: 16px;
+  .trust-section {
+    gap: 20px;
   }
   
-  .trust-item span {
-    font-size: 11px;
+  .trust-item {
+    flex: 1;
   }
   
-  .checkbox-group {
-    grid-template-columns: 1fr;
+  .forgot-modal {
+    padding: 32px 24px;
   }
 }
 
 @media (max-width: 480px) {
   .auth-overlay {
-    padding: 10px;
+    padding: 12px;
   }
   
   .auth-content {
-    padding: 20px;
-    padding-top: 140px;
+    padding: 24px 20px 20px;
   }
   
   .auth-background {
@@ -1345,34 +1420,34 @@ export default {
   .close-btn {
     top: 16px;
     right: 16px;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
   }
   
   .social-btn {
-    padding: 12px 16px;
-    font-size: 15px;
+    padding: 14px 16px;
+    font-size: 13px;
   }
   
-  .trust-indicators {
+  .trust-section {
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
   }
   
   .trust-item {
     flex-direction: row;
-    gap: 8px;
+    gap: 12px;
   }
 }
 
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   .auth-modal,
-  .floating-shapes .shape,
+  .floating-elements .beauty-element,
   .close-btn,
   .social-btn,
   .form-input,
-  .auth-submit-btn {
+  .submit-btn {
     animation: none;
     transition: none;
   }
@@ -1383,11 +1458,11 @@ export default {
 .social-btn:focus-visible,
 .form-input:focus-visible,
 .password-toggle:focus-visible,
-.checkbox-label:focus-visible,
-.forgot-link:focus-visible,
-.auth-submit-btn:focus-visible,
-.switch-btn:focus-visible {
-  outline: 2px solid var(--primary-500);
+.remember-checkbox:focus-visible,
+.forgot-password-link:focus-visible,
+.submit-btn:focus-visible,
+.switch-link:focus-visible {
+  outline: 3px solid var(--primary-400);
   outline-offset: 2px;
 }
 </style>
