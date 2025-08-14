@@ -185,6 +185,12 @@ const routes = [
     meta: { title: 'Authentication Demo - Beauty Market' }
   },
   {
+    path: '/auth-test',
+    name: 'AuthTest',
+    component: AuthTest,
+    meta: { title: 'Authentication Test - Beauty Market' }
+  },
+  {
     path: '/checkout',
     name: 'Checkout',
     component: Checkout,
