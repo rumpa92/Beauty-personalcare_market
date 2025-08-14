@@ -4,6 +4,7 @@ import products from './modules/products';
 import cart from './modules/cart';
 import user from './modules/user';
 import ui from './modules/ui';
+import support from './modules/support';
 
 Vue.use(Vuex);
 
