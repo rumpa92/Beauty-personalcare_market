@@ -391,7 +391,16 @@ const actions = {
       name: userData.name,
       email: userData.email,
       avatar: userData.avatar || '',
-      provider: userData.provider
+      provider: userData.provider,
+      skinType: 'combination',
+      hairType: 'wavy',
+      preferences: {
+        brands: [],
+        categories: [],
+        priceRange: [0, 200],
+        skinConcerns: [],
+        allergies: []
+      }
     };
 
     commit('SET_AUTHENTICATION', { isAuthenticated: true, token: authToken });
