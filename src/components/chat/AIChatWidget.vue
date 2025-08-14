@@ -262,8 +262,25 @@ export default {
 }
 
 .ai-chat-icon:hover {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 8px 30px rgba(236, 72, 153, 0.5);
+  transform: translateY(-3px) scale(1.08);
+  box-shadow:
+    0 12px 40px rgba(99, 102, 241, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.ai-chat-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.ai-chat-icon:hover::before {
+  left: 100%;
 }
 
 .ai-chat-icon.chat-open {
