@@ -1,5 +1,5 @@
 const state = {
-  isAuthenticated: false,
+  isAuthenticated: true,
   authToken: null,
   profile: {
     name: 'Sarah Johnson',

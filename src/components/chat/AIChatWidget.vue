@@ -238,7 +238,7 @@ export default {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  z-index: 1000;
+  z-index: 1001;
   display: flex;
   flex-direction: column;
   align-items: flex-end;

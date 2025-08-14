@@ -599,8 +599,33 @@
                   v-for="question in category.questions.slice(0, 3)"
                   :key="question.id"
                   class="preview-question"
+                  :class="{ 'expanded': question.expanded }"
+                  @click="togglePreviewQuestion(question.id)"
                 >
-                  {{ question.question }}
+                  <div class="question-text">
+                    <span>{{ question.question }}</span>
+                    <i class="fas fa-chevron-down expansion-icon" :class="{ 'rotated': question.expanded }"></i>
+                  </div>
+                  <div v-if="question.expanded" class="question-answer">
+                    <p>{{ question.answer }}</p>
+                    <div class="faq-actions">
+                      <span class="helpful-text">Was this helpful?</span>
+                      <button
+                        @click.stop="markFAQHelpful(question.id, true)"
+                        class="helpful-btn"
+                        :class="{ active: question.helpful === true }"
+                      >
+                        <i class="fas fa-thumbs-up"></i>
+                      </button>
+                      <button
+                        @click.stop="markFAQHelpful(question.id, false)"
+                        class="helpful-btn"
+                        :class="{ active: question.helpful === false }"
+                      >
+                        <i class="fas fa-thumbs-down"></i>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1706,6 +1731,20 @@ export default {
       return category ? category.questions : [];
     },
 
+    togglePreviewQuestion(questionId) {
+      this.faqCategories.forEach(category => {
+        category.questions.forEach(question => {
+          if (question.id === questionId) {
+            // Toggle the clicked question
+            question.expanded = !question.expanded;
+          } else {
+            // Collapse all other questions
+            question.expanded = false;
+          }
+        });
+      });
+    },
+
     nextTicketStep() {
       if (this.currentTicketStep < 3) {
         this.currentTicketStep++;
@@ -2634,10 +2673,70 @@ export default {
 .preview-question {
   font-size: 14px;
   color: var(--gray-600);
-  padding: 8px 12px;
+  padding: 12px;
   background: var(--gray-50);
   border-radius: 8px;
-  border-left: 3px solid var(--primary-300);
+  border: 1px solid transparent;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.preview-question:hover {
+  background: var(--primary-50);
+  border-color: var(--primary-200);
+  color: var(--gray-800);
+  transform: translateY(-1px);
+}
+
+.preview-question.expanded {
+  background: var(--primary-50);
+  border-color: var(--primary-300);
+  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.1);
+}
+
+.question-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-weight: 500;
+}
+
+.expansion-icon {
+  transition: transform 0.2s ease;
+  color: var(--primary-500);
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.expansion-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.preview-question .question-answer {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--gray-200);
+  animation: fadeIn 0.3s ease;
+}
+
+.preview-question .question-answer p {
+  color: var(--gray-700);
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .faq-search-results h3 {
