@@ -1198,6 +1198,10 @@ export default {
     display: none;
   }
 
+  .wishlist-text {
+    display: none;
+  }
+
   .user-dropdown-menu {
     min-width: 280px;
     right: -20px;
