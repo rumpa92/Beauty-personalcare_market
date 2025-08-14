@@ -1042,12 +1042,12 @@ export default {
 }
 
 .dropdown-header {
-  padding: 20px;
+  padding: 16px;
   background: linear-gradient(135deg, var(--primary-50) 0%, var(--purple-50) 100%);
   border-radius: 16px 16px 0 0;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .user-avatar-large {
