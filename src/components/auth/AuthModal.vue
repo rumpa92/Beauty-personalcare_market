@@ -992,14 +992,26 @@ export default {
   z-index: 2;
 }
 
+.google-btn {
+  border-color: #db4437;
+}
+
 .google-btn .social-icon {
   background: #db4437;
   color: white;
 }
 
+.facebook-btn {
+  border-color: #1877f2;
+}
+
 .facebook-btn .social-icon {
   background: #1877f2;
   color: white;
+}
+
+.apple-btn {
+  border-color: #333;
 }
 
 .apple-btn .social-icon {
