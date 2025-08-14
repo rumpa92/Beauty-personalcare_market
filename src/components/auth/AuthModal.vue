@@ -910,7 +910,7 @@ export default {
 
 /* Social Authentication */
 .social-auth-section {
-  margin-bottom: 32px;
+  margin-bottom: 20px;
 }
 
 .social-buttons {
