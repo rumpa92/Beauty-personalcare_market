@@ -1282,6 +1282,159 @@ export default {
           address: '123 Beauty St, Glamour City, GC 12345',
           canReschedule: true
         }
+      ],
+      // Customer Support Data
+      faqSearchQuery: '',
+      selectedFAQCategory: null,
+      activeTicketTab: 'create',
+      currentTicketStep: 1,
+      submittingTicket: false,
+      newTicket: {
+        issueType: '',
+        subject: '',
+        description: '',
+        priority: 'medium',
+        attachments: []
+      },
+      faqCategories: [
+        {
+          id: 'beauty-tips',
+          title: 'Beauty Tips & Advice',
+          icon: 'fas fa-magic',
+          color: '#ec4899',
+          questions: [
+            {
+              id: 1,
+              question: 'How do I choose the right foundation shade?',
+              answer: 'To find your perfect foundation match, test shades on your jawline in natural light. Consider your undertone: cool (pink/red), warm (yellow/golden), or neutral (mix of both). Our virtual try-on tool can also help you find the perfect match!',
+              helpful: null,
+              expanded: false
+            },
+            {
+              id: 2,
+              question: 'What\'s the best skincare routine for beginners?',
+              answer: 'Start with the basics: gentle cleanser, moisturizer, and SPF during the day. Once your skin adjusts, you can add treatments like serums or exfoliants. Remember to introduce new products gradually and patch test first.',
+              helpful: null,
+              expanded: false
+            },
+            {
+              id: 3,
+              question: 'How often should I replace my makeup brushes?',
+              answer: 'Clean your brushes weekly with gentle soap or brush cleaner. Replace them when bristles start shedding excessively, become rough, or lose their shape - typically every 1-2 years for quality brushes.',
+              helpful: null,
+              expanded: false
+            }
+          ]
+        },
+        {
+          id: 'orders-shipping',
+          title: 'Orders & Shipping',
+          icon: 'fas fa-shipping-fast',
+          color: '#8b5cf6',
+          questions: [
+            {
+              id: 4,
+              question: 'How can I track my order?',
+              answer: 'Once your order ships, you\'ll receive a tracking number via email. You can also track your order in the "My Orders" section of your account or contact us for assistance.',
+              helpful: null,
+              expanded: false
+            },
+            {
+              id: 5,
+              question: 'What are your shipping options?',
+              answer: 'We offer free standard shipping (5-7 business days), express shipping (2-3 business days), and same-day delivery in select areas. Shipping costs and times may vary based on your location.',
+              helpful: null,
+              expanded: false
+            },
+            {
+              id: 6,
+              question: 'Can I change my shipping address after placing an order?',
+              answer: 'You can change your shipping address within 2 hours of placing your order if it hasn\'t been processed yet. Contact our support team immediately for assistance.',
+              helpful: null,
+              expanded: false
+            }
+          ]
+        },
+        {
+          id: 'returns-refunds',
+          title: 'Returns & Refunds',
+          icon: 'fas fa-undo-alt',
+          color: '#10b981',
+          questions: [
+            {
+              id: 7,
+              question: 'What is your return policy?',
+              answer: 'We accept returns within 30 days of purchase. Items must be unopened and in original packaging for hygiene reasons. Some items like lipstick testers or opened mascaras cannot be returned.',
+              helpful: null,
+              expanded: false
+            },
+            {
+              id: 8,
+              question: 'How do I start a return?',
+              answer: 'Go to "My Orders" in your account, select the order, and click "Return Items". Follow the guided process to select items and print your return label. Returns are free for orders over $35.',
+              helpful: null,
+              expanded: false
+            }
+          ]
+        },
+        {
+          id: 'account-payment',
+          title: 'Account & Payment',
+          icon: 'fas fa-credit-card',
+          color: '#f59e0b',
+          questions: [
+            {
+              id: 9,
+              question: 'How do I update my payment information?',
+              answer: 'Go to your account settings, select "Payment Methods", and add or update your credit card information. We accept all major credit cards, PayPal, Apple Pay, and Google Pay.',
+              helpful: null,
+              expanded: false
+            },
+            {
+              id: 10,
+              question: 'Is my payment information secure?',
+              answer: 'Yes! We use industry-standard SSL encryption and never store your full credit card details. All payments are processed through secure, PCI-compliant payment processors.',
+              helpful: null,
+              expanded: false
+            }
+          ]
+        }
+      ],
+      priorityOptions: [
+        {
+          value: 'low',
+          label: 'Low',
+          description: 'General questions, not urgent'
+        },
+        {
+          value: 'medium',
+          label: 'Medium',
+          description: 'Standard issues, response within 24 hours'
+        },
+        {
+          value: 'high',
+          label: 'High',
+          description: 'Urgent issues, response within 4 hours'
+        }
+      ],
+      existingTickets: [
+        {
+          id: 'BT-2024-001',
+          subject: 'Foundation shade recommendation needed',
+          category: 'beauty-advice',
+          status: 'open',
+          priority: 'medium',
+          createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000),
+          updatedAt: new Date(Date.now() - 6 * 60 * 60 * 1000),
+          messages: [
+            {
+              id: 1,
+              message: 'I bought the wrong foundation shade and need help finding the right one for my skin tone.',
+              sender: 'user',
+              timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000)
+            }
+          ]
+        }
       ]
     };
   },
