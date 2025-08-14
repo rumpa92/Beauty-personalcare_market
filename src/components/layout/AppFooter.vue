@@ -39,7 +39,6 @@
             <li><router-link to="/products/makeup">Makeup</router-link></li>
             <li><router-link to="/products/haircare">Hair Care</router-link></li>
             <li><router-link to="/products/fragrance">Fragrance</router-link></li>
-            <li><router-link to="/products">All Products</router-link></li>
           </ul>
         </div>
 
