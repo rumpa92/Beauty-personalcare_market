@@ -1249,11 +1249,6 @@ export default {
 }
 
 @media (max-width: 480px) {
-  .guest-content {
-    padding: 0 12px;
-    font-size: 13px;
-  }
-  
   .search-container {
     padding: 12px;
   }
