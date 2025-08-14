@@ -40,12 +40,6 @@
             <h2 class="auth-title">
               {{ isSignUp ? 'Create Your Account' : 'Welcome Back' }}
             </h2>
-            <p class="auth-subtitle">
-              {{ isSignUp 
-                ? 'Glow starts here ✨ Join our beauty community' 
-                : 'Sign in to your beautiful world 🌸' 
-              }}
-            </p>
           </div>
         </div>
 
@@ -243,21 +237,6 @@
           </p>
         </div>
 
-        <!-- Trust Indicators -->
-        <div class="trust-section">
-          <div class="trust-item">
-            <i class="fas fa-shield-alt"></i>
-            <span>Secure</span>
-          </div>
-          <div class="trust-item">
-            <i class="fas fa-user-shield"></i>
-            <span>Private</span>
-          </div>
-          <div class="trust-item">
-            <i class="fas fa-heart"></i>
-            <span>Trusted</span>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -1228,40 +1207,6 @@ export default {
   text-decoration: underline;
 }
 
-/* Trust Section */
-.trust-section {
-  display: flex;
-  justify-content: center;
-  gap: 32px;
-  padding-top: 24px;
-  border-top: 1px solid var(--gray-200);
-}
-
-.trust-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  text-align: center;
-}
-
-.trust-item i {
-  color: var(--primary-500);
-  font-size: 20px;
-  background: var(--primary-50);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.trust-item span {
-  font-size: 12px;
-  color: var(--gray-600);
-  font-weight: 600;
-}
 
 /* Forgot Password Modal */
 .forgot-overlay {
@@ -1391,13 +1336,6 @@ export default {
     align-items: flex-start;
   }
   
-  .trust-section {
-    gap: 20px;
-  }
-  
-  .trust-item {
-    flex: 1;
-  }
   
   .forgot-modal {
     padding: 32px 24px;
@@ -1429,15 +1367,6 @@ export default {
     font-size: 13px;
   }
   
-  .trust-section {
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  .trust-item {
-    flex-direction: row;
-    gap: 12px;
-  }
 }
 
 /* Accessibility */

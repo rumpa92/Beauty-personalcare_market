@@ -116,16 +116,39 @@
               <i class="fas fa-chevron-right item-arrow"></i>
             </router-link>
 
-            <router-link to="/returns" class="dropdown-item" @click="closeUserMenu">
+            <router-link to="/wishlist" class="dropdown-item" @click="closeUserMenu">
               <div class="item-icon">
-                <i class="fas fa-undo-alt"></i>
+                <i class="fas fa-heart"></i>
               </div>
               <div class="item-content">
-                <span class="item-title">Returns & Refunds</span>
-                <span class="item-description">Easy returns process</span>
+                <span class="item-title">Wishlist</span>
+                <span class="item-description">Your saved items</span>
               </div>
+              <div class="item-badge" v-if="wishlistCount > 0">{{ wishlistCount }}</div>
               <i class="fas fa-chevron-right item-arrow"></i>
             </router-link>
+
+            <button @click="handleSignInClick" class="dropdown-item">
+              <div class="item-icon">
+                <i class="fas fa-sign-in-alt"></i>
+              </div>
+              <div class="item-content">
+                <span class="item-title">Sign In</span>
+                <span class="item-description">Access your account</span>
+              </div>
+              <i class="fas fa-chevron-right item-arrow"></i>
+            </button>
+
+            <button @click="handleSignUpClick" class="dropdown-item">
+              <div class="item-icon">
+                <i class="fas fa-user-plus"></i>
+              </div>
+              <div class="item-content">
+                <span class="item-title">Sign Up</span>
+                <span class="item-description">Create new account</span>
+              </div>
+              <i class="fas fa-chevron-right item-arrow"></i>
+            </button>
 
             <router-link to="/profile?tab=settings" class="dropdown-item" @click="closeUserMenu">
               <div class="item-icon">
@@ -193,6 +216,11 @@
         <router-link to="/orders" class="mobile-nav-link" @click="closeMobileMenu">
         <i class="fas fa-box"></i>
         My Orders
+      </router-link>
+      <router-link to="/wishlist" class="mobile-nav-link" @click="closeMobileMenu">
+        <i class="fas fa-heart"></i>
+        Wishlist
+        <span v-if="wishlistCount > 0" class="mobile-badge">{{ wishlistCount }}</span>
       </router-link>
       <router-link to="/profile?tab=settings" class="mobile-nav-link" @click="closeMobileMenu">
         <i class="fas fa-cog"></i>
@@ -287,6 +315,16 @@ export default {
 
     closeUserMenu() {
       this.isUserMenuOpen = false;
+    },
+
+    handleSignInClick() {
+      this.closeUserMenu();
+      this.openSignIn();
+    },
+
+    handleSignUpClick() {
+      this.closeUserMenu();
+      this.openSignUp();
     },
 
     handleAuthSuccess(data) {
@@ -772,6 +810,20 @@ export default {
   color: var(--primary-800) !important;
 }
 
+.mobile-badge {
+  background: var(--primary-500);
+  color: white;
+  border-radius: 50%;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: auto;
+}
+
 @media (max-width: 1024px) {
   .desktop-nav {
     display: none;
@@ -990,17 +1042,17 @@ export default {
 }
 
 .dropdown-header {
-  padding: 20px;
+  padding: 16px;
   background: linear-gradient(135deg, var(--primary-50) 0%, var(--purple-50) 100%);
   border-radius: 16px 16px 0 0;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .user-avatar-large {
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   overflow: hidden;
   background: linear-gradient(135deg, var(--primary-100), var(--primary-200));
@@ -1008,9 +1060,9 @@ export default {
   align-items: center;
   justify-content: center;
   color: var(--primary-600);
-  font-size: 24px;
-  border: 3px solid white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 20px;
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .user-avatar-large img {
@@ -1020,14 +1072,14 @@ export default {
 }
 
 .user-details h4 {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--gray-800);
-  margin: 0 0 4px;
+  margin: 0 0 2px;
 }
 
 .user-details p {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--gray-600);
   margin: 0;
 }
@@ -1035,8 +1087,8 @@ export default {
 .user-dropdown-menu .dropdown-item {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 16px 20px;
+  gap: 12px;
+  padding: 10px 16px;
   color: var(--gray-700);
   text-decoration: none;
   transition: all 0.2s ease;
@@ -1051,18 +1103,18 @@ export default {
 .user-dropdown-menu .dropdown-item:hover {
   background: var(--gray-50);
   color: var(--primary-600);
-  padding-left: 24px;
+  padding-left: 20px;
 }
 
 .item-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   background: var(--gray-100);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 14px;
   transition: all 0.2s ease;
   flex-shrink: 0;
 }
@@ -1135,7 +1187,7 @@ export default {
 .dropdown-divider {
   height: 1px;
   background: var(--gray-200);
-  margin: 8px 20px;
+  margin: 4px 16px;
 }
 
 .mobile-only {
