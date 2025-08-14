@@ -845,7 +845,10 @@ export default {
 .main-product-container {
   background: white;
   margin-top: 0;
-  padding: 32px 0 40px;
+  padding: 40px 0 50px;
+  min-height: 80vh;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
 }
 
 .product-content {
