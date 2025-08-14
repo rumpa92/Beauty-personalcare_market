@@ -1,6 +1,6 @@
 const state = {
-  isAuthenticated: false,
-  authToken: null,
+  isAuthenticated: true,
+  authToken: 'demo_token_123',
   profile: {
     name: 'Sarah Johnson',
     email: 'sarah.j@example.com',
