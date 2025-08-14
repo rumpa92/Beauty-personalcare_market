@@ -52,7 +52,8 @@ export default {
     ProductQuickView,
     TopSearchBar,
     AddToCartConfirmationWrapper,
-    FloatingChatButton
+    FloatingChatButton,
+    SupportPanel
   },
   computed: {
     ...mapGetters('ui', ['theme']),
