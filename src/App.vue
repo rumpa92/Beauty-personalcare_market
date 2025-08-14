@@ -23,6 +23,7 @@
     <NotificationContainer />
     <ProductQuickView />
     <AddToCartConfirmationWrapper />
+    <AIChatWidget />
   </div>
 </template>
 
@@ -36,6 +37,7 @@ import NotificationContainer from './components/ui/NotificationContainer.vue';
 import ProductQuickView from './components/product/ProductQuickView.vue';
 import TopSearchBar from './components/search/TopSearchBar.vue';
 import AddToCartConfirmationWrapper from './components/cart/AddToCartConfirmationWrapper.vue';
+import AIChatWidget from './components/chat/AIChatWidget.vue';
 
 export default {
   name: 'App',
@@ -47,7 +49,8 @@ export default {
     NotificationContainer,
     ProductQuickView,
     TopSearchBar,
-    AddToCartConfirmationWrapper
+    AddToCartConfirmationWrapper,
+    AIChatWidget
   },
   computed: {
     ...mapGetters('ui', ['theme']),

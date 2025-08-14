@@ -36,6 +36,8 @@ import ProductDetailTest from '../views/ProductDetailTest.vue';
 import TestProductNavigation from '../views/TestProductNavigation.vue';
 import ProductNavigationDemo from '../views/ProductNavigationDemo.vue';
 import QuickViewTest from '../views/QuickViewTest.vue';
+import AuthDemo from '../views/AuthDemo.vue';
+import AuthTest from '../views/AuthTest.vue';
 
 Vue.use(VueRouter);
 
@@ -175,6 +177,18 @@ const routes = [
     name: 'QuickViewTest',
     component: QuickViewTest,
     meta: { title: 'Quick View Test - Beauty Market' }
+  },
+  {
+    path: '/auth-demo',
+    name: 'AuthDemo',
+    component: AuthDemo,
+    meta: { title: 'Authentication Demo - Beauty Market' }
+  },
+  {
+    path: '/auth-test',
+    name: 'AuthTest',
+    component: AuthTest,
+    meta: { title: 'Authentication Test - Beauty Market' }
   },
   {
     path: '/checkout',

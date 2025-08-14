@@ -468,7 +468,7 @@ export default {
   display: flex;
   align-items: center;
   height: 80px;
-  gap: 6px;
+  gap: 17px;
 }
 
 .logo {

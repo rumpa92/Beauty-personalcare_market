@@ -4,6 +4,7 @@ import products from './modules/products';
 import cart from './modules/cart';
 import user from './modules/user';
 import ui from './modules/ui';
+import support from './modules/support';
 
 Vue.use(Vuex);
 
@@ -12,7 +13,8 @@ export default new Vuex.Store({
     products,
     cart,
     user,
-    ui
+    ui,
+    support
   },
   strict: process.env.NODE_ENV !== 'production'
 });
