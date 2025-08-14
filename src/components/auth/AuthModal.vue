@@ -40,12 +40,6 @@
             <h2 class="auth-title">
               {{ isSignUp ? 'Create Your Account' : 'Welcome Back' }}
             </h2>
-            <p class="auth-subtitle">
-              {{ isSignUp 
-                ? 'Glow starts here ✨ Join our beauty community' 
-                : 'Sign in to your beautiful world 🌸' 
-              }}
-            </p>
           </div>
         </div>
 
@@ -243,21 +237,6 @@
           </p>
         </div>
 
-        <!-- Trust Indicators -->
-        <div class="trust-section">
-          <div class="trust-item">
-            <i class="fas fa-shield-alt"></i>
-            <span>Secure</span>
-          </div>
-          <div class="trust-item">
-            <i class="fas fa-user-shield"></i>
-            <span>Private</span>
-          </div>
-          <div class="trust-item">
-            <i class="fas fa-heart"></i>
-            <span>Trusted</span>
-          </div>
-        </div>
       </div>
     </div>
 
