@@ -1,6 +1,15 @@
 <template>
   <div class="product-detail-wrapper">
     <div class="product-detail-page" v-if="product">
+
+    <!-- Back Navigation -->
+    <div class="back-navigation">
+      <button @click="goToHome" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back</span>
+      </button>
+    </div>
+
     <!-- Main Product Section -->
     <div class="main-product-container">
       <div class="product-content">
