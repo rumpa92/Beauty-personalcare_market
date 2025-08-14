@@ -13,7 +13,8 @@ export default new Vuex.Store({
     products,
     cart,
     user,
-    ui
+    ui,
+    support
   },
   strict: process.env.NODE_ENV !== 'production'
 });
