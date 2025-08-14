@@ -241,20 +241,24 @@ export default {
 }
 
 .ai-chat-icon {
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ec4899, #db2777);
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
   border: none;
   color: white;
-  font-size: 24px;
+  font-size: 28px;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(236, 72, 153, 0.4);
-  transition: all 0.3s ease;
+  box-shadow:
+    0 8px 32px rgba(99, 102, 241, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
 }
 
 .ai-chat-icon:hover {
