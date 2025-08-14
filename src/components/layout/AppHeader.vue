@@ -47,12 +47,6 @@
           <span class="mobile-only sr-only">Search</span>
         </button>
 
-        <button class="action-btn wishlist-btn" @click="toggleWishlist" :title="`Wishlist (${wishlistCount})`">
-          <i class="fas fa-heart"></i>
-          <span class="badge" v-if="wishlistCount">{{ wishlistCount }}</span>
-          <span class="wishlist-text">Wishlist</span>
-        </button>
-
         <button class="action-btn cart-btn" @click="toggleCart">
           <i class="fas fa-shopping-bag"></i>
           <span class="badge" v-if="cartItemCount">{{ cartItemCount }}</span>
@@ -200,11 +194,6 @@
         <i class="fas fa-box"></i>
         My Orders
       </router-link>
-      <button @click="toggleWishlist" class="mobile-nav-link">
-        <i class="fas fa-heart"></i>
-        Wishlist
-        <span v-if="wishlistCount" class="mobile-badge">{{ wishlistCount }}</span>
-      </button>
       <router-link to="/profile?tab=settings" class="mobile-nav-link" @click="closeMobileMenu">
         <i class="fas fa-cog"></i>
         Settings
@@ -448,7 +437,7 @@ export default {
   display: flex;
   align-items: center;
   height: 80px;
-  gap: 32px;
+  gap: 6px;
 }
 
 .logo {
@@ -804,7 +793,7 @@ export default {
   }
   
   .header-container {
-    gap: 16px;
+    gap: 6px;
   }
 }
 
