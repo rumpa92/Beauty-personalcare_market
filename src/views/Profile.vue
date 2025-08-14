@@ -1680,11 +1680,30 @@ export default {
       const result = this.filteredFAQResults.find(r => r.id === questionId);
       if (result) {
         result.helpful = helpful;
-        this.showNotification({
-          type: 'success',
-          message: helpful ? 'Thanks for your feedback!' : 'We\'ll work to improve this answer'
-        });
       }
+
+      // Also check in category questions
+      this.faqCategories.forEach(category => {
+        const question = category.questions.find(q => q.id === questionId);
+        if (question) {
+          question.helpful = helpful;
+        }
+      });
+
+      this.showNotification({
+        type: 'success',
+        message: helpful ? 'Thanks for your feedback!' : 'We\'ll work to improve this answer'
+      });
+    },
+
+    getSelectedCategoryTitle() {
+      const category = this.faqCategories.find(cat => cat.id === this.selectedFAQCategory);
+      return category ? category.title : '';
+    },
+
+    getSelectedCategoryQuestions() {
+      const category = this.faqCategories.find(cat => cat.id === this.selectedFAQCategory);
+      return category ? category.questions : [];
     },
 
     nextTicketStep() {
