@@ -1,16 +1,5 @@
 <template>
   <div class="enhanced-search-bar">
-    <!-- Guest User Prompt -->
-    <div v-if="!isAuthenticated" class="guest-prompt">
-      <div class="guest-content">
-        <i class="fas fa-sparkles"></i>
-        <span>Sign in for personalized picks and exclusive offers</span>
-        <button @click="showAuthModal" class="signin-btn">
-          Sign In
-        </button>
-      </div>
-    </div>
-
     <!-- Main Search Container -->
     <div class="search-container">
       <div class="search-wrapper" :class="{ active: isSearchFocused, 'voice-active': isVoiceActive }">
