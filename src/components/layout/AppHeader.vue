@@ -116,16 +116,39 @@
               <i class="fas fa-chevron-right item-arrow"></i>
             </router-link>
 
-            <router-link to="/returns" class="dropdown-item" @click="closeUserMenu">
+            <router-link to="/wishlist" class="dropdown-item" @click="closeUserMenu">
               <div class="item-icon">
-                <i class="fas fa-undo-alt"></i>
+                <i class="fas fa-heart"></i>
               </div>
               <div class="item-content">
-                <span class="item-title">Returns & Refunds</span>
-                <span class="item-description">Easy returns process</span>
+                <span class="item-title">Wishlist</span>
+                <span class="item-description">Your saved items</span>
               </div>
+              <div class="item-badge" v-if="wishlistCount > 0">{{ wishlistCount }}</div>
               <i class="fas fa-chevron-right item-arrow"></i>
             </router-link>
+
+            <button @click="openSignIn" class="dropdown-item" @click="closeUserMenu">
+              <div class="item-icon">
+                <i class="fas fa-sign-in-alt"></i>
+              </div>
+              <div class="item-content">
+                <span class="item-title">Sign In</span>
+                <span class="item-description">Access your account</span>
+              </div>
+              <i class="fas fa-chevron-right item-arrow"></i>
+            </button>
+
+            <button @click="openSignUp" class="dropdown-item" @click="closeUserMenu">
+              <div class="item-icon">
+                <i class="fas fa-user-plus"></i>
+              </div>
+              <div class="item-content">
+                <span class="item-title">Sign Up</span>
+                <span class="item-description">Create new account</span>
+              </div>
+              <i class="fas fa-chevron-right item-arrow"></i>
+            </button>
 
             <router-link to="/profile?tab=settings" class="dropdown-item" @click="closeUserMenu">
               <div class="item-icon">
