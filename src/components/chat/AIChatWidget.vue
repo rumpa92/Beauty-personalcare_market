@@ -8,10 +8,10 @@
       aria-label="Open AI Chat"
     >
       <transition name="icon-rotate" mode="out-in">
-        <i 
-          v-if="!isChatOpen" 
+        <i
+          v-if="!isChatOpen"
           key="chat"
-          class="fas fa-comments"
+          class="fas fa-robot"
         ></i>
         <i 
           v-else 
