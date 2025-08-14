@@ -837,14 +837,14 @@ export default {
 
 /* Content */
 .auth-content {
-  padding: 50px 40px 40px;
+  padding: 30px 40px 30px;
   position: relative;
   z-index: 5;
 }
 
 .auth-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 }
 
 .brand-logo {
