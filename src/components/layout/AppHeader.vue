@@ -317,6 +317,16 @@ export default {
       this.isUserMenuOpen = false;
     },
 
+    handleSignInClick() {
+      this.closeUserMenu();
+      this.openSignIn();
+    },
+
+    handleSignUpClick() {
+      this.closeUserMenu();
+      this.openSignUp();
+    },
+
     handleAuthSuccess(data) {
       this.showNotification({
         type: 'success',
