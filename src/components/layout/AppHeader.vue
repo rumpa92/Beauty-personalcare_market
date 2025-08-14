@@ -265,14 +265,7 @@ export default {
   methods: {
     ...mapActions('ui', ['toggleMobileMenu', 'closeMobileMenu', 'toggleSearch', 'openSearch', 'showNotification']),
     ...mapActions('cart', ['toggleCart']),
-    ...mapActions('user', ['logout', 'toggleWishlist']),
-
-    toggleWishlist() {
-      this.showNotification({
-        type: 'info',
-        message: 'Wishlist feature coming soon! 💖'
-      });
-    },
+    ...mapActions('user', ['logout']),
 
     openSignIn() {
       this.authMode = 'signin';
@@ -866,44 +859,6 @@ export default {
   font-weight: 500;
 }
 
-/* Wishlist Button */
-.wishlist-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  background: rgba(236, 72, 153, 0.1);
-  color: var(--primary-600);
-  border: 1px solid rgba(236, 72, 153, 0.2);
-  transition: all 0.3s ease;
-}
-
-.wishlist-btn:hover {
-  background: rgba(236, 72, 153, 0.2);
-  color: var(--primary-700);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.2);
-}
-
-.wishlist-text {
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.mobile-badge {
-  background: var(--primary-500);
-  color: white;
-  border-radius: 50%;
-  min-width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 600;
-  margin-left: auto;
-}
 
 /* User Profile Dropdown */
 .user-profile-dropdown {
@@ -1226,9 +1181,6 @@ export default {
     display: none;
   }
 
-  .wishlist-text {
-    display: none;
-  }
 
   .user-dropdown-menu {
     min-width: 280px;
