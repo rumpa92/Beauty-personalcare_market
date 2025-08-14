@@ -848,7 +848,7 @@ export default {
 }
 
 .brand-logo {
-  margin-bottom: 32px;
+  margin-bottom: 20px;
 }
 
 .logo-container {
