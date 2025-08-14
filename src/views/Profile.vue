@@ -547,7 +547,7 @@
 
         <!-- FAQ & Help Center Section -->
         <div v-if="activeSection === 'faq-help'" class="content-section">
-          <div class="section-header">
+          <div v-if="!selectedQuestion" class="section-header">
             <button @click="activeSection = 'customer-support'" class="back-btn">
               <i class="fas fa-arrow-left"></i>
               Back to Support
@@ -561,7 +561,7 @@
             </p>
           </div>
 
-          <div class="faq-search">
+          <div v-if="!selectedQuestion" class="faq-search">
             <div class="search-container">
               <i class="fas fa-search search-icon"></i>
               <input
