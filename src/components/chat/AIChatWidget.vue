@@ -27,10 +27,12 @@
         <!-- Chat Header -->
         <div class="chat-header">
           <div class="ai-info">
-            <div class="ai-avatar">🤖</div>
+            <div class="ai-avatar">
+              <i class="fas fa-robot"></i>
+            </div>
             <div class="ai-details">
               <h4>Beauty AI Assistant</h4>
-              <span class="ai-status">Online</span>
+              <span class="ai-status">🟢 Online & Ready to Help</span>
             </div>
           </div>
           <button @click="toggleChat" class="close-chat-btn">
