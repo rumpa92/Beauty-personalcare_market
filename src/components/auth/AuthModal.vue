@@ -968,6 +968,13 @@ export default {
   background: var(--gray-100);
   color: var(--gray-700);
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.social-btn span {
+  position: relative;
+  z-index: 2;
 }
 
 .google-btn .social-icon {
