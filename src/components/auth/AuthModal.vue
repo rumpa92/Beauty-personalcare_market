@@ -925,6 +925,24 @@ export default {
   transition: all 0.3s ease;
   font-size: 14px;
   min-height: 85px;
+  position: relative;
+  overflow: hidden;
+}
+
+.social-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gray-50);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.social-btn:hover::before {
+  opacity: 1;
 }
 
 .social-btn:hover:not(:disabled) {
