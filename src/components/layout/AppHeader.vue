@@ -197,17 +197,18 @@
           My Profile
         </router-link>
         <router-link to="/orders" class="mobile-nav-link" @click="closeMobileMenu">
-          <i class="fas fa-box"></i>
-          My Orders
-        </router-link>
-        <router-link to="/profile?tab=settings" class="mobile-nav-link" @click="closeMobileMenu">
-          <i class="fas fa-cog"></i>
-          Settings
-        </router-link>
-        <button @click="logoutUser" class="mobile-nav-link logout-mobile">
-          <i class="fas fa-sign-out-alt"></i>
-          Sign Out
-        </button>
+        <i class="fas fa-box"></i>
+        My Orders
+      </router-link>
+      <button @click="toggleWishlist" class="mobile-nav-link">
+        <i class="fas fa-heart"></i>
+        Wishlist
+        <span v-if="wishlistCount" class="mobile-badge">{{ wishlistCount }}</span>
+      </button>
+      <router-link to="/profile?tab=settings" class="mobile-nav-link" @click="closeMobileMenu">
+        <i class="fas fa-cog"></i>
+        Settings
+      </router-link>
       </div>
       <div v-else class="mobile-auth-section">
         <button @click="openSignIn" class="mobile-nav-link">
@@ -275,7 +276,14 @@ export default {
   methods: {
     ...mapActions('ui', ['toggleMobileMenu', 'closeMobileMenu', 'toggleSearch', 'openSearch', 'showNotification']),
     ...mapActions('cart', ['toggleCart']),
-    ...mapActions('user', ['logout']),
+    ...mapActions('user', ['logout', 'toggleWishlist']),
+
+    toggleWishlist() {
+      this.showNotification({
+        type: 'info',
+        message: 'Wishlist feature coming soon! 💖'
+      });
+    },
 
     openSignIn() {
       this.authMode = 'signin';
