@@ -315,10 +315,16 @@ const actions = {
     commit('SET_AUTHENTICATION', { isAuthenticated: true, token: authToken });
 
     // Set user profile
+    const fullName = userData.firstName && userData.lastName
+      ? `${userData.firstName} ${userData.lastName}`
+      : userData.name || 'User';
+
     commit('SET_USER_PROFILE', {
-      name: `${userData.firstName} ${userData.lastName}`,
+      name: fullName,
       email: userData.email,
-      avatar: '',
+      avatar: userData.avatar || '',
+      firstName: userData.firstName || '',
+      lastName: userData.lastName || '',
       preferences: {
         ...state.profile.preferences,
         categories: userData.interests || []
@@ -326,16 +332,20 @@ const actions = {
     });
 
     // Store in localStorage for persistence
-    localStorage.setItem('beauty_market_token', authToken);
-    localStorage.setItem('beauty_market_user', JSON.stringify({
-      name: `${userData.firstName} ${userData.lastName}`,
+    const userProfile = {
+      name: fullName,
       email: userData.email,
-      avatar: '',
+      avatar: userData.avatar || '',
+      firstName: userData.firstName || '',
+      lastName: userData.lastName || '',
       preferences: {
         ...state.profile.preferences,
         categories: userData.interests || []
       }
-    }));
+    };
+
+    localStorage.setItem('beauty_market_token', authToken);
+    localStorage.setItem('beauty_market_user', JSON.stringify(userProfile));
 
     return { success: true, user: userData };
   },
