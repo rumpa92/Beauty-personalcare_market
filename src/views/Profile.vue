@@ -148,7 +148,7 @@
                 <h3>Submit a Ticket</h3>
                 <p>Need personalized help? Create a support ticket and our beauty experts will assist you</p>
                 <div class="support-stats">
-                  <span>🎫 Track Status</span>
+                  <span>���� Track Status</span>
                   <span>📎 Attach Images</span>
                 </div>
               </div>
@@ -1650,6 +1650,170 @@ export default {
         message: 'Logged out successfully'
       });
       this.$router.push('/');
+    },
+
+    // Customer Support Methods
+    openAIChat() {
+      // This would trigger the AI chat widget to open
+      this.showNotification({
+        type: 'info',
+        message: 'AI Chat is available in the bottom-right corner!'
+      });
+    },
+
+    toggleFAQAnswer(questionId) {
+      this.filteredFAQResults.forEach(result => {
+        if (result.id === questionId) {
+          result.expanded = !result.expanded;
+        }
+      });
+    },
+
+    markFAQHelpful(questionId, helpful) {
+      const result = this.filteredFAQResults.find(r => r.id === questionId);
+      if (result) {
+        result.helpful = helpful;
+        this.showNotification({
+          type: 'success',
+          message: helpful ? 'Thanks for your feedback!' : 'We\'ll work to improve this answer'
+        });
+      }
+    },
+
+    nextTicketStep() {
+      if (this.currentTicketStep < 3) {
+        this.currentTicketStep++;
+      }
+    },
+
+    handleFileUpload(event) {
+      const files = Array.from(event.target.files);
+      files.forEach(file => {
+        if (file.size <= 10 * 1024 * 1024) { // 10MB limit
+          this.newTicket.attachments.push({
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            file: file
+          });
+        } else {
+          this.showNotification({
+            type: 'error',
+            message: `${file.name} is too large. Maximum file size is 10MB.`
+          });
+        }
+      });
+    },
+
+    removeAttachment(index) {
+      this.newTicket.attachments.splice(index, 1);
+    },
+
+    getFileIcon(fileType) {
+      if (fileType.includes('image')) return 'fas fa-image';
+      if (fileType.includes('pdf')) return 'fas fa-file-pdf';
+      return 'fas fa-file';
+    },
+
+    formatFileSize(bytes) {
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      if (bytes === 0) return '0 Bytes';
+      const i = Math.floor(Math.log(bytes) / Math.log(1024));
+      return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+    },
+
+    getIssueTypeLabel(type) {
+      const types = {
+        'order': 'Order & Shipping',
+        'product': 'Product Questions',
+        'returns': 'Returns & Refunds',
+        'account': 'Account Issues',
+        'technical': 'Technical Problems',
+        'beauty-advice': 'Beauty Advice',
+        'other': 'Other'
+      };
+      return types[type] || type;
+    },
+
+    getPriorityLabel(priority) {
+      const priorities = {
+        'low': 'Low Priority',
+        'medium': 'Medium Priority',
+        'high': 'High Priority'
+      };
+      return priorities[priority] || priority;
+    },
+
+    async submitTicket() {
+      this.submittingTicket = true;
+
+      try {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        // Add to existing tickets
+        const newTicket = {
+          id: `BT-${new Date().getFullYear()}-${String(this.existingTickets.length + 1).padStart(3, '0')}`,
+          subject: this.newTicket.subject,
+          category: this.newTicket.issueType,
+          status: 'open',
+          priority: this.newTicket.priority,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          messages: [
+            {
+              id: 1,
+              message: this.newTicket.description,
+              sender: 'user',
+              timestamp: new Date()
+            }
+          ]
+        };
+
+        this.existingTickets.unshift(newTicket);
+
+        // Reset form
+        this.newTicket = {
+          issueType: '',
+          subject: '',
+          description: '',
+          priority: 'medium',
+          attachments: []
+        };
+        this.currentTicketStep = 1;
+        this.activeTicketTab = 'existing';
+
+        this.showNotification({
+          type: 'success',
+          message: `Ticket #${newTicket.id} created successfully! We'll respond within 24 hours.`
+        });
+
+      } catch (error) {
+        this.showNotification({
+          type: 'error',
+          message: 'Failed to create ticket. Please try again.'
+        });
+      } finally {
+        this.submittingTicket = false;
+      }
+    },
+
+    viewTicketDetails(ticket) {
+      this.showNotification({
+        type: 'info',
+        message: `Opening ticket #${ticket.id} details...`
+      });
+    },
+
+    formatTimeAgo(date) {
+      const now = new Date();
+      const diffMs = now - new Date(date);
+      const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+      const diffDays = Math.floor(diffHours / 24);
+
+      if (diffDays > 0) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+      if (diffHours > 0) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+      return 'Just now';
     }
   }
 };
