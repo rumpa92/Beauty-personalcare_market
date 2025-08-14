@@ -24,6 +24,7 @@
     <ProductQuickView />
     <AddToCartConfirmationWrapper />
     <FloatingChatButton />
+    <SupportPanel />
   </div>
 </template>
 
