@@ -155,43 +155,8 @@
               <i class="fas fa-chevron-right support-arrow"></i>
             </div>
 
-            <div class="support-card" @click="openAIChat">
-              <div class="support-icon">
-                <i class="fas fa-robot"></i>
-              </div>
-              <div class="support-content">
-                <h3>AI Beauty Assistant</h3>
-                <p>Chat with our AI assistant for instant beauty advice and product recommendations</p>
-                <div class="support-stats">
-                  <span>🤖 24/7 Available</span>
-                  <span>✨ Beauty Expert</span>
-                </div>
-              </div>
-              <i class="fas fa-chevron-right support-arrow"></i>
-            </div>
           </div>
 
-          <div class="quick-help">
-            <h3>Quick Help</h3>
-            <div class="quick-help-grid">
-              <div class="quick-help-item">
-                <i class="fas fa-shipping-fast"></i>
-                <span>Track Order</span>
-              </div>
-              <div class="quick-help-item">
-                <i class="fas fa-undo"></i>
-                <span>Return Item</span>
-              </div>
-              <div class="quick-help-item">
-                <i class="fas fa-credit-card"></i>
-                <span>Payment Help</span>
-              </div>
-              <div class="quick-help-item">
-                <i class="fas fa-user-circle"></i>
-                <span>Account Issues</span>
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- Notifications Section -->
