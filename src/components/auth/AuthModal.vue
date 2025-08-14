@@ -683,8 +683,8 @@ export default {
   border-radius: 32px;
   max-width: 520px;
   width: 100%;
-  max-height: 90vh;
-  overflow: hidden;
+  max-height: 95vh;
+  overflow-y: auto;
   position: relative;
   box-shadow:
     0 32px 64px rgba(0, 0, 0, 0.25),
