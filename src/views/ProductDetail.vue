@@ -464,7 +464,11 @@ export default {
   
   methods: {
     ...mapActions('cart', ['addToCart']),
-    
+
+    goToHome() {
+      this.$router.push('/');
+    },
+
     async loadProduct() {
       this.loading = true;
       try {
