@@ -47,7 +47,9 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-      'process.env.VUE_APP_MODE': JSON.stringify(process.env.NODE_ENV || 'development')
+      'process.env.VUE_APP_MODE': JSON.stringify(process.env.VUE_APP_MODE || 'development'),
+      __VUE_OPTIONS_API__: true,
+      __VUE_PROD_DEVTOOLS__: false
     })
   ],
   resolve: {
@@ -67,7 +69,7 @@ module.exports = {
       overlay: {
         errors: true,
         warnings: false,
-        runtimeErrors: false
+        runtimeErrors: true
       },
       progress: false,
       reconnect: true
