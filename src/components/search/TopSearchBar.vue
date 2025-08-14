@@ -1,16 +1,5 @@
 <template>
   <div class="enhanced-search-bar">
-    <!-- Guest User Prompt -->
-    <div v-if="!isAuthenticated" class="guest-prompt">
-      <div class="guest-content">
-        <i class="fas fa-sparkles"></i>
-        <span>Sign in for personalized picks and exclusive offers</span>
-        <button @click="showAuthModal" class="signin-btn">
-          Sign In
-        </button>
-      </div>
-    </div>
-
     <!-- Main Search Container -->
     <div class="search-container">
       <div class="search-wrapper" :class="{ active: isSearchFocused, 'voice-active': isVoiceActive }">
@@ -695,51 +684,6 @@ export default {
   margin-top: 82px;
 }
 
-/* Guest Prompt */
-.guest-prompt {
-  background: linear-gradient(135deg, rgba(236, 72, 153, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%);
-  border-bottom: 1px solid rgba(236, 72, 153, 0.06);
-  padding: 8px 0;
-}
-
-.guest-content {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  font-size: 14px;
-  color: #6b7280;
-}
-
-.guest-content i {
-  color: #ec4899;
-  animation: sparkle 2s infinite;
-}
-
-@keyframes sparkle {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.1) rotate(180deg); }
-}
-
-.signin-btn {
-  background: linear-gradient(135deg, #ec4899, #db2777);
-  color: white;
-  border: none;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.signin-btn:hover {
-  background: linear-gradient(135deg, #db2777, #be185d);
-  transform: scale(1.05);
-}
 
 /* Main Search Container */
 .search-container {
@@ -1305,11 +1249,6 @@ export default {
 }
 
 @media (max-width: 480px) {
-  .guest-content {
-    padding: 0 12px;
-    font-size: 13px;
-  }
-  
   .search-container {
     padding: 12px;
   }

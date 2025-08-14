@@ -138,17 +138,6 @@
               <i class="fas fa-chevron-right item-arrow"></i>
             </router-link>
 
-            <div class="dropdown-divider"></div>
-
-            <button @click="logoutUser" class="dropdown-item logout-item">
-              <div class="item-icon">
-                <i class="fas fa-sign-out-alt"></i>
-              </div>
-              <div class="item-content">
-                <span class="item-title">Sign Out</span>
-                <span class="item-description">Logout from your account</span>
-              </div>
-            </button>
           </div>
         </div>
 
@@ -202,17 +191,13 @@
           My Profile
         </router-link>
         <router-link to="/orders" class="mobile-nav-link" @click="closeMobileMenu">
-          <i class="fas fa-box"></i>
-          My Orders
-        </router-link>
-        <router-link to="/profile?tab=settings" class="mobile-nav-link" @click="closeMobileMenu">
-          <i class="fas fa-cog"></i>
-          Settings
-        </router-link>
-        <button @click="logoutUser" class="mobile-nav-link logout-mobile">
-          <i class="fas fa-sign-out-alt"></i>
-          Sign Out
-        </button>
+        <i class="fas fa-box"></i>
+        My Orders
+      </router-link>
+      <router-link to="/profile?tab=settings" class="mobile-nav-link" @click="closeMobileMenu">
+        <i class="fas fa-cog"></i>
+        Settings
+      </router-link>
       </div>
       <div v-else class="mobile-auth-section">
         <button @click="openSignIn" class="mobile-nav-link">
@@ -445,7 +430,7 @@ export default {
   display: flex;
   align-items: center;
   height: 80px;
-  gap: 32px;
+  gap: 6px;
 }
 
 .logo {
@@ -478,7 +463,7 @@ export default {
 .desktop-nav {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 19px;
 }
 
 .nav-link {
@@ -801,7 +786,7 @@ export default {
   }
   
   .header-container {
-    gap: 16px;
+    gap: 6px;
   }
 }
 
@@ -873,6 +858,7 @@ export default {
 .auth-text {
   font-weight: 500;
 }
+
 
 /* User Profile Dropdown */
 .user-profile-dropdown {
@@ -1194,6 +1180,7 @@ export default {
   .user-info {
     display: none;
   }
+
 
   .user-dropdown-menu {
     min-width: 280px;

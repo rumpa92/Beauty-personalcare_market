@@ -229,7 +229,7 @@ body {
 
 .main-content {
   flex: 1;
-  padding-top: 150px; /* Account for top search bar + fixed header */
+  padding-top: 25px; /* Account for fixed header */
 }
 
 /* Dark theme styles */
