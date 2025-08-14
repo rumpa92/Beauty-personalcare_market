@@ -1753,6 +1753,31 @@ export default {
       return category ? category.questions : [];
     },
 
+    selectIndividualQuestion(question) {
+      // Find the category this question belongs to
+      const category = this.faqCategories.find(cat =>
+        cat.questions.some(q => q.id === question.id)
+      );
+
+      this.selectedQuestion = {
+        ...question,
+        categoryTitle: category ? category.title : '',
+        categoryId: category ? category.id : null
+      };
+    },
+
+    goBackFromQuestion() {
+      if (this.selectedQuestion && this.selectedQuestion.categoryId) {
+        // Go back to the category view
+        this.selectedFAQCategory = this.selectedQuestion.categoryId;
+        this.selectedQuestion = null;
+      } else {
+        // Go back to categories list
+        this.selectedQuestion = null;
+        this.selectedFAQCategory = null;
+      }
+    },
+
     togglePreviewQuestion(questionId) {
       this.faqCategories.forEach(category => {
         category.questions.forEach(question => {
