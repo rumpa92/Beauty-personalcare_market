@@ -2043,26 +2043,6 @@ export default {
   border-top: 1px solid var(--gray-200);
 }
 
-.logout-btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: none;
-  border: 2px solid var(--gray-200);
-  border-radius: 8px;
-  color: var(--gray-700);
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.logout-btn:hover {
-  border-color: var(--red-500);
-  color: var(--red-500);
-  background: var(--red-50);
-}
 
 /* Main Content Styles */
 .profile-content {
