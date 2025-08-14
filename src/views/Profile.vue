@@ -35,12 +35,6 @@
           </a>
         </nav>
         
-        <div class="sidebar-footer">
-          <button @click="logout" class="logout-btn">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Logout</span>
-          </button>
-        </div>
       </aside>
 
       <!-- Main Content Area -->
