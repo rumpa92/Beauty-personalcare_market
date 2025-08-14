@@ -49,7 +49,8 @@ export default {
     NotificationContainer,
     ProductQuickView,
     TopSearchBar,
-    AddToCartConfirmationWrapper
+    AddToCartConfirmationWrapper,
+    FloatingChatButton
   },
   computed: {
     ...mapGetters('ui', ['theme']),
