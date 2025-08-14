@@ -1187,7 +1187,7 @@ export default {
 .dropdown-divider {
   height: 1px;
   background: var(--gray-200);
-  margin: 8px 20px;
+  margin: 4px 16px;
 }
 
 .mobile-only {
