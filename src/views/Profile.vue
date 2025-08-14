@@ -576,7 +576,7 @@
             </div>
           </div>
 
-          <div v-if="!faqSearchQuery && !selectedFAQCategory" class="faq-categories">
+          <div v-if="!faqSearchQuery && !selectedFAQCategory && !selectedQuestion" class="faq-categories">
             <div
               v-for="category in faqCategories"
               :key="category.id"
@@ -600,7 +600,7 @@
                   :key="question.id"
                   class="preview-question"
                   :class="{ 'expanded': question.expanded }"
-                  @click="togglePreviewQuestion(question.id)"
+                  @click="selectIndividualQuestion(question)"
                 >
                   <div class="question-text">
                     <span>{{ question.question }}</span>
@@ -631,12 +631,51 @@
             </div>
           </div>
 
+          <!-- Selected Individual Question -->
+          <div v-else-if="selectedQuestion" class="faq-single-question">
+            <div class="question-header-back">
+              <button @click="goBackFromQuestion()" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back
+              </button>
+            </div>
+
+            <div class="single-question-content">
+              <h3>{{ selectedQuestion.categoryTitle }}</h3>
+              <div class="faq-question-item">
+                <div class="question-header">
+                  <h4>{{ selectedQuestion.question }}</h4>
+                </div>
+                <div class="question-answer">
+                  <p>{{ selectedQuestion.answer }}</p>
+                  <div class="faq-actions">
+                    <span class="helpful-text">Was this helpful?</span>
+                    <button
+                      @click="markFAQHelpful(selectedQuestion.id, true)"
+                      class="helpful-btn"
+                      :class="{ active: selectedQuestion.helpful === true }"
+                    >
+                      <i class="fas fa-thumbs-up"></i>
+                    </button>
+                    <button
+                      @click="markFAQHelpful(selectedQuestion.id, false)"
+                      class="helpful-btn"
+                      :class="{ active: selectedQuestion.helpful === false }"
+                    >
+                      <i class="fas fa-thumbs-down"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Selected Category Questions -->
           <div v-else-if="selectedFAQCategory && !faqSearchQuery" class="faq-category-questions">
             <div class="category-header-back">
               <button @click="selectedFAQCategory = null" class="back-btn">
                 <i class="fas fa-arrow-left"></i>
-                Back to Categories
+                Back
               </button>
               <h3>{{ getSelectedCategoryTitle() }}</h3>
             </div>
@@ -646,29 +685,11 @@
                 v-for="question in getSelectedCategoryQuestions()"
                 :key="question.id"
                 class="faq-question-item"
+                @click="selectIndividualQuestion(question)"
               >
                 <div class="question-header">
                   <h4>{{ question.question }}</h4>
-                </div>
-                <div class="question-answer">
-                  <p>{{ question.answer }}</p>
-                  <div class="faq-actions">
-                    <span class="helpful-text">Was this helpful?</span>
-                    <button
-                      @click="markFAQHelpful(question.id, true)"
-                      class="helpful-btn"
-                      :class="{ active: question.helpful === true }"
-                    >
-                      <i class="fas fa-thumbs-up"></i>
-                    </button>
-                    <button
-                      @click="markFAQHelpful(question.id, false)"
-                      class="helpful-btn"
-                      :class="{ active: question.helpful === false }"
-                    >
-                      <i class="fas fa-thumbs-down"></i>
-                    </button>
-                  </div>
+                  <i class="fas fa-chevron-right"></i>
                 </div>
               </div>
             </div>
