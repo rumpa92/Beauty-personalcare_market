@@ -1733,10 +1733,15 @@ export default {
 
     togglePreviewQuestion(questionId) {
       this.faqCategories.forEach(category => {
-        const question = category.questions.find(q => q.id === questionId);
-        if (question) {
-          question.expanded = !question.expanded;
-        }
+        category.questions.forEach(question => {
+          if (question.id === questionId) {
+            // Toggle the clicked question
+            question.expanded = !question.expanded;
+          } else {
+            // Collapse all other questions
+            question.expanded = false;
+          }
+        });
       });
     },
 
