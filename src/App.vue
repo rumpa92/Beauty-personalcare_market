@@ -23,6 +23,7 @@
     <NotificationContainer />
     <ProductQuickView />
     <AddToCartConfirmationWrapper />
+    <FloatingChatButton />
   </div>
 </template>
 
