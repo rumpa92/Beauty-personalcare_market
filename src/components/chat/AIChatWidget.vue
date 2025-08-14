@@ -189,7 +189,7 @@ export default {
       }
       
       if (message.includes('dry skin') || message.includes('moisturizer')) {
-        return "For dry skin, I suggest a gentle hydrating routine! �� Start with a cream cleanser, followed by a hyaluronic acid serum, and finish with a rich moisturizer. Don't forget SPF during the day!";
+        return "For dry skin, I suggest a gentle hydrating routine! 💧 Start with a cream cleanser, followed by a hyaluronic acid serum, and finish with a rich moisturizer. Don't forget SPF during the day!";
       }
       
       if (message.includes('trending') || message.includes('popular')) {
@@ -386,12 +386,14 @@ export default {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ec4899, #db2777);
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 14px;
+  color: white;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
 }
 
 .message-bubble {
