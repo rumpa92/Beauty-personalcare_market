@@ -1336,13 +1336,6 @@ export default {
     align-items: flex-start;
   }
   
-  .trust-section {
-    gap: 20px;
-  }
-  
-  .trust-item {
-    flex: 1;
-  }
   
   .forgot-modal {
     padding: 32px 24px;
@@ -1374,15 +1367,6 @@ export default {
     font-size: 13px;
   }
   
-  .trust-section {
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  .trust-item {
-    flex-direction: row;
-    gap: 12px;
-  }
 }
 
 /* Accessibility */
