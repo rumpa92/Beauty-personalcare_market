@@ -15,7 +15,7 @@
             <i class="fas fa-gem"></i>
           </div>
           <div class="beauty-element element-4">
-            <i class="fas fa-sparkles"></i>
+            <i class="fas fa-magic"></i>
           </div>
         </div>
       </div>
