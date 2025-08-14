@@ -1529,7 +1529,7 @@ export default {
             results.push({
               ...question,
               categoryTitle: category.title,
-              expanded: false
+              expanded: true
             });
           }
         });
