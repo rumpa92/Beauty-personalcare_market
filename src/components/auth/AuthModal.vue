@@ -1056,7 +1056,7 @@ export default {
 .auth-divider {
   text-align: center;
   position: relative;
-  margin: 32px 0;
+  margin: 20px 0;
 }
 
 .auth-divider::before {
@@ -1080,18 +1080,18 @@ export default {
 
 /* Form */
 .auth-form {
-  margin-bottom: 32px;
+  margin-bottom: 20px;
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 
 .form-group {
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 
 .form-label {
