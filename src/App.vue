@@ -23,8 +23,7 @@
     <NotificationContainer />
     <ProductQuickView />
     <AddToCartConfirmationWrapper />
-    <FloatingChatButton />
-    <SupportPanel />
+    <AIChatWidget />
   </div>
 </template>
 
