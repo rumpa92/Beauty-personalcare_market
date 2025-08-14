@@ -1087,8 +1087,8 @@ export default {
 .user-dropdown-menu .dropdown-item {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 16px 20px;
+  gap: 12px;
+  padding: 10px 16px;
   color: var(--gray-700);
   text-decoration: none;
   transition: all 0.2s ease;
