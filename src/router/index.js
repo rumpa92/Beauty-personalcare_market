@@ -178,6 +178,12 @@ const routes = [
     meta: { title: 'Quick View Test - Beauty Market' }
   },
   {
+    path: '/auth-demo',
+    name: 'AuthDemo',
+    component: AuthDemo,
+    meta: { title: 'Authentication Demo - Beauty Market' }
+  },
+  {
     path: '/checkout',
     name: 'Checkout',
     component: Checkout,
