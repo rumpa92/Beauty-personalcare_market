@@ -800,6 +800,20 @@ export default {
   color: var(--primary-800) !important;
 }
 
+.mobile-badge {
+  background: var(--primary-500);
+  color: white;
+  border-radius: 50%;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: auto;
+}
+
 @media (max-width: 1024px) {
   .desktop-nav {
     display: none;
