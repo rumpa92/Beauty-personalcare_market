@@ -576,7 +576,7 @@
             </div>
           </div>
 
-          <div v-if="!faqSearchQuery" class="faq-categories">
+          <div v-if="!faqSearchQuery && !selectedFAQCategory" class="faq-categories">
             <div
               v-for="category in faqCategories"
               :key="category.id"
@@ -606,31 +606,73 @@
             </div>
           </div>
 
-          <div v-else class="faq-search-results">
+          <!-- Selected Category Questions -->
+          <div v-else-if="selectedFAQCategory && !faqSearchQuery" class="faq-category-questions">
+            <div class="category-header-back">
+              <button @click="selectedFAQCategory = null" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Categories
+              </button>
+              <h3>{{ getSelectedCategoryTitle() }}</h3>
+            </div>
+
+            <div class="questions-list">
+              <div
+                v-for="question in getSelectedCategoryQuestions()"
+                :key="question.id"
+                class="faq-question-item"
+              >
+                <div class="question-header">
+                  <h4>{{ question.question }}</h4>
+                </div>
+                <div class="question-answer">
+                  <p>{{ question.answer }}</p>
+                  <div class="faq-actions">
+                    <span class="helpful-text">Was this helpful?</span>
+                    <button
+                      @click="markFAQHelpful(question.id, true)"
+                      class="helpful-btn"
+                      :class="{ active: question.helpful === true }"
+                    >
+                      <i class="fas fa-thumbs-up"></i>
+                    </button>
+                    <button
+                      @click="markFAQHelpful(question.id, false)"
+                      class="helpful-btn"
+                      :class="{ active: question.helpful === false }"
+                    >
+                      <i class="fas fa-thumbs-down"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Search Results -->
+          <div v-else-if="faqSearchQuery" class="faq-search-results">
             <h3>Search Results for "{{ faqSearchQuery }}"</h3>
             <div
               v-for="result in filteredFAQResults"
               :key="result.id"
               class="faq-result-item"
-              @click="toggleFAQAnswer(result.id)"
             >
               <div class="result-header">
                 <h4>{{ result.question }}</h4>
-                <i :class="result.expanded ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
               </div>
-              <div v-if="result.expanded" class="result-answer">
+              <div class="result-answer">
                 <p>{{ result.answer }}</p>
                 <div class="faq-actions">
                   <span class="helpful-text">Was this helpful?</span>
                   <button
-                    @click.stop="markFAQHelpful(result.id, true)"
+                    @click="markFAQHelpful(result.id, true)"
                     class="helpful-btn"
                     :class="{ active: result.helpful === true }"
                   >
                     <i class="fas fa-thumbs-up"></i>
                   </button>
                   <button
-                    @click.stop="markFAQHelpful(result.id, false)"
+                    @click="markFAQHelpful(result.id, false)"
                     class="helpful-btn"
                     :class="{ active: result.helpful === false }"
                   >
