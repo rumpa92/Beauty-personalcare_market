@@ -738,7 +738,7 @@
             </div>
           </div>
 
-          <div class="contact-support-card">
+          <div v-if="!selectedQuestion" class="contact-support-card">
             <div class="contact-icon">
               <i class="fas fa-headset"></i>
             </div>
