@@ -3,12 +3,8 @@
     <div class="sort-container">
       <!-- Results Info -->
       <div class="results-info">
-        <span class="results-count">
-          <strong>{{ totalResults }}</strong> 
-          {{ totalResults === 1 ? 'product' : 'products' }} found
-        </span>
         <span v-if="activeFilters" class="active-filters-info">
-          with <strong>{{ activeFilters }}</strong> active filters
+          <strong>{{ activeFilters }}</strong> {{ activeFilters === 1 ? 'filter' : 'filters' }} active
         </span>
       </div>
 
