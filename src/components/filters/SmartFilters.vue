@@ -406,7 +406,7 @@ export default {
         minRating: 0
       },
       openSections: {
-        brand: true,
+        brand: false,
         price: false,
         concern: false,
         skinType: false,
@@ -819,42 +819,61 @@ export default {
 }
 
 .filter-section {
-  border-bottom: 1px solid var(--gray-100);
+  border-bottom: 1px solid var(--gray-200);
 }
 
 .section-header {
   width: 100%;
   background: none;
   border: none;
-  padding: 20px 24px;
+  padding: 16px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .section-header:hover {
   background: var(--gray-50);
 }
 
+.section-header i.fa-chevron-down,
+.section-header i.fa-chevron-up {
+  color: var(--gray-400);
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+.section-header i.fa-chevron-down {
+  transform: rotate(0deg);
+}
+
+.section-header i.fa-chevron-up {
+  transform: rotate(180deg);
+}
+
 .section-info {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-weight: 500;
-  color: var(--gray-700);
+  font-weight: 600;
+  color: var(--gray-800);
+  font-size: 14px;
 }
 
 .section-info i {
-  color: var(--primary-500);
+  color: var(--gray-500);
   width: 16px;
   text-align: center;
+  font-size: 12px;
 }
 
 .section-content {
-  padding: 0 24px 24px;
+  padding: 0 24px 20px;
   animation: slideDown 0.3s ease-out;
 }
 
