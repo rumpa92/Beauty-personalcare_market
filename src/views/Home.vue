@@ -1235,125 +1235,360 @@ export default {
 
 /* Trending Brands */
 .trending-brands {
-  padding: 40px 0;
-  background: white;
+  padding: 60px 0;
+  background: linear-gradient(135deg, #fafafa 0%, #f8f9fa 100%);
   position: relative;
 }
 
 .trending-brands .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-.brands-carousel {
-  position: relative;
-  overflow: hidden;
-  margin: 0 60px;
-}
-
-.brands-track {
+.trending-brands .section-header {
   display: flex;
-  gap: 24px;
-  transition: transform 0.5s ease;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 48px;
 }
 
-.brand-card {
-  min-width: 260px;
-  background: white;
-  border: 1px solid var(--gray-200);
-  border-radius: 20px;
-  padding: 32px 24px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+.section-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-.brand-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-  border-color: var(--primary-300);
-}
-
-.brand-logo {
-  width: 120px;
+.trending-icon {
+  width: 60px;
   height: 60px;
-  margin: 0 auto 20px;
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: white;
+  font-size: 24px;
+  box-shadow: 0 8px 24px rgba(236, 72, 153, 0.3);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.section-title-content {
+  flex: 1;
+}
+
+.trending-brands .section-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin: 0 0 8px 0;
+  background: linear-gradient(135deg, var(--gray-900) 0%, var(--primary-600) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.trending-brands .section-subtitle {
+  font-size: 16px;
+  color: var(--gray-600);
+  margin: 0;
+  font-weight: 400;
+}
+
+.view-all-btn {
+  background: white;
+  border: 2px solid var(--primary-200);
+  color: var(--primary-600);
+  padding: 12px 24px;
   border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.view-all-btn:hover {
+  background: var(--primary-500);
+  color: white;
+  border-color: var(--primary-500);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(236, 72, 153, 0.3);
+}
+
+.brands-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.brand-card {
+  background: white;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
   overflow: hidden;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--gray-100);
+}
+
+.brand-card.featured {
+  min-height: 400px;
+  background: linear-gradient(135deg, #ffffff 0%, #fef7ff 100%);
+}
+
+.brand-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary-200);
+}
+
+.brand-card-content {
+  padding: 32px 24px 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+}
+
+.brand-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.brand-logo {
+  width: 80px;
+  height: 80px;
+  background: var(--gray-50);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--gray-200);
+  transition: all 0.3s ease;
+}
+
+.brand-card.featured .brand-logo {
+  width: 120px;
+  height: 120px;
 }
 
 .brand-logo img {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 70%;
+  max-height: 70%;
   object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.brand-card:hover .brand-logo img {
+  transform: scale(1.1);
+}
+
+.trending-badge {
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+}
+
+.brand-info {
+  flex: 1;
+  margin-bottom: 24px;
 }
 
 .brand-name {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--gray-800);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gray-900);
   margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.brand-card.featured .brand-name {
+  font-size: 24px;
 }
 
 .brand-tagline {
   color: var(--gray-600);
   font-size: 14px;
-  margin-bottom: 16px;
+  line-height: 1.4;
+  margin: 0;
+  font-weight: 400;
 }
 
-.brand-stats {
+.brand-metrics {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  background: var(--gray-50);
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 24px;
 }
 
-.popularity,
-.products {
-  background: var(--gray-50);
-  padding: 8px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--gray-700);
+.metric-item {
+  text-align: center;
   flex: 1;
 }
 
-.carousel-controls {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  pointer-events: none;
+.metric-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary-600);
+  margin-bottom: 4px;
 }
 
-.carousel-btn {
-  background: white;
-  border: 1px solid var(--gray-200);
+.brand-card.featured .metric-value {
+  font-size: 24px;
+}
+
+.metric-label {
+  font-size: 12px;
   color: var(--gray-600);
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metric-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--gray-300);
+  margin: 0 16px;
+}
+
+.brand-action {
+  margin-top: auto;
+}
+
+.explore-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  pointer-events: all;
+  gap: 8px;
+  font-size: 14px;
 }
 
-.carousel-btn:hover {
-  background: var(--primary-500);
-  color: white;
-  border-color: var(--primary-500);
-  transform: scale(1.1);
+.explore-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(236, 72, 153, 0.4);
+}
+
+.brand-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(180deg, transparent 0%, rgba(236, 72, 153, 0.05) 100%);
+  pointer-events: none;
+}
+
+.brand-card.featured .brand-gradient {
+  background: linear-gradient(180deg, transparent 0%, rgba(236, 72, 153, 0.1) 100%);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .brands-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .brand-card:last-child {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .trending-brands {
+    padding: 40px 0;
+  }
+
+  .trending-brands .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .section-title-wrapper {
+    gap: 16px;
+  }
+
+  .trending-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .trending-brands .section-title {
+    font-size: 24px;
+  }
+
+  .brands-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .brand-card.featured {
+    min-height: 320px;
+  }
+
+  .brand-card-content {
+    padding: 24px 20px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .trending-badge {
+    align-self: flex-start;
+  }
+
+  .brand-logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .brand-card.featured .brand-logo {
+    width: 80px;
+    height: 80px;
+  }
 }
 
 /* New Arrivals */
