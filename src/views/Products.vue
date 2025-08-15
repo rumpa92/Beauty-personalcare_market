@@ -1,9 +1,22 @@
 <template>
   <div class="products-page">
     <div class="market-container">
+      <!-- Banner Section -->
+      <div v-if="showBanner" class="products-banner" :class="bannerType">
+        <div class="banner-content">
+          <div class="banner-icon">
+            <i :class="bannerIcon"></i>
+          </div>
+          <div class="banner-text">
+            <h1 class="banner-title">{{ bannerTitle }}</h1>
+            <p class="banner-subtitle">{{ bannerSubtitle }}</p>
+          </div>
+        </div>
+      </div>
+
       <div class="products-header">
-        <h1 class="market-title-lg">{{ pageTitle }}</h1>
-        <p class="products-description">Discover our curated collection of premium beauty products</p>
+        <h1 v-if="!showBanner" class="market-title-lg">{{ pageTitle }}</h1>
+        <p class="products-description">{{ productsDescription }}</p>
       </div>
       
       <div class="products-content">
