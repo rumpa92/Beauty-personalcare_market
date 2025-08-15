@@ -1314,9 +1314,18 @@ export default {
     width: 100%;
     max-width: none;
   }
-  
+
   .filter-sections {
-    max-height: calc(100vh - 200px);
+    max-height: calc(100vh - 240px);
+  }
+
+  .filter-prompt {
+    font-size: 12px;
+    margin-top: 6px;
+  }
+
+  .filter-header {
+    padding: 20px;
   }
 }
 </style>
