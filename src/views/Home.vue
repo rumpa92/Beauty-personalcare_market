@@ -159,43 +159,48 @@
             class="brand-card"
             :class="{ featured: index === 0 }"
           >
-            <div class="brand-card-content">
-              <div class="brand-header">
-                <div class="brand-logo">
-                  <img :src="brand.logo" :alt="brand.name" />
-                </div>
-                <div class="trending-badge" v-if="index < 3">
-                  <i class="fas fa-trending-up"></i>
-                  #{{ index + 1 }}
-                </div>
-              </div>
+            <!-- Ranking Badge -->
+            <div class="rank-badge" v-if="index < 3">
+              #{{ index + 1 }}
+            </div>
 
-              <div class="brand-info">
-                <h4 class="brand-name">{{ brand.name }}</h4>
+            <!-- Brand Logo -->
+            <div class="brand-logo-wrapper">
+              <div class="brand-logo">
+                <img :src="brand.logo" :alt="brand.name" />
+              </div>
+            </div>
+
+            <!-- Brand Content -->
+            <div class="brand-content">
+              <div class="brand-title-section">
+                <h3 class="brand-name">{{ brand.name }}</h3>
                 <p class="brand-tagline">{{ brand.tagline }}</p>
               </div>
 
-              <div class="brand-metrics">
-                <div class="metric-item">
-                  <div class="metric-value">{{ brand.popularity }}%</div>
-                  <div class="metric-label">Love it</div>
+              <!-- Stats Row -->
+              <div class="brand-stats-row">
+                <div class="stat-item love-stat">
+                  <div class="stat-number">{{ brand.popularity }}%</div>
+                  <div class="stat-label">LOVE IT</div>
                 </div>
-                <div class="metric-divider"></div>
-                <div class="metric-item">
-                  <div class="metric-value">{{ brand.productCount }}</div>
-                  <div class="metric-label">Products</div>
+                <div class="stat-item products-stat">
+                  <div class="stat-number">{{ brand.productCount }}</div>
+                  <div class="stat-label">PRODUCTS</div>
                 </div>
               </div>
 
-              <div class="brand-action">
-                <button class="explore-btn">
-                  Explore Brand
+              <!-- Explore Button -->
+              <div class="brand-action-section">
+                <button class="explore-brand-btn">
+                  <span>Explore Brand</span>
                   <i class="fas fa-arrow-right"></i>
                 </button>
               </div>
             </div>
 
-            <div class="brand-gradient"></div>
+            <!-- Background Pattern -->
+            <div class="brand-bg-pattern"></div>
           </div>
         </div>
       </div>
