@@ -266,6 +266,14 @@ export default {
   font-weight: 500;
 }
 
+.sort-prompt {
+  font-size: 12px;
+  color: var(--gray-500);
+  font-weight: 400;
+  margin-left: 8px;
+  font-style: italic;
+}
+
 .sort-dropdown-wrapper {
   position: relative;
 }

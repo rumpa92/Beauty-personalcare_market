@@ -721,6 +721,14 @@ export default {
   color: var(--primary-500);
 }
 
+.filter-prompt {
+  margin: 8px 0 0 0;
+  font-size: 13px;
+  color: var(--gray-600);
+  line-height: 1.4;
+  font-weight: 400;
+}
+
 .filter-actions {
   display: flex;
   align-items: center;
