@@ -896,19 +896,19 @@ export default {
 
 /* Type Selector Section */
 .type-selector-section {
-  padding-bottom: 80px;
-  margin-top: 200px;
+  padding: 40px 0;
+  margin-top: 0;
   background: white;
 }
 
 .type-selector-section .container {
   max-width: 1200px;
-  margin: 200px auto 0;
+  margin: 0 auto;
   padding: 0 20px;
 }
 
 .type-category {
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 .type-title {
