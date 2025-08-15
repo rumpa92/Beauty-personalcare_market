@@ -186,6 +186,14 @@ export default {
   mounted() {
     this.checkMobile();
     window.addEventListener('resize', this.checkMobile);
+
+    // Apply filters from query parameters
+    if (this.$route.query.skinType) {
+      this.$store.dispatch('products/setSkinTypeFilter', this.$route.query.skinType);
+    }
+    if (this.$route.query.hairType) {
+      this.$store.dispatch('products/setHairTypeFilter', this.$route.query.hairType);
+    }
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.checkMobile);
