@@ -15,7 +15,6 @@
       <!-- Sort Options -->
       <div class="sort-options">
         <label class="sort-label">Sort by:</label>
-        <span class="sort-prompt">Sort results by relevance, price, popularity, or top-rated products.</span>
         <div class="sort-dropdown-wrapper">
           <button 
             @click="toggleDropdown"
