@@ -247,49 +247,6 @@
       </div>
     </section>
 
-    <!-- Recently Viewed (Enhanced) -->
-    <section v-if="recentlyViewedItems.length" class="recently-viewed-enhanced">
-      <div class="container">
-        <div class="section-header recently-viewed-header">
-          <h2 class="section-title">
-            <i class="fas fa-clock"></i>
-            Continue Your Beauty Journey
-          </h2>
-          <button @click="clearRecentlyViewed" class="clear-btn">
-            <i class="fas fa-times"></i>
-            Clear History
-          </button>
-        </div>
-        <div class="recently-viewed-carousel">
-          <div 
-            v-for="item in recentlyViewedItems.slice(0, 6)" 
-            :key="item.id"
-            class="recently-viewed-item"
-            @click="viewProduct(item.id)"
-          >
-            <div class="item-image">
-              <img :src="item.image" :alt="item.name">
-              <div class="item-overlay">
-                <button class="quick-add-btn">
-                  <i class="fas fa-shopping-bag"></i>
-                </button>
-              </div>
-            </div>
-            <div class="item-info">
-              <h4>{{ item.name }}</h4>
-              <p class="price">${{ item.price }}</p>
-              <span class="viewed-time">{{ formatViewTime(item.viewedAt) }}</span>
-              <div class="item-rating">
-                <div class="stars">
-                  <i v-for="star in 5" :key="star" 
-                     :class="['fas fa-star', { active: star <= 4 }]"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- Beauty Tips & Tutorials -->
     <section class="beauty-tips">
@@ -582,7 +539,7 @@ export default {
           id: 1,
           name: 'The Ordinary',
           tagline: 'Clinical formulations with integrity',
-          logo: 'https://via.placeholder.com/100x50/ec4899/ffffff?text=TO',
+          logo: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=100&h=50&fit=crop&crop=center',
           popularity: 94,
           productCount: 45
         },
@@ -590,7 +547,7 @@ export default {
           id: 2,
           name: 'Glossier',
           tagline: 'Beauty inspired by real life',
-          logo: 'https://via.placeholder.com/100x50/f472b6/ffffff?text=GL',
+          logo: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=100&h=50&fit=crop&crop=center',
           popularity: 91,
           productCount: 32
         },
@@ -598,11 +555,10 @@ export default {
           id: 3,
           name: 'Fenty Beauty',
           tagline: 'Beauty for all',
-          logo: 'https://via.placeholder.com/100x50/db2777/ffffff?text=FB',
+          logo: 'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=100&h=50&fit=crop&crop=center',
           popularity: 96,
           productCount: 78
         },
-        // Add more brands...
       ],
       
       limitedOffers: [
@@ -689,15 +645,23 @@ export default {
       this.selectedSkinType = this.selectedSkinType === skinType.id ? null : skinType.id;
       this.$router.push({
         path: '/products',
-        query: { skinType: skinType.id }
+        query: {
+          skinType: skinType.id,
+          banner: 'skin',
+          title: `${skinType.name} Skin Care Products`
+        }
       });
     },
-    
+
     filterByHairType(hairType) {
       this.selectedHairType = this.selectedHairType === hairType.id ? null : hairType.id;
       this.$router.push({
         path: '/products',
-        query: { hairType: hairType.id }
+        query: {
+          hairType: hairType.id,
+          banner: 'hair',
+          title: `${hairType.name} Hair Care Products`
+        }
       });
     },
     
@@ -795,9 +759,9 @@ export default {
 /* Campaign Banners */
 .campaign-banners {
   position: relative;
-  height: 500px;
+  height: 400px;
   overflow: hidden;
-  margin-bottom: 80px;
+  margin-bottom: 40px;
 }
 
 .banner-carousel {
@@ -939,19 +903,19 @@ export default {
 
 /* Type Selector Section */
 .type-selector-section {
-  padding-bottom: 80px;
-  margin-top: 200px;
+  padding: 40px 0;
+  margin-top: 0;
   background: white;
 }
 
 .type-selector-section .container {
   max-width: 1200px;
-  margin: 200px auto 0;
+  margin: 0 auto;
   padding: 0 20px;
 }
 
 .type-category {
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 .type-title {
@@ -1096,7 +1060,7 @@ export default {
 
 /* Enhanced Categories */
 .enhanced-categories {
-  padding: 40px 0 80px;
+  padding: 40px 0;
   background: var(--gray-50);
 }
 
@@ -1243,7 +1207,7 @@ export default {
 
 /* Trending Brands */
 .trending-brands {
-  padding: 80px 0;
+  padding: 40px 0;
   background: white;
   position: relative;
 }
@@ -1366,7 +1330,7 @@ export default {
 
 /* New Arrivals */
 .new-arrivals {
-  padding: 80px 0;
+  padding: 40px 0;
   background: linear-gradient(135deg, #faf5ff 0%, #f0f9ff 100%);
 }
 
@@ -1405,7 +1369,7 @@ export default {
 
 /* Limited Offers */
 .limited-offers {
-  padding: 80px 0;
+  padding: 40px 0;
   background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
   color: white;
   position: relative;
@@ -1705,7 +1669,7 @@ export default {
 
 /* Beauty Tips */
 .beauty-tips {
-  padding: 80px 0;
+  padding: 40px 0;
   background: var(--gray-50);
 }
 

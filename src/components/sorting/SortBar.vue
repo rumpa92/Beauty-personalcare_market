@@ -99,7 +99,7 @@ export default {
   data() {
     return {
       showDropdown: false,
-      currentSort: 'relevance',
+      currentSort: 'price-low-high',
       currentView: 'grid',
       sortOptions: [
         {
@@ -265,6 +265,14 @@ export default {
   font-weight: 500;
 }
 
+.sort-prompt {
+  font-size: 12px;
+  color: var(--gray-500);
+  font-weight: 400;
+  margin-left: 8px;
+  font-style: italic;
+}
+
 .sort-dropdown-wrapper {
   position: relative;
 }
@@ -276,7 +284,6 @@ export default {
   padding: 8px 16px;
   display: flex;
   align-items: center;
-  gap: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
   min-width: 160px;
@@ -517,7 +524,8 @@ export default {
     display: none;
   }
   
-  .sort-label {
+  .sort-label,
+  .sort-prompt {
     display: none;
   }
 }

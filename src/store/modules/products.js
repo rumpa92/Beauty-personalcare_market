@@ -104,7 +104,9 @@ const state = {
     priceRange: [0, 200],
     brand: '',
     rating: 0,
-    onSale: false
+    onSale: false,
+    skinType: '',
+    hairType: ''
   },
   sortBy: 'featured',
   searchQuery: ''
@@ -144,9 +146,23 @@ const getters = {
     if (state.filters.onSale) {
       filtered = filtered.filter(product => product.onSale);
     }
-    
-    filtered = filtered.filter(product => 
-      product.price >= state.filters.priceRange[0] && 
+
+    if (state.filters.skinType) {
+      filtered = filtered.filter(product =>
+        product.category === 'skincare' ||
+        (product.skinTypes && product.skinTypes.includes(state.filters.skinType))
+      );
+    }
+
+    if (state.filters.hairType) {
+      filtered = filtered.filter(product =>
+        product.category === 'haircare' ||
+        (product.hairTypes && product.hairTypes.includes(state.filters.hairType))
+      );
+    }
+
+    filtered = filtered.filter(product =>
+      product.price >= state.filters.priceRange[0] &&
       product.price <= state.filters.priceRange[1]
     );
     
@@ -192,6 +208,12 @@ const mutations = {
   SET_SALE_FILTER(state, onSale) {
     state.filters.onSale = onSale;
   },
+  SET_SKIN_TYPE_FILTER(state, skinType) {
+    state.filters.skinType = skinType;
+  },
+  SET_HAIR_TYPE_FILTER(state, hairType) {
+    state.filters.hairType = hairType;
+  },
   SET_SORT_BY(state, sortBy) {
     state.sortBy = sortBy;
   },
@@ -201,7 +223,9 @@ const mutations = {
       priceRange: [0, 200],
       brand: '',
       rating: 0,
-      onSale: false
+      onSale: false,
+      skinType: '',
+      hairType: ''
     };
     state.searchQuery = '';
   }
@@ -228,6 +252,12 @@ const actions = {
   },
   setSaleFilter({ commit }, onSale) {
     commit('SET_SALE_FILTER', onSale);
+  },
+  setSkinTypeFilter({ commit }, skinType) {
+    commit('SET_SKIN_TYPE_FILTER', skinType);
+  },
+  setHairTypeFilter({ commit }, hairType) {
+    commit('SET_HAIR_TYPE_FILTER', hairType);
   },
   setSortBy({ commit }, sortBy) {
     commit('SET_SORT_BY', sortBy);

@@ -35,6 +35,7 @@
           <i class="fas fa-filter"></i>
           Smart Filters
         </h3>
+        <p class="filter-prompt">Refine your search by brand, price, concerns, skin & hair type, ingredients, offers, and customer ratings.</p>
         <div class="filter-actions">
           <button @click="clearAllFilters" class="clear-all-btn">
             Clear All
@@ -720,6 +721,14 @@ export default {
   color: var(--primary-500);
 }
 
+.filter-prompt {
+  margin: 8px 0 0 0;
+  font-size: 13px;
+  color: var(--gray-600);
+  line-height: 1.4;
+  font-weight: 400;
+}
+
 .filter-actions {
   display: flex;
   align-items: center;
@@ -1305,9 +1314,18 @@ export default {
     width: 100%;
     max-width: none;
   }
-  
+
   .filter-sections {
-    max-height: calc(100vh - 200px);
+    max-height: calc(100vh - 240px);
+  }
+
+  .filter-prompt {
+    font-size: 12px;
+    margin-top: 6px;
+  }
+
+  .filter-header {
+    padding: 20px;
   }
 }
 </style>

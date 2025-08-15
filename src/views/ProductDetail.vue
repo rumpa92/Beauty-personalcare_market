@@ -922,7 +922,7 @@ export default {
   padding: 0 20px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  gap: 40px;
   align-items: start;
 }
 
@@ -1101,7 +1101,10 @@ export default {
 
 /* Product Information */
 .product-info-section {
-  padding: 20px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .product-name {
