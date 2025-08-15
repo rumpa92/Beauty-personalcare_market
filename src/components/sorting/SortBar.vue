@@ -284,7 +284,6 @@ export default {
   padding: 8px 16px;
   display: flex;
   align-items: center;
-  gap: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
   min-width: 160px;
