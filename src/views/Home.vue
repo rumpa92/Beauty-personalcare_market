@@ -645,15 +645,23 @@ export default {
       this.selectedSkinType = this.selectedSkinType === skinType.id ? null : skinType.id;
       this.$router.push({
         path: '/products',
-        query: { skinType: skinType.id }
+        query: {
+          skinType: skinType.id,
+          banner: 'skin',
+          title: `${skinType.name} Skin Care Products`
+        }
       });
     },
-    
+
     filterByHairType(hairType) {
       this.selectedHairType = this.selectedHairType === hairType.id ? null : hairType.id;
       this.$router.push({
         path: '/products',
-        query: { hairType: hairType.id }
+        query: {
+          hairType: hairType.id,
+          banner: 'hair',
+          title: `${hairType.name} Hair Care Products`
+        }
       });
     },
     
