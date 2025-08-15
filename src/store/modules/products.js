@@ -146,9 +146,23 @@ const getters = {
     if (state.filters.onSale) {
       filtered = filtered.filter(product => product.onSale);
     }
-    
-    filtered = filtered.filter(product => 
-      product.price >= state.filters.priceRange[0] && 
+
+    if (state.filters.skinType) {
+      filtered = filtered.filter(product =>
+        product.category === 'skincare' ||
+        (product.skinTypes && product.skinTypes.includes(state.filters.skinType))
+      );
+    }
+
+    if (state.filters.hairType) {
+      filtered = filtered.filter(product =>
+        product.category === 'haircare' ||
+        (product.hairTypes && product.hairTypes.includes(state.filters.hairType))
+      );
+    }
+
+    filtered = filtered.filter(product =>
+      product.price >= state.filters.priceRange[0] &&
       product.price <= state.filters.priceRange[1]
     );
     
