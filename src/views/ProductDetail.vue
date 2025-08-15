@@ -1101,7 +1101,10 @@ export default {
 
 /* Product Information */
 .product-info-section {
-  padding: 20px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .product-name {
