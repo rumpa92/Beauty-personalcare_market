@@ -208,6 +208,12 @@ const mutations = {
   SET_SALE_FILTER(state, onSale) {
     state.filters.onSale = onSale;
   },
+  SET_SKIN_TYPE_FILTER(state, skinType) {
+    state.filters.skinType = skinType;
+  },
+  SET_HAIR_TYPE_FILTER(state, hairType) {
+    state.filters.hairType = hairType;
+  },
   SET_SORT_BY(state, sortBy) {
     state.sortBy = sortBy;
   },
@@ -217,7 +223,9 @@ const mutations = {
       priceRange: [0, 200],
       brand: '',
       rating: 0,
-      onSale: false
+      onSale: false,
+      skinType: '',
+      hairType: ''
     };
     state.searchQuery = '';
   }
