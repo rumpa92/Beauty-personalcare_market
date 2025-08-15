@@ -1573,11 +1573,12 @@ export default {
 /* Responsive Design */
 @media (max-width: 1200px) {
   .brands-grid {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
   }
 
-  .brand-card:last-child {
-    display: none;
+  .brand-card {
+    min-height: 340px;
   }
 }
 
@@ -1612,33 +1613,88 @@ export default {
     gap: 20px;
   }
 
-  .brand-card.featured {
+  .brand-card {
     min-height: 320px;
   }
 
-  .brand-card-content {
-    padding: 24px 20px 20px;
+  .brand-card.featured {
+    min-height: 340px;
+  }
+
+  .brand-content {
+    padding: 20px 24px 24px;
+  }
+
+  .brand-logo-wrapper {
+    padding: 24px 24px 0;
+  }
+
+  .brand-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .brand-card.featured .brand-logo {
+    width: 90px;
+    height: 90px;
+  }
+
+  .brand-name {
+    font-size: 20px;
+  }
+
+  .brand-card.featured .brand-name {
+    font-size: 22px;
+  }
+
+  .stat-number {
+    font-size: 20px;
+  }
+
+  .brand-card.featured .stat-number {
+    font-size: 22px;
   }
 }
 
 @media (max-width: 480px) {
-  .brand-header {
-    flex-direction: column;
-    gap: 16px;
+  .brand-content {
+    padding: 16px 20px 20px;
   }
 
-  .trending-badge {
-    align-self: flex-start;
+  .brand-logo-wrapper {
+    padding: 20px 20px 0;
   }
 
   .brand-logo {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
   }
 
   .brand-card.featured .brand-logo {
     width: 80px;
     height: 80px;
+  }
+
+  .brand-stats-row {
+    gap: 24px;
+    padding: 16px;
+  }
+
+  .stat-number {
+    font-size: 18px;
+  }
+
+  .rank-badge {
+    top: 16px;
+    right: 16px;
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .explore-brand-btn {
+    padding: 14px 20px;
+    font-size: 14px;
   }
 }
 
