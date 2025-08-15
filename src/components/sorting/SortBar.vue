@@ -526,7 +526,8 @@ export default {
     display: none;
   }
   
-  .sort-label {
+  .sort-label,
+  .sort-prompt {
     display: none;
   }
 }
