@@ -16,7 +16,6 @@
 
       <div class="products-header">
         <h1 v-if="!showBanner" class="market-title-lg">{{ pageTitle }}</h1>
-        <p class="products-description">{{ productsDescription }}</p>
       </div>
       
       <div class="products-content">
