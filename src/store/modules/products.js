@@ -104,7 +104,9 @@ const state = {
     priceRange: [0, 200],
     brand: '',
     rating: 0,
-    onSale: false
+    onSale: false,
+    skinType: '',
+    hairType: ''
   },
   sortBy: 'featured',
   searchQuery: ''
