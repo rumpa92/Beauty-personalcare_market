@@ -1662,7 +1662,7 @@ export default {
 
 /* Beauty Tips */
 .beauty-tips {
-  padding: 80px 0;
+  padding: 40px 0;
   background: var(--gray-50);
 }
 
