@@ -247,49 +247,6 @@
       </div>
     </section>
 
-    <!-- Recently Viewed (Enhanced) -->
-    <section v-if="recentlyViewedItems.length" class="recently-viewed-enhanced">
-      <div class="container">
-        <div class="section-header recently-viewed-header">
-          <h2 class="section-title">
-            <i class="fas fa-clock"></i>
-            Continue Your Beauty Journey
-          </h2>
-          <button @click="clearRecentlyViewed" class="clear-btn">
-            <i class="fas fa-times"></i>
-            Clear History
-          </button>
-        </div>
-        <div class="recently-viewed-carousel">
-          <div 
-            v-for="item in recentlyViewedItems.slice(0, 6)" 
-            :key="item.id"
-            class="recently-viewed-item"
-            @click="viewProduct(item.id)"
-          >
-            <div class="item-image">
-              <img :src="item.image" :alt="item.name">
-              <div class="item-overlay">
-                <button class="quick-add-btn">
-                  <i class="fas fa-shopping-bag"></i>
-                </button>
-              </div>
-            </div>
-            <div class="item-info">
-              <h4>{{ item.name }}</h4>
-              <p class="price">${{ item.price }}</p>
-              <span class="viewed-time">{{ formatViewTime(item.viewedAt) }}</span>
-              <div class="item-rating">
-                <div class="stars">
-                  <i v-for="star in 5" :key="star" 
-                     :class="['fas fa-star', { active: star <= 4 }]"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- Beauty Tips & Tutorials -->
     <section class="beauty-tips">
