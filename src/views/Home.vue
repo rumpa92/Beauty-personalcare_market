@@ -1200,7 +1200,7 @@ export default {
 
 /* Trending Brands */
 .trending-brands {
-  padding: 80px 0;
+  padding: 40px 0;
   background: white;
   position: relative;
 }
