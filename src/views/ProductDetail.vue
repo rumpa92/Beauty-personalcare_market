@@ -922,7 +922,7 @@ export default {
   padding: 0 20px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  gap: 40px;
   align-items: start;
 }
 
