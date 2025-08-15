@@ -253,6 +253,12 @@ const actions = {
   setSaleFilter({ commit }, onSale) {
     commit('SET_SALE_FILTER', onSale);
   },
+  setSkinTypeFilter({ commit }, skinType) {
+    commit('SET_SKIN_TYPE_FILTER', skinType);
+  },
+  setHairTypeFilter({ commit }, hairType) {
+    commit('SET_HAIR_TYPE_FILTER', hairType);
+  },
   setSortBy({ commit }, sortBy) {
     commit('SET_SORT_BY', sortBy);
   },
