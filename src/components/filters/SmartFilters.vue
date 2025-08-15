@@ -35,6 +35,7 @@
           <i class="fas fa-filter"></i>
           Smart Filters
         </h3>
+        <p class="filter-prompt">Refine your search by brand, price, concerns, skin & hair type, ingredients, offers, and customer ratings.</p>
         <div class="filter-actions">
           <button @click="clearAllFilters" class="clear-all-btn">
             Clear All
