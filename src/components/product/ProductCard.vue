@@ -1,15 +1,15 @@
 <template>
   <div class="product-card">
-    <div class="product-image-container" @click="openQuickView">
+    <div class="product-image-container" @click="goToProduct">
       <img :src="product.image" :alt="product.name" class="product-image">
       <div v-if="product.onSale" class="sale-badge">Sale</div>
       <div class="product-overlay">
-        <button class="quick-view-btn">
+        <button class="quick-view-btn" @click.stop="openQuickView">
           <i class="fas fa-eye"></i>
           Quick View
         </button>
       </div>
-      <button 
+      <button
         class="wishlist-btn"
         :class="{ active: isInWishlist(product.id) }"
         @click.stop="toggleWishlist"

@@ -406,7 +406,7 @@ export default {
         minRating: 0
       },
       openSections: {
-        brand: true,
+        brand: false,
         price: false,
         concern: false,
         skinType: false,
@@ -699,8 +699,8 @@ export default {
 }
 
 .filter-header {
-  background: linear-gradient(135deg, var(--primary-50) 0%, var(--purple-50) 100%);
-  padding: 24px;
+  background: white;
+  padding: 20px 24px;
   border-bottom: 1px solid var(--gray-200);
   display: flex;
   justify-content: space-between;
@@ -708,25 +708,21 @@ export default {
 }
 
 .filter-title {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
-  color: var(--gray-800);
+  color: var(--gray-900);
   margin: 0;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .filter-title i {
-  color: var(--primary-500);
+  display: none;
 }
 
 .filter-prompt {
-  margin: 8px 0 0 0;
-  font-size: 13px;
-  color: var(--gray-600);
-  line-height: 1.4;
-  font-weight: 400;
+  display: none;
 }
 
 .filter-actions {
@@ -737,20 +733,20 @@ export default {
 
 .clear-all-btn {
   background: none;
-  border: 1px solid var(--gray-300);
-  color: var(--gray-600);
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 12px;
+  border: none;
+  color: var(--primary-600);
+  padding: 0;
+  border-radius: 0;
+  font-size: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
   font-weight: 500;
+  text-decoration: underline;
 }
 
+
 .clear-all-btn:hover {
-  border-color: var(--primary-400);
-  color: var(--primary-600);
-  background: var(--primary-50);
+  color: var(--primary-700);
 }
 
 .close-filters-btn {
@@ -819,42 +815,61 @@ export default {
 }
 
 .filter-section {
-  border-bottom: 1px solid var(--gray-100);
+  border-bottom: 1px solid var(--gray-200);
 }
 
 .section-header {
   width: 100%;
   background: none;
   border: none;
-  padding: 20px 24px;
+  padding: 16px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .section-header:hover {
   background: var(--gray-50);
 }
 
+.section-header i.fa-chevron-down,
+.section-header i.fa-chevron-up {
+  color: var(--gray-400);
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+.section-header i.fa-chevron-down {
+  transform: rotate(0deg);
+}
+
+.section-header i.fa-chevron-up {
+  transform: rotate(180deg);
+}
+
 .section-info {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-weight: 500;
-  color: var(--gray-700);
+  font-weight: 600;
+  color: var(--gray-800);
+  font-size: 14px;
 }
 
 .section-info i {
-  color: var(--primary-500);
+  color: var(--gray-500);
   width: 16px;
   text-align: center;
+  font-size: 12px;
 }
 
 .section-content {
-  padding: 0 24px 24px;
+  padding: 0 24px 20px;
   animation: slideDown 0.3s ease-out;
 }
 
@@ -901,7 +916,7 @@ export default {
 .radio-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   max-height: 200px;
   overflow-y: auto;
 }
@@ -910,10 +925,10 @@ export default {
 .radio-item {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 8px;
+  padding: 6px 0;
+  border-radius: 4px;
   transition: background-color 0.2s ease;
 }
 
@@ -929,13 +944,14 @@ export default {
 
 .checkmark,
 .radio-mark {
-  width: 18px;
-  height: 18px;
-  border: 2px solid var(--gray-300);
-  border-radius: 4px;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--gray-300);
+  border-radius: 3px;
   position: relative;
   transition: all 0.2s ease;
   flex-shrink: 0;
+  background: white;
 }
 
 .radio-mark {
@@ -972,14 +988,16 @@ export default {
 }
 
 .label-text {
-  font-weight: 500;
+  font-weight: 400;
   color: var(--gray-700);
   flex: 1;
+  font-size: 14px;
 }
 
 .item-count {
   font-size: 12px;
-  color: var(--gray-500);
+  color: var(--gray-400);
+  font-weight: 400;
 }
 
 .radio-content {

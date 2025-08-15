@@ -132,43 +132,76 @@
       </div>
     </section>
 
-    <!-- Trending Brands Carousel -->
+    <!-- Trending Brands -->
     <section class="trending-brands">
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title">
-            <i class="fas fa-fire"></i>
-            Trending Brands
-          </h2>
-          <p class="section-subtitle">Discover the hottest beauty brands right now</p>
+          <div class="section-title-wrapper">
+            <div class="trending-icon">
+              <i class="fas fa-fire"></i>
+            </div>
+            <div class="section-title-content">
+              <h2 class="section-title">Trending Brands</h2>
+              <p class="section-subtitle">Discover the hottest beauty brands right now</p>
+            </div>
+          </div>
+          <button class="view-all-btn" @click="$router.push('/brands')">
+            View All
+            <i class="fas fa-arrow-right"></i>
+          </button>
         </div>
-        <div class="brands-carousel">
-          <div class="brands-track" :style="{ transform: `translateX(-${brandOffset}px)` }">
-            <div 
-              v-for="brand in trendingBrands" 
-              :key="brand.id"
-              @click="navigateToBrand(brand)"
-              class="brand-card"
-            >
+
+        <div class="brands-grid">
+          <div
+            v-for="(brand, index) in trendingBrands"
+            :key="brand.id"
+            @click="navigateToBrand(brand)"
+            class="brand-card"
+            :class="{ featured: index === 0 }"
+          >
+            <!-- Ranking Badge -->
+            <div class="rank-badge" v-if="index < 3">
+              #{{ index + 1 }}
+            </div>
+
+            <!-- Brand Logo -->
+            <div class="brand-logo-wrapper">
               <div class="brand-logo">
                 <img :src="brand.logo" :alt="brand.name" />
               </div>
-              <h4 class="brand-name">{{ brand.name }}</h4>
-              <p class="brand-tagline">{{ brand.tagline }}</p>
-              <div class="brand-stats">
-                <span class="popularity">{{ brand.popularity }}% love it</span>
-                <span class="products">{{ brand.productCount }} products</span>
+            </div>
+
+            <!-- Brand Content -->
+            <div class="brand-content">
+              <div class="brand-title-section">
+                <h3 class="brand-name">{{ brand.name }}</h3>
+                <p class="brand-tagline">{{ brand.tagline }}</p>
+              </div>
+
+              <!-- Stats Row -->
+              <div class="brand-stats-row">
+                <div class="stat-item love-stat">
+                  <div class="stat-number">{{ brand.popularity }}%</div>
+                  <div class="stat-label">LOVE IT</div>
+                </div>
+                <div class="stat-item products-stat">
+                  <div class="stat-number">{{ brand.productCount }}</div>
+                  <div class="stat-label">PRODUCTS</div>
+                </div>
+              </div>
+
+              <!-- Explore Button -->
+              <div class="brand-action-section">
+                <button class="explore-brand-btn">
+                  <span>Explore Brand</span>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
               </div>
             </div>
+
+            <!-- Background Pattern -->
+            <div class="brand-bg-pattern"></div>
           </div>
-        </div>
-        <div class="carousel-controls">
-          <button @click="scrollBrands('left')" class="carousel-btn prev">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <button @click="scrollBrands('right')" class="carousel-btn next">
-            <i class="fas fa-chevron-right"></i>
-          </button>
         </div>
       </div>
     </section>
@@ -1207,125 +1240,462 @@ export default {
 
 /* Trending Brands */
 .trending-brands {
-  padding: 40px 0;
-  background: white;
+  padding: 60px 0;
+  background: linear-gradient(135deg, #fafafa 0%, #f8f9fa 100%);
   position: relative;
 }
 
 .trending-brands .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-.brands-carousel {
-  position: relative;
-  overflow: hidden;
-  margin: 0 60px;
-}
-
-.brands-track {
+.trending-brands .section-header {
   display: flex;
-  gap: 24px;
-  transition: transform 0.5s ease;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 48px;
 }
 
-.brand-card {
-  min-width: 260px;
-  background: white;
-  border: 1px solid var(--gray-200);
-  border-radius: 20px;
-  padding: 32px 24px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+.section-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-.brand-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-  border-color: var(--primary-300);
-}
-
-.brand-logo {
-  width: 120px;
+.trending-icon {
+  width: 60px;
   height: 60px;
-  margin: 0 auto 20px;
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: white;
+  font-size: 24px;
+  box-shadow: 0 8px 24px rgba(236, 72, 153, 0.3);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.section-title-content {
+  flex: 1;
+}
+
+.trending-brands .section-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin: 0 0 8px 0;
+  background: linear-gradient(135deg, var(--gray-900) 0%, var(--primary-600) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.trending-brands .section-subtitle {
+  font-size: 16px;
+  color: var(--gray-600);
+  margin: 0;
+  font-weight: 400;
+}
+
+.view-all-btn {
+  background: white;
+  border: 2px solid var(--primary-200);
+  color: var(--primary-600);
+  padding: 12px 24px;
   border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.view-all-btn:hover {
+  background: var(--primary-500);
+  color: white;
+  border-color: var(--primary-500);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(236, 72, 153, 0.3);
+}
+
+.brands-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+.brand-card {
+  background: white;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
   overflow: hidden;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--gray-100);
+}
+
+.brand-card.featured {
+  min-height: 400px;
+  background: linear-gradient(135deg, #ffffff 0%, #fef7ff 100%);
+  border: 2px solid var(--primary-200);
+}
+
+.brand-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary-300);
+}
+
+.brand-card.featured:hover {
+  border-color: var(--primary-400);
+  box-shadow: 0 24px 48px rgba(236, 72, 153, 0.2);
+}
+
+/* Rank Badge */
+.rank-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+}
+
+/* Brand Logo Section */
+.brand-logo-wrapper {
+  padding: 32px 32px 0;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.brand-logo {
+  width: 100px;
+  height: 100px;
+  background: var(--gray-50);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--gray-200);
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.brand-card.featured .brand-logo {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #ffffff 0%, #fef7ff 100%);
+  border: 2px solid var(--primary-100);
 }
 
 .brand-logo img {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 75%;
+  max-height: 75%;
   object-fit: contain;
+  transition: transform 0.4s ease;
+}
+
+.brand-card:hover .brand-logo {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.brand-card:hover .brand-logo img {
+  transform: scale(1.1);
+}
+
+/* Brand Content */
+.brand-content {
+  padding: 24px 32px 32px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.brand-title-section {
+  margin-bottom: 24px;
 }
 
 .brand-name {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--gray-800);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gray-900);
   margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.brand-card.featured .brand-name {
+  font-size: 26px;
+  background: linear-gradient(135deg, var(--gray-900) 0%, var(--primary-600) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .brand-tagline {
   color: var(--gray-600);
   font-size: 14px;
-  margin-bottom: 16px;
+  line-height: 1.4;
+  margin: 0;
+  font-weight: 400;
 }
 
-.brand-stats {
+/* Brand Stats */
+.brand-stats-row {
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.popularity,
-.products {
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 28px;
+  padding: 20px;
   background: var(--gray-50);
-  padding: 8px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 500;
+  border-radius: 16px;
+  border: 1px solid var(--gray-100);
+}
+
+.brand-card.featured .brand-stats-row {
+  background: linear-gradient(135deg, #fef7ff 0%, #f0f9ff 100%);
+  border-color: var(--primary-100);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.love-stat .stat-number {
+  color: var(--primary-600);
+}
+
+.products-stat .stat-number {
   color: var(--gray-700);
-  flex: 1;
 }
 
-.carousel-controls {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+.brand-card.featured .stat-number {
+  font-size: 28px;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--gray-500);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Action Button */
+.brand-action-section {
+  margin-top: auto;
+}
+
+.explore-brand-btn {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  pointer-events: none;
-}
-
-.carousel-btn {
-  background: white;
-  border: 1px solid var(--gray-200);
-  color: var(--gray-600);
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+  color: white;
+  border: none;
+  padding: 16px 24px;
+  border-radius: 16px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  pointer-events: all;
+  gap: 8px;
+  font-size: 15px;
+  box-shadow: 0 4px 16px rgba(236, 72, 153, 0.3);
 }
 
-.carousel-btn:hover {
-  background: var(--primary-500);
-  color: white;
-  border-color: var(--primary-500);
-  transform: scale(1.1);
+.explore-brand-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(236, 72, 153, 0.4);
+  background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 100%);
+}
+
+.explore-brand-btn i {
+  transition: transform 0.3s ease;
+}
+
+.explore-brand-btn:hover i {
+  transform: translateX(4px);
+}
+
+/* Background Pattern */
+.brand-bg-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(236, 72, 153, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.brand-card.featured .brand-bg-pattern {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(236, 72, 153, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.06) 0%, transparent 50%);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .brands-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .brand-card {
+    min-height: 340px;
+  }
+}
+
+@media (max-width: 768px) {
+  .trending-brands {
+    padding: 40px 0;
+  }
+
+  .trending-brands .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .section-title-wrapper {
+    gap: 16px;
+  }
+
+  .trending-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .trending-brands .section-title {
+    font-size: 24px;
+  }
+
+  .brands-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .brand-card {
+    min-height: 320px;
+  }
+
+  .brand-card.featured {
+    min-height: 340px;
+  }
+
+  .brand-content {
+    padding: 20px 24px 24px;
+  }
+
+  .brand-logo-wrapper {
+    padding: 24px 24px 0;
+  }
+
+  .brand-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .brand-card.featured .brand-logo {
+    width: 90px;
+    height: 90px;
+  }
+
+  .brand-name {
+    font-size: 20px;
+  }
+
+  .brand-card.featured .brand-name {
+    font-size: 22px;
+  }
+
+  .stat-number {
+    font-size: 20px;
+  }
+
+  .brand-card.featured .stat-number {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-content {
+    padding: 16px 20px 20px;
+  }
+
+  .brand-logo-wrapper {
+    padding: 20px 20px 0;
+  }
+
+  .brand-logo {
+    width: 70px;
+    height: 70px;
+  }
+
+  .brand-card.featured .brand-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .brand-stats-row {
+    gap: 24px;
+    padding: 16px;
+  }
+
+  .stat-number {
+    font-size: 18px;
+  }
+
+  .rank-badge {
+    top: 16px;
+    right: 16px;
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .explore-brand-btn {
+    padding: 14px 20px;
+    font-size: 14px;
+  }
 }
 
 /* New Arrivals */
