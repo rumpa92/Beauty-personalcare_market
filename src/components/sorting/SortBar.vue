@@ -99,7 +99,7 @@ export default {
   data() {
     return {
       showDropdown: false,
-      currentSort: 'relevance',
+      currentSort: 'price-low-high',
       currentView: 'grid',
       sortOptions: [
         {
