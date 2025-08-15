@@ -1053,7 +1053,7 @@ export default {
 
 /* Enhanced Categories */
 .enhanced-categories {
-  padding: 40px 0 80px;
+  padding: 40px 0;
   background: var(--gray-50);
 }
 
