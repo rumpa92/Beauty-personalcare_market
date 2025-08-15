@@ -752,9 +752,9 @@ export default {
 /* Campaign Banners */
 .campaign-banners {
   position: relative;
-  height: 500px;
+  height: 400px;
   overflow: hidden;
-  margin-bottom: 80px;
+  margin-bottom: 40px;
 }
 
 .banner-carousel {
