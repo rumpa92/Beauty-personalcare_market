@@ -199,6 +199,95 @@ export default {
   min-height: calc(100vh - 200px);
 }
 
+/* Products Banner */
+.products-banner {
+  background: linear-gradient(135deg, var(--primary-50) 0%, var(--purple-50) 100%);
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 32px;
+  border: 1px solid var(--primary-200);
+  position: relative;
+  overflow: hidden;
+}
+
+.products-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(135deg, var(--primary-100) 0%, var(--purple-100) 100%);
+  border-radius: 50%;
+  transform: translate(50%, -50%);
+  opacity: 0.3;
+}
+
+.products-banner.skin {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-color: #bbf7d0;
+}
+
+.products-banner.skin::before {
+  background: linear-gradient(135deg, #bbf7d0 0%, #86efac 100%);
+}
+
+.products-banner.hair {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border-color: #bfdbfe;
+}
+
+.products-banner.hair::before {
+  background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%);
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.banner-icon {
+  width: 80px;
+  height: 80px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: var(--primary-600);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.products-banner.skin .banner-icon {
+  color: #059669;
+}
+
+.products-banner.hair .banner-icon {
+  color: #2563eb;
+}
+
+.banner-text {
+  flex: 1;
+}
+
+.banner-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--gray-800);
+  margin-bottom: 8px;
+}
+
+.banner-subtitle {
+  font-size: 16px;
+  color: var(--gray-600);
+  margin: 0;
+}
+
 .products-header {
   text-align: center;
   margin-bottom: 40px;
