@@ -1330,101 +1330,121 @@ export default {
 
 .brands-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
   align-items: stretch;
 }
 
 .brand-card {
   background: white;
-  border-radius: 20px;
+  border-radius: 24px;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
   overflow: hidden;
-  min-height: 320px;
+  min-height: 360px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--gray-100);
 }
 
 .brand-card.featured {
   min-height: 400px;
   background: linear-gradient(135deg, #ffffff 0%, #fef7ff 100%);
+  border: 2px solid var(--primary-200);
 }
 
 .brand-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  border-color: var(--primary-200);
+  transform: translateY(-12px);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary-300);
 }
 
-.brand-card-content {
-  padding: 32px 24px 24px;
-  flex: 1;
+.brand-card.featured:hover {
+  border-color: var(--primary-400);
+  box-shadow: 0 24px 48px rgba(236, 72, 153, 0.2);
+}
+
+/* Rank Badge */
+.rank-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+}
+
+/* Brand Logo Section */
+.brand-logo-wrapper {
+  padding: 32px 32px 0;
+  display: flex;
+  justify-content: center;
   position: relative;
-  z-index: 2;
-}
-
-.brand-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 24px;
 }
 
 .brand-logo {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   background: var(--gray-50);
-  border-radius: 16px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   border: 1px solid var(--gray-200);
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .brand-card.featured .brand-logo {
   width: 120px;
   height: 120px;
+  background: linear-gradient(135deg, #ffffff 0%, #fef7ff 100%);
+  border: 2px solid var(--primary-100);
 }
 
 .brand-logo img {
-  max-width: 70%;
-  max-height: 70%;
+  max-width: 75%;
+  max-height: 75%;
   object-fit: contain;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s ease;
+}
+
+.brand-card:hover .brand-logo {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .brand-card:hover .brand-logo img {
   transform: scale(1.1);
 }
 
-.trending-badge {
-  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
-  color: white;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
+/* Brand Content */
+.brand-content {
+  padding: 24px 32px 32px;
+  flex: 1;
   display: flex;
-  align-items: center;
-  gap: 4px;
-  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+  flex-direction: column;
+  text-align: center;
 }
 
-.brand-info {
-  flex: 1;
+.brand-title-section {
   margin-bottom: 24px;
 }
 
 .brand-name {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   color: var(--gray-900);
   margin-bottom: 8px;
@@ -1432,7 +1452,11 @@ export default {
 }
 
 .brand-card.featured .brand-name {
-  font-size: 24px;
+  font-size: 26px;
+  background: linear-gradient(135deg, var(--gray-900) 0%, var(--primary-600) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .brand-tagline {
@@ -1443,58 +1467,65 @@ export default {
   font-weight: 400;
 }
 
-.brand-metrics {
+/* Brand Stats */
+.brand-stats-row {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 28px;
+  padding: 20px;
   background: var(--gray-50);
-  padding: 16px;
-  border-radius: 12px;
-  margin-bottom: 24px;
+  border-radius: 16px;
+  border: 1px solid var(--gray-100);
 }
 
-.metric-item {
+.brand-card.featured .brand-stats-row {
+  background: linear-gradient(135deg, #fef7ff 0%, #f0f9ff 100%);
+  border-color: var(--primary-100);
+}
+
+.stat-item {
   text-align: center;
-  flex: 1;
 }
 
-.metric-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--primary-600);
+.stat-number {
+  font-size: 24px;
+  font-weight: 800;
   margin-bottom: 4px;
 }
 
-.brand-card.featured .metric-value {
-  font-size: 24px;
+.love-stat .stat-number {
+  color: var(--primary-600);
 }
 
-.metric-label {
-  font-size: 12px;
-  color: var(--gray-600);
-  font-weight: 500;
+.products-stat .stat-number {
+  color: var(--gray-700);
+}
+
+.brand-card.featured .stat-number {
+  font-size: 28px;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--gray-500);
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 
-.metric-divider {
-  width: 1px;
-  height: 24px;
-  background: var(--gray-300);
-  margin: 0 16px;
-}
-
-.brand-action {
+/* Action Button */
+.brand-action-section {
   margin-top: auto;
 }
 
-.explore-btn {
+.explore-brand-btn {
   width: 100%;
   background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
   color: white;
   border: none;
-  padding: 14px 20px;
-  border-radius: 12px;
+  padding: 16px 24px;
+  border-radius: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -1502,26 +1533,41 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: 15px;
+  box-shadow: 0 4px 16px rgba(236, 72, 153, 0.3);
 }
 
-.explore-btn:hover {
+.explore-brand-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(236, 72, 153, 0.4);
+  box-shadow: 0 8px 24px rgba(236, 72, 153, 0.4);
+  background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 100%);
 }
 
-.brand-gradient {
+.explore-brand-btn i {
+  transition: transform 0.3s ease;
+}
+
+.explore-brand-btn:hover i {
+  transform: translateX(4px);
+}
+
+/* Background Pattern */
+.brand-bg-pattern {
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   right: 0;
-  height: 100px;
-  background: linear-gradient(180deg, transparent 0%, rgba(236, 72, 153, 0.05) 100%);
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(236, 72, 153, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.03) 0%, transparent 50%);
   pointer-events: none;
 }
 
-.brand-card.featured .brand-gradient {
-  background: linear-gradient(180deg, transparent 0%, rgba(236, 72, 153, 0.1) 100%);
+.brand-card.featured .brand-bg-pattern {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(236, 72, 153, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.06) 0%, transparent 50%);
 }
 
 /* Responsive Design */
