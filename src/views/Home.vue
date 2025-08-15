@@ -539,7 +539,7 @@ export default {
           id: 1,
           name: 'The Ordinary',
           tagline: 'Clinical formulations with integrity',
-          logo: 'https://via.placeholder.com/100x50/ec4899/ffffff?text=TO',
+          logo: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=100&h=50&fit=crop&crop=center',
           popularity: 94,
           productCount: 45
         },
@@ -547,7 +547,7 @@ export default {
           id: 2,
           name: 'Glossier',
           tagline: 'Beauty inspired by real life',
-          logo: 'https://via.placeholder.com/100x50/f472b6/ffffff?text=GL',
+          logo: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=100&h=50&fit=crop&crop=center',
           popularity: 91,
           productCount: 32
         },
@@ -555,11 +555,10 @@ export default {
           id: 3,
           name: 'Fenty Beauty',
           tagline: 'Beauty for all',
-          logo: 'https://via.placeholder.com/100x50/db2777/ffffff?text=FB',
+          logo: 'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=100&h=50&fit=crop&crop=center',
           popularity: 96,
           productCount: 78
         },
-        // Add more brands...
       ],
       
       limitedOffers: [
