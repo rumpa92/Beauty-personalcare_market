@@ -1362,7 +1362,7 @@ export default {
 
 /* Limited Offers */
 .limited-offers {
-  padding: 80px 0;
+  padding: 40px 0;
   background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
   color: white;
   position: relative;
