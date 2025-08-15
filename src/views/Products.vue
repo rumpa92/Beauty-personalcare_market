@@ -98,11 +98,55 @@ export default {
       return this.filteredProducts;
     },
     pageTitle() {
+      if (this.$route.query.title) {
+        return this.$route.query.title;
+      }
       if (this.category) {
         const categoryObj = this.categories.find(cat => cat.id === this.category);
         return categoryObj ? categoryObj.name : 'Products';
       }
       return 'All Products';
+    },
+    showBanner() {
+      return this.$route.query.banner && (this.$route.query.skinType || this.$route.query.hairType);
+    },
+    bannerType() {
+      return this.$route.query.banner;
+    },
+    bannerTitle() {
+      if (this.$route.query.skinType) {
+        const skinType = this.$route.query.skinType;
+        return `${skinType.charAt(0).toUpperCase() + skinType.slice(1)} Skin Care`;
+      }
+      if (this.$route.query.hairType) {
+        const hairType = this.$route.query.hairType;
+        return `${hairType.charAt(0).toUpperCase() + hairType.slice(1)} Hair Care`;
+      }
+      return 'Beauty Products';
+    },
+    bannerSubtitle() {
+      if (this.$route.query.skinType) {
+        return 'Specially curated products for your skin type';
+      }
+      if (this.$route.query.hairType) {
+        return 'Professional hair care solutions for your hair type';
+      }
+      return 'Discover premium beauty products';
+    },
+    bannerIcon() {
+      if (this.$route.query.banner === 'skin') {
+        return 'fas fa-leaf';
+      }
+      if (this.$route.query.banner === 'hair') {
+        return 'fas fa-cut';
+      }
+      return 'fas fa-sparkles';
+    },
+    productsDescription() {
+      if (this.showBanner) {
+        return `Found ${this.products.length} products matching your selection`;
+      }
+      return 'Discover our curated collection of premium beauty products';
     }
   },
   methods: {
