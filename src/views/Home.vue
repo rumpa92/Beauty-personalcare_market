@@ -132,43 +132,71 @@
       </div>
     </section>
 
-    <!-- Trending Brands Carousel -->
+    <!-- Trending Brands -->
     <section class="trending-brands">
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title">
-            <i class="fas fa-fire"></i>
-            Trending Brands
-          </h2>
-          <p class="section-subtitle">Discover the hottest beauty brands right now</p>
-        </div>
-        <div class="brands-carousel">
-          <div class="brands-track" :style="{ transform: `translateX(-${brandOffset}px)` }">
-            <div 
-              v-for="brand in trendingBrands" 
-              :key="brand.id"
-              @click="navigateToBrand(brand)"
-              class="brand-card"
-            >
-              <div class="brand-logo">
-                <img :src="brand.logo" :alt="brand.name" />
-              </div>
-              <h4 class="brand-name">{{ brand.name }}</h4>
-              <p class="brand-tagline">{{ brand.tagline }}</p>
-              <div class="brand-stats">
-                <span class="popularity">{{ brand.popularity }}% love it</span>
-                <span class="products">{{ brand.productCount }} products</span>
-              </div>
+          <div class="section-title-wrapper">
+            <div class="trending-icon">
+              <i class="fas fa-fire"></i>
+            </div>
+            <div class="section-title-content">
+              <h2 class="section-title">Trending Brands</h2>
+              <p class="section-subtitle">Discover the hottest beauty brands right now</p>
             </div>
           </div>
+          <button class="view-all-btn" @click="$router.push('/brands')">
+            View All
+            <i class="fas fa-arrow-right"></i>
+          </button>
         </div>
-        <div class="carousel-controls">
-          <button @click="scrollBrands('left')" class="carousel-btn prev">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <button @click="scrollBrands('right')" class="carousel-btn next">
-            <i class="fas fa-chevron-right"></i>
-          </button>
+
+        <div class="brands-grid">
+          <div
+            v-for="(brand, index) in trendingBrands"
+            :key="brand.id"
+            @click="navigateToBrand(brand)"
+            class="brand-card"
+            :class="{ featured: index === 0 }"
+          >
+            <div class="brand-card-content">
+              <div class="brand-header">
+                <div class="brand-logo">
+                  <img :src="brand.logo" :alt="brand.name" />
+                </div>
+                <div class="trending-badge" v-if="index < 3">
+                  <i class="fas fa-trending-up"></i>
+                  #{{ index + 1 }}
+                </div>
+              </div>
+
+              <div class="brand-info">
+                <h4 class="brand-name">{{ brand.name }}</h4>
+                <p class="brand-tagline">{{ brand.tagline }}</p>
+              </div>
+
+              <div class="brand-metrics">
+                <div class="metric-item">
+                  <div class="metric-value">{{ brand.popularity }}%</div>
+                  <div class="metric-label">Love it</div>
+                </div>
+                <div class="metric-divider"></div>
+                <div class="metric-item">
+                  <div class="metric-value">{{ brand.productCount }}</div>
+                  <div class="metric-label">Products</div>
+                </div>
+              </div>
+
+              <div class="brand-action">
+                <button class="explore-btn">
+                  Explore Brand
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="brand-gradient"></div>
+          </div>
         </div>
       </div>
     </section>
