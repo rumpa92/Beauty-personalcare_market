@@ -1323,7 +1323,7 @@ export default {
 
 /* New Arrivals */
 .new-arrivals {
-  padding: 80px 0;
+  padding: 40px 0;
   background: linear-gradient(135deg, #faf5ff 0%, #f0f9ff 100%);
 }
 
