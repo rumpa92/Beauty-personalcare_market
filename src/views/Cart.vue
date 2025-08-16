@@ -217,9 +217,13 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import PageHeader from '../components/ui/PageHeader.vue';
 
 export default {
   name: 'Cart',
+  components: {
+    PageHeader
+  },
   data() {
     return {
       promoCodeInput: '',
