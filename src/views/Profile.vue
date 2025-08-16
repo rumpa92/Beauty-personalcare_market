@@ -1239,6 +1239,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import ProductCard from '../components/product/ProductCard.vue';
+import PageHeader from '../components/ui/PageHeader.vue';
 
 export default {
   name: 'Profile',
