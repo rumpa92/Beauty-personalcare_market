@@ -650,13 +650,15 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 1rem 1.5rem;
+  padding: 0.875rem 1.25rem;
   background: #f8fafc;
   border: 2px solid #e5e7eb;
   border-radius: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
   color: #374151;
+  min-height: 56px;
+  font-size: 0.875rem;
 }
 
 .filter-tab:hover {
