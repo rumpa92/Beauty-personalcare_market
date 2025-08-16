@@ -9,9 +9,8 @@
 
       <!-- Desktop Navigation -->
       <nav class="desktop-nav">
-        <router-link to="/" class="nav-link">Home</router-link>
         <div class="nav-dropdown">
-          <span class="nav-link">Categories <i class="fas fa-chevron-down"></i></span>
+          <span class="nav-link"><i class="fas fa-chevron-down"></i></span>
           <div class="dropdown-menu">
             <router-link 
               v-for="category in categories" 
