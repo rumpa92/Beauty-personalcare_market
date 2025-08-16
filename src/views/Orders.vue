@@ -202,9 +202,21 @@
         </div>
         
         <div class="modal-footer">
-          <button @click="trackOrder(selectedOrder)" class="track-order-btn">
+          <button
+            v-if="selectedOrder.status !== 'Delivered'"
+            @click="trackOrder(selectedOrder)"
+            class="track-order-btn"
+          >
             <i class="fas fa-map-marker-alt"></i>
             Track Order
+          </button>
+          <button
+            v-if="selectedOrder.status === 'Delivered'"
+            @click="requestRefund(selectedOrder)"
+            class="refund-btn"
+          >
+            <i class="fas fa-undo"></i>
+            Request Refund
           </button>
           <button @click="reorderItems(selectedOrder)" class="reorder-btn">
             <i class="fas fa-redo"></i>
