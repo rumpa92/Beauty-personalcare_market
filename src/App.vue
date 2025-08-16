@@ -232,7 +232,7 @@ body {
 
 .main-content {
   flex: 1;
-  padding-top: 25px; /* Account for fixed header */
+  padding-top: 80px; /* Account for fixed header height */
 }
 
 /* Dark theme styles */
