@@ -626,7 +626,7 @@ export default {
   background: linear-gradient(135deg, var(--primary-500), var(--primary-600)) !important;
   color: white !important;
   border-radius: 12px;
-  gap: 6px;
+  gap: 11px;
   padding: 10px 14px !important;
   font-weight: 500;
   box-shadow: 0 2px 8px rgba(236, 72, 153, 0.3);
