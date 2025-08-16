@@ -1,21 +1,9 @@
 <template>
   <div class="my-orders-page">
-    <!-- Header Section -->
-    <div class="page-header">
-      <div class="market-container">
-        <div class="header-content">
-          <button @click="goBack" class="back-button">
-            <i class="fas fa-arrow-left"></i>
-            <span>Back</span>
-          </button>
-          <div class="header-main">
-            <h1 class="page-title">My Orders</h1>
-            <p class="page-subtitle">Track and manage your beauty purchases</p>
-          </div>
-          <div class="header-spacer"></div>
-        </div>
-      </div>
-    </div>
+    <PageHeader
+      title="My Orders"
+      subtitle="Track and manage your beauty purchases"
+    />
 
     <!-- Filter and Sort Section -->
     <div class="filters-section">
