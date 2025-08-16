@@ -1240,6 +1240,7 @@
 import { mapGetters, mapActions } from 'vuex';
 import ProductCard from '../components/product/ProductCard.vue';
 import PageHeader from '../components/ui/PageHeader.vue';
+import EditProfileModal from '../components/profile/EditProfileModal.vue';
 
 export default {
   name: 'Profile',
