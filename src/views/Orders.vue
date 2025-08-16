@@ -540,7 +540,16 @@ export default {
         });
       }
     },
-    
+
+    requestRefund(order) {
+      this.showNotification({
+        type: 'info',
+        message: 'Refund request initiated. You will be redirected to the refund page.'
+      });
+      this.closeOrderModal();
+      this.$router.push(`/returns?orderId=${order.id}`);
+    },
+
     loadMore() {
       this.currentPage++;
     }
