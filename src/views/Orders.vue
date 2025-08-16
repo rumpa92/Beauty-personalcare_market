@@ -1238,6 +1238,7 @@ export default {
 }
 
 .track-order-btn,
+.refund-btn,
 .reorder-btn {
   flex: 1;
   display: flex;
