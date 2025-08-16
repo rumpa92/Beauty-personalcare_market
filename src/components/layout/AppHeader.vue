@@ -12,15 +12,45 @@
         <div class="nav-dropdown">
           <span class="nav-link"><i class="fas fa-chevron-down"></i></span>
           <div class="dropdown-menu">
-            <router-link 
-              v-for="category in categories" 
-              :key="category.id"
-              :to="`/products/${category.id}`"
-              class="dropdown-item"
-            >
-              <i :class="category.icon"></i>
-              {{ category.name }}
-            </router-link>
+            <!-- Location Options Section -->
+            <div class="dropdown-section">
+              <div class="section-header">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Location Services</span>
+              </div>
+              <button @click="openLocationSearch" class="dropdown-item location-item">
+                <i class="fas fa-location-arrow"></i>
+                Find Nearby Stores
+              </button>
+              <button @click="detectCurrentLocation" class="dropdown-item location-item">
+                <i class="fas fa-crosshairs"></i>
+                Use My Location
+              </button>
+              <router-link to="/store-locator" class="dropdown-item location-item">
+                <i class="fas fa-store"></i>
+                Store Locator
+              </router-link>
+            </div>
+
+            <!-- Divider -->
+            <div class="dropdown-divider"></div>
+
+            <!-- Categories Section -->
+            <div class="dropdown-section">
+              <div class="section-header">
+                <i class="fas fa-th-large"></i>
+                <span>Categories</span>
+              </div>
+              <router-link
+                v-for="category in categories"
+                :key="category.id"
+                :to="`/products/${category.id}`"
+                class="dropdown-item"
+              >
+                <i :class="category.icon"></i>
+                {{ category.name }}
+              </router-link>
+            </div>
           </div>
         </div>
       </nav>
@@ -356,6 +386,44 @@ export default {
         this.showNotification({
           type: 'error',
           message: 'Error signing out. Please try again.'
+        });
+      }
+    },
+
+    // Location Detection Method
+    detectCurrentLocation() {
+      if (navigator.geolocation) {
+        this.showNotification({
+          type: 'info',
+          message: 'Detecting your location...'
+        });
+
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            // Simulate reverse geocoding
+            const mockLocation = {
+              lat: latitude,
+              lng: longitude,
+              address: 'Current Location',
+              city: 'Your City'
+            };
+            this.handleLocationDetected(mockLocation);
+          },
+          (error) => {
+            this.handleLocationError({
+              message: 'Unable to detect location. Please enable location services.'
+            });
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 300000
+          }
+        );
+      } else {
+        this.handleLocationError({
+          message: 'Geolocation is not supported by this browser.'
         });
       }
     },
