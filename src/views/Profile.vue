@@ -3742,8 +3742,11 @@ input:checked + .slider:before {
 
 .form-actions {
   display: flex;
+  justify-content: flex-end;
   gap: 16px;
   margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--gray-200);
 }
 
 .deletion-requested {
