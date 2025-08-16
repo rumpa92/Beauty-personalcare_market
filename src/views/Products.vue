@@ -74,13 +74,15 @@ import { mapGetters, mapActions } from 'vuex';
 import ProductCard from '../components/product/ProductCard.vue';
 import SmartFilters from '../components/filters/SmartFilters.vue';
 import SortBar from '../components/sorting/SortBar.vue';
+import PageHeader from '../components/ui/PageHeader.vue';
 
 export default {
   name: 'Products',
   components: {
     ProductCard,
     SmartFilters,
-    SortBar
+    SortBar,
+    PageHeader
   },
   props: {
     category: String
