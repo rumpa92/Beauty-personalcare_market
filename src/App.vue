@@ -402,7 +402,7 @@ body {
   }
   
   .main-content {
-    padding-top: 70px;
+    padding-top: 70px; /* Mobile header height */
   }
   
   .btn {
