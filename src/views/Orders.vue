@@ -1401,6 +1401,40 @@ export default {
     gap: 0.5rem;
   }
   
+  .filter-tabs {
+    gap: 0.375rem;
+  }
+
+  .filter-tab {
+    flex: 1;
+    min-width: 0;
+    padding: 0.625rem 0.5rem;
+    min-height: 44px;
+    border-radius: 12px;
+  }
+
+  .filter-icon {
+    display: none;
+  }
+
+  .filter-text {
+    align-items: center;
+    width: 100%;
+  }
+
+  .filter-label {
+    font-size: 0.75rem;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .filter-count {
+    font-size: 0.7rem;
+    margin-top: 0.125rem;
+  }
+
   .modal-header,
   .modal-body,
   .modal-footer {
