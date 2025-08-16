@@ -1237,10 +1237,6 @@ export default {
     border-radius: 18px;
   }
   
-  .search-icon {
-    margin-right: 12px;
-    font-size: 18px;
-  }
   
   .voice-btn {
     width: 40px;
