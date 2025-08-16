@@ -218,9 +218,13 @@
 
 <script>
 import { mapActions } from 'vuex';
+import PageHeader from '../components/ui/PageHeader.vue';
 
 export default {
   name: 'Orders',
+  components: {
+    PageHeader
+  },
   data() {
     return {
       activeFilter: 'all',
