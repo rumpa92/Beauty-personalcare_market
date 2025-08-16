@@ -1262,6 +1262,7 @@ export default {
   data() {
     return {
       activeSection: 'feed',
+      showProfileModal: false,
       deletionRequested: false,
       deletionReason: '',
       deletionComment: '',
