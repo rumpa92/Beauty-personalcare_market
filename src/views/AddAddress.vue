@@ -323,8 +323,13 @@
 </template>
 
 <script>
+import PageHeader from '../components/ui/PageHeader.vue';
+
 export default {
   name: 'AddAddress',
+  components: {
+    PageHeader
+  },
   data() {
     return {
       form: {
