@@ -4213,6 +4213,16 @@ input:checked + .slider:before {
   .delivery-actions {
     flex-direction: column;
   }
+
+  .profile-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .update-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
   
   .modal-content {
     width: 95%;
