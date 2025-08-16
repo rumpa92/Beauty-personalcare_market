@@ -5,10 +5,13 @@
       <aside class="profile-sidebar">
         <div class="profile-header">
           <div class="avatar-section">
-            <div class="user-avatar">
+            <div class="user-avatar" @click="showProfileEditModal">
               <img v-if="userProfile.avatar" :src="userProfile.avatar" alt="Profile Avatar">
               <div v-else class="avatar-placeholder">
                 <i class="fas fa-user"></i>
+              </div>
+              <div class="avatar-edit-overlay">
+                <i class="fas fa-camera"></i>
               </div>
             </div>
             <div class="user-info">
@@ -41,6 +44,39 @@
       <main class="profile-content">
         <!-- Personal Feed Section -->
         <div v-if="activeSection === 'feed'" class="content-section">
+          <!-- Profile Update Section -->
+          <div class="profile-update-section">
+            <div class="update-header">
+              <h2 class="update-title">
+                <i class="fas fa-user-edit"></i>
+                Profile Information
+              </h2>
+              <button @click="showProfileEditModal" class="btn-edit-profile">
+                <i class="fas fa-edit"></i>
+                Edit Profile
+              </button>
+            </div>
+
+            <div class="profile-summary">
+              <div class="summary-item">
+                <span class="summary-label">Name:</span>
+                <span class="summary-value">{{ userProfile.name || 'Not set' }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Email:</span>
+                <span class="summary-value">{{ userProfile.email || 'Not set' }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Skin Type:</span>
+                <span class="summary-value">{{ userProfile.skinType || 'Not set' }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Member Since:</span>
+                <span class="summary-value">{{ formatDate(userProfile.joinDate) || 'Recently' }}</span>
+              </div>
+            </div>
+          </div>
+
           <div class="section-header">
             <h2 class="section-title">
               <i class="fas fa-star"></i>
