@@ -1,6 +1,10 @@
 <template>
   <div class="cart-page">
-    <div class="container">
+    <PageHeader
+      title="Shopping Cart"
+      :subtitle="cartItems.length > 0 ? `${cartItemCount} items in cart` : 'Your cart is empty'"
+    />
+    <div class="market-container">
       <!-- Cart Header -->
       <div class="cart-header">
         <h1 class="cart-title">Your Shopping Cart</h1>
@@ -213,9 +217,13 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import PageHeader from '../components/ui/PageHeader.vue';
 
 export default {
   name: 'Cart',
+  components: {
+    PageHeader
+  },
   data() {
     return {
       promoCodeInput: '',

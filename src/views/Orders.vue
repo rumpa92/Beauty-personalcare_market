@@ -1,21 +1,9 @@
 <template>
   <div class="my-orders-page">
-    <!-- Header Section -->
-    <div class="page-header">
-      <div class="market-container">
-        <div class="header-content">
-          <button @click="goBack" class="back-button">
-            <i class="fas fa-arrow-left"></i>
-            <span>Back</span>
-          </button>
-          <div class="header-main">
-            <h1 class="page-title">My Orders</h1>
-            <p class="page-subtitle">Track and manage your beauty purchases</p>
-          </div>
-          <div class="header-spacer"></div>
-        </div>
-      </div>
-    </div>
+    <PageHeader
+      title="My Orders"
+      subtitle="Track and manage your beauty purchases"
+    />
 
     <!-- Filter and Sort Section -->
     <div class="filters-section">
@@ -214,9 +202,21 @@
         </div>
         
         <div class="modal-footer">
-          <button @click="trackOrder(selectedOrder)" class="track-order-btn">
+          <button
+            v-if="selectedOrder.status !== 'Delivered'"
+            @click="trackOrder(selectedOrder)"
+            class="track-order-btn"
+          >
             <i class="fas fa-map-marker-alt"></i>
             Track Order
+          </button>
+          <button
+            v-if="selectedOrder.status === 'Delivered'"
+            @click="requestRefund(selectedOrder)"
+            class="refund-btn"
+          >
+            <i class="fas fa-undo"></i>
+            Request Refund
           </button>
           <button @click="reorderItems(selectedOrder)" class="reorder-btn">
             <i class="fas fa-redo"></i>
@@ -230,9 +230,13 @@
 
 <script>
 import { mapActions } from 'vuex';
+import PageHeader from '../components/ui/PageHeader.vue';
 
 export default {
   name: 'Orders',
+  components: {
+    PageHeader
+  },
   data() {
     return {
       activeFilter: 'all',
@@ -416,9 +420,6 @@ export default {
     ...mapActions('ui', ['showNotification']),
     ...mapActions('cart', ['addToCart']),
     
-    goBack() {
-      this.$router.push('/profile');
-    },
     
     setActiveFilter(filter) {
       this.activeFilter = filter;
@@ -539,7 +540,16 @@ export default {
         });
       }
     },
-    
+
+    requestRefund(order) {
+      this.showNotification({
+        type: 'info',
+        message: 'Refund request initiated. You will be redirected to the refund page.'
+      });
+      this.closeOrderModal();
+      this.$router.push(`/returns?orderId=${order.id}`);
+    },
+
     loadMore() {
       this.currentPage++;
     }
@@ -631,21 +641,24 @@ export default {
 
 .filter-tabs {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .filter-tab {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 1rem 1.5rem;
+  padding: 0.875rem 1.25rem;
   background: #f8fafc;
   border: 2px solid #e5e7eb;
   border-radius: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
   color: #374151;
+  min-height: 56px;
+  font-size: 0.875rem;
 }
 
 .filter-tab:hover {
@@ -1228,6 +1241,7 @@ export default {
 }
 
 .track-order-btn,
+.refund-btn,
 .reorder-btn {
   flex: 1;
   display: flex;
@@ -1256,6 +1270,16 @@ export default {
   background: #f8fafc;
   color: #374151;
   border: 2px solid #e5e7eb;
+}
+
+.refund-btn {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+.refund-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
 }
 
 .reorder-btn:hover {
@@ -1299,7 +1323,14 @@ export default {
   }
   
   .filter-tabs {
-    justify-content: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .filter-tab {
+    padding: 0.75rem 1rem;
+    min-height: 48px;
+    font-size: 0.8rem;
   }
 }
 
@@ -1370,6 +1401,40 @@ export default {
     gap: 0.5rem;
   }
   
+  .filter-tabs {
+    gap: 0.375rem;
+  }
+
+  .filter-tab {
+    flex: 1;
+    min-width: 0;
+    padding: 0.625rem 0.5rem;
+    min-height: 44px;
+    border-radius: 12px;
+  }
+
+  .filter-icon {
+    display: none;
+  }
+
+  .filter-text {
+    align-items: center;
+    width: 100%;
+  }
+
+  .filter-label {
+    font-size: 0.75rem;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .filter-count {
+    font-size: 0.7rem;
+    margin-top: 0.125rem;
+  }
+
   .modal-header,
   .modal-body,
   .modal-footer {

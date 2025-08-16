@@ -1,14 +1,21 @@
 <template>
   <div class="profile-page">
-    <div class="profile-container">
+    <PageHeader
+      title="Profile"
+      subtitle="Manage your account and preferences"
+    />
+    <div class="market-container profile-container">
       <!-- Sidebar Navigation -->
       <aside class="profile-sidebar">
         <div class="profile-header">
           <div class="avatar-section">
-            <div class="user-avatar">
+            <div class="user-avatar" @click="showProfileEditModal">
               <img v-if="userProfile.avatar" :src="userProfile.avatar" alt="Profile Avatar">
               <div v-else class="avatar-placeholder">
                 <i class="fas fa-user"></i>
+              </div>
+              <div class="avatar-edit-overlay">
+                <i class="fas fa-camera"></i>
               </div>
             </div>
             <div class="user-info">
@@ -41,6 +48,35 @@
       <main class="profile-content">
         <!-- Personal Feed Section -->
         <div v-if="activeSection === 'feed'" class="content-section">
+          <!-- Profile Update Section -->
+          <div class="profile-update-section">
+            <div class="update-header">
+              <h2 class="update-title">
+                <i class="fas fa-user-edit"></i>
+                Profile Information
+              </h2>
+              <button @click="showProfileEditModal" class="btn-edit-profile">
+                <i class="fas fa-edit"></i>
+                Edit Profile
+              </button>
+            </div>
+
+            <div class="profile-summary">
+              <div class="summary-item">
+                <span class="summary-label">Name:</span>
+                <span class="summary-value">{{ userProfile.name || 'Not set' }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Email:</span>
+                <span class="summary-value">{{ userProfile.email || 'Not set' }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Phone Number:</span>
+                <span class="summary-value">{{ userProfile.phone || '9775637590' }}</span>
+              </div>
+            </div>
+          </div>
+
           <div class="section-header">
             <h2 class="section-title">
               <i class="fas fa-star"></i>
@@ -90,20 +126,6 @@
             </div>
           </div>
 
-          <!-- Based on Your Skin Type -->
-          <div class="feed-section" v-if="userProfile.skinType">
-            <h3 class="feed-section-title">
-              <i class="fas fa-leaf"></i>
-              Perfect for {{ userProfile.skinType }} Skin
-            </h3>
-            <div class="products-grid">
-              <ProductCard 
-                v-for="product in skinTypeRecommendations" 
-                :key="product.id"
-                :product="product"
-              />
-            </div>
-          </div>
         </div>
 
         <!-- Customer Support Section -->
@@ -1211,21 +1233,35 @@
         </div>
       </div>
     </div>
+
+    <!-- Edit Profile Modal -->
+    <EditProfileModal
+      :isVisible="showProfileModal"
+      :userProfile="userProfile"
+      @close="showProfileModal = false"
+      @save="handleProfileSave"
+      @notify="handleProfileNotification"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import ProductCard from '../components/product/ProductCard.vue';
+import PageHeader from '../components/ui/PageHeader.vue';
+import EditProfileModal from '../components/profile/EditProfileModal.vue';
 
 export default {
   name: 'Profile',
   components: {
-    ProductCard
+    ProductCard,
+    PageHeader,
+    EditProfileModal
   },
   data() {
     return {
       activeSection: 'feed',
+      showProfileModal: false,
       deletionRequested: false,
       deletionReason: '',
       deletionComment: '',
@@ -1643,6 +1679,16 @@ export default {
         message: 'Country/Region updated successfully'
       });
     },
+    showProfileEditModal() {
+      this.showProfileModal = true;
+    },
+    handleProfileSave(updatedProfile) {
+      // Update user profile in store/localStorage
+      this.$store.dispatch('user/updateProfile', updatedProfile);
+    },
+    handleProfileNotification(notification) {
+      this.showNotification(notification);
+    },
     requestAccountDeletion() {
       this.deletionRequested = true;
       this.showNotification({
@@ -1926,10 +1972,8 @@ export default {
 .profile-container {
   display: grid;
   grid-template-columns: 300px 1fr;
-  max-width: 1400px;
-  margin: 0 auto;
   gap: 32px;
-  padding: 32px 20px;
+  padding: 32px 0;
 }
 
 /* Sidebar Styles */
@@ -1958,6 +2002,37 @@ export default {
   overflow: hidden;
   margin: 0 auto 16px;
   border: 4px solid var(--primary-100);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.user-avatar:hover {
+  border-color: var(--primary-500);
+  transform: scale(1.05);
+}
+
+.avatar-edit-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  border: 3px solid white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.user-avatar:hover .avatar-edit-overlay {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);
 }
 
 .user-avatar img {
@@ -2076,6 +2151,89 @@ export default {
   color: var(--gray-600);
   font-size: 16px;
   margin: 0;
+}
+
+/* Profile Update Section */
+.profile-update-section {
+  background: linear-gradient(135deg, var(--primary-50) 0%, var(--purple-50) 100%);
+  border: 2px solid var(--primary-100);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.update-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.update-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--gray-800);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-edit-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.3);
+}
+
+.btn-edit-profile:hover {
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);
+}
+
+.profile-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.summary-item {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--gray-200);
+  transition: all 0.2s ease;
+}
+
+.summary-item:hover {
+  border-color: var(--primary-300);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.summary-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.summary-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-800);
 }
 
 /* Feed Styles */
@@ -3587,8 +3745,11 @@ input:checked + .slider:before {
 
 .form-actions {
   display: flex;
+  justify-content: flex-end;
   gap: 16px;
   margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--gray-200);
 }
 
 .deletion-requested {
@@ -4055,6 +4216,16 @@ input:checked + .slider:before {
   .delivery-actions {
     flex-direction: column;
   }
+
+  .profile-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .update-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
   
   .modal-content {
     width: 95%;
@@ -4084,6 +4255,15 @@ input:checked + .slider:before {
   
   .link-grid {
     grid-template-columns: 1fr;
+  }
+
+  .profile-update-section {
+    padding: 16px;
+  }
+
+  .btn-edit-profile {
+    width: 100%;
+    justify-content: center;
   }
 }
 
