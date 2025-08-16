@@ -1926,10 +1926,8 @@ export default {
 .profile-container {
   display: grid;
   grid-template-columns: 300px 1fr;
-  max-width: 1400px;
-  margin: 0 auto;
   gap: 32px;
-  padding: 32px 20px;
+  padding: 32px 0;
 }
 
 /* Sidebar Styles */
