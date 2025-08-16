@@ -1,5 +1,9 @@
 <template>
   <div class="wishlist-page">
+    <PageHeader
+      title="My Wishlist"
+      :subtitle="wishlistItems.length ? `${wishlistItems.length} items saved` : 'Your wishlist is empty'"
+    />
     <div class="container">
       <h1>My Wishlist</h1>
       <div v-if="wishlistItems.length === 0" class="empty-wishlist">
@@ -20,11 +24,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import ProductCard from '../components/product/ProductCard.vue';
+import PageHeader from '../components/ui/PageHeader.vue';
 
 export default {
   name: 'Wishlist',
   components: {
-    ProductCard
+    ProductCard,
+    PageHeader
   },
   computed: {
     ...mapGetters('user', ['wishlistItems'])
