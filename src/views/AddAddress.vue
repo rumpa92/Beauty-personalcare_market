@@ -561,7 +561,11 @@ export default {
     },
     
     cancelAdd() {
-      this.goBack();
+      if (this.fromPage === 'checkout') {
+        this.$router.push('/checkout');
+      } else {
+        this.$router.push('/select-address');
+      }
     }
   }
 };
