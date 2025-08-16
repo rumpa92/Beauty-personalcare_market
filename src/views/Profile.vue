@@ -1,6 +1,6 @@
 <template>
   <div class="profile-page">
-    <div class="profile-container">
+    <div class="market-container profile-container">
       <!-- Sidebar Navigation -->
       <aside class="profile-sidebar">
         <div class="profile-header">
