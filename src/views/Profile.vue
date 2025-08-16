@@ -1244,7 +1244,8 @@ import PageHeader from '../components/ui/PageHeader.vue';
 export default {
   name: 'Profile',
   components: {
-    ProductCard
+    ProductCard,
+    PageHeader
   },
   data() {
     return {
