@@ -641,8 +641,9 @@ export default {
 
 .filter-tabs {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .filter-tab {
