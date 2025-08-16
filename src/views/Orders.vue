@@ -1323,7 +1323,14 @@ export default {
   }
   
   .filter-tabs {
-    justify-content: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .filter-tab {
+    padding: 0.75rem 1rem;
+    min-height: 48px;
+    font-size: 0.8rem;
   }
 }
 
