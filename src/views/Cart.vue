@@ -1,6 +1,6 @@
 <template>
   <div class="cart-page">
-    <div class="container">
+    <div class="market-container">
       <!-- Cart Header -->
       <div class="cart-header">
         <h1 class="cart-title">Your Shopping Cart</h1>
