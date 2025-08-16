@@ -1,5 +1,9 @@
 <template>
   <div class="cart-page">
+    <PageHeader
+      title="Shopping Cart"
+      :subtitle="cartItems.length > 0 ? `${cartItemCount} items in cart` : 'Your cart is empty'"
+    />
     <div class="market-container">
       <!-- Cart Header -->
       <div class="cart-header">
