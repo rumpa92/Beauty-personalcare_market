@@ -1269,6 +1269,16 @@ export default {
   border: 2px solid #e5e7eb;
 }
 
+.refund-btn {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+.refund-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+}
+
 .reorder-btn:hover {
   border-color: #667eea;
   color: #667eea;
