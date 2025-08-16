@@ -1233,6 +1233,15 @@
         </div>
       </div>
     </div>
+
+    <!-- Edit Profile Modal -->
+    <EditProfileModal
+      :isVisible="showProfileModal"
+      :userProfile="userProfile"
+      @close="showProfileModal = false"
+      @save="handleProfileSave"
+      @notify="handleProfileNotification"
+    />
   </div>
 </template>
 
