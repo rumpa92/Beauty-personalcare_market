@@ -1999,6 +1999,37 @@ export default {
   overflow: hidden;
   margin: 0 auto 16px;
   border: 4px solid var(--primary-100);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.user-avatar:hover {
+  border-color: var(--primary-500);
+  transform: scale(1.05);
+}
+
+.avatar-edit-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  border: 3px solid white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.user-avatar:hover .avatar-edit-overlay {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);
 }
 
 .user-avatar img {
