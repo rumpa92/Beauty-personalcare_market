@@ -1671,10 +1671,14 @@ export default {
       });
     },
     showProfileEditModal() {
-      this.showNotification({
-        type: 'info',
-        message: 'Profile editing feature coming soon!'
-      });
+      this.showProfileModal = true;
+    },
+    handleProfileSave(updatedProfile) {
+      // Update user profile in store/localStorage
+      this.$store.dispatch('user/updateProfile', updatedProfile);
+    },
+    handleProfileNotification(notification) {
+      this.showNotification(notification);
     },
     requestAccountDeletion() {
       this.deletionRequested = true;
