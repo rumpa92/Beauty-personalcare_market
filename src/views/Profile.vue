@@ -67,12 +67,8 @@
                 <span class="summary-value">{{ userProfile.email || 'Not set' }}</span>
               </div>
               <div class="summary-item">
-                <span class="summary-label">Skin Type:</span>
-                <span class="summary-value">{{ userProfile.skinType || 'Not set' }}</span>
-              </div>
-              <div class="summary-item">
-                <span class="summary-label">Member Since:</span>
-                <span class="summary-value">{{ formatDate(userProfile.joinDate) || 'Recently' }}</span>
+                <span class="summary-label">Phone Number:</span>
+                <span class="summary-value">{{ userProfile.phone || '9775637590' }}</span>
               </div>
             </div>
           </div>
@@ -126,20 +122,6 @@
             </div>
           </div>
 
-          <!-- Based on Your Skin Type -->
-          <div class="feed-section" v-if="userProfile.skinType">
-            <h3 class="feed-section-title">
-              <i class="fas fa-leaf"></i>
-              Perfect for {{ userProfile.skinType }} Skin
-            </h3>
-            <div class="products-grid">
-              <ProductCard 
-                v-for="product in skinTypeRecommendations" 
-                :key="product.id"
-                :product="product"
-              />
-            </div>
-          </div>
         </div>
 
         <!-- Customer Support Section -->
