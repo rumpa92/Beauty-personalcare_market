@@ -10,7 +10,6 @@
       <!-- Desktop Navigation -->
       <nav class="desktop-nav">
         <div class="nav-dropdown">
-          <span class="nav-link"><i class="fas fa-chevron-down"></i></span>
           <div class="dropdown-menu">
             <!-- Location Options Section -->
             <div class="dropdown-section">
@@ -70,10 +69,6 @@
           </span>
         </button>
 
-        <button class="action-btn" @click="toggleSearch">
-          <i class="fas fa-search"></i>
-          <span class="mobile-only sr-only">Search</span>
-        </button>
 
         <button class="action-btn cart-btn" @click="toggleCart">
           <i class="fas fa-shopping-bag"></i>
