@@ -1,5 +1,9 @@
 <template>
   <div class="profile-page">
+    <PageHeader
+      title="Profile"
+      subtitle="Manage your account and preferences"
+    />
     <div class="market-container profile-container">
       <!-- Sidebar Navigation -->
       <aside class="profile-sidebar">
