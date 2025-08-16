@@ -1,18 +1,10 @@
 <template>
   <div class="add-address-page">
-    <!-- Header -->
-    <div class="page-header">
-      <div class="market-container">
-        <div class="header-content">
-          <button @click="goBack" class="back-button">
-            <i class="fas fa-arrow-left"></i>
-            <span>Back</span>
-          </button>
-          <h1 class="page-title">Add New Address</h1>
-          <div class="header-spacer"></div>
-        </div>
-      </div>
-    </div>
+    <PageHeader
+      title="Add New Address"
+      subtitle="Enter your delivery address details"
+      :backTo="fromPage === 'checkout' ? '/checkout' : '/select-address'"
+    />
 
     <!-- Progress Indicator -->
     <div class="progress-section">
