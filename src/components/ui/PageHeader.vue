@@ -36,12 +36,43 @@ export default {
   },
   methods: {
     goBack() {
+      // If specific backTo route is provided, use it
       if (this.backTo) {
         this.$router.push(this.backTo);
-      } else if (window.history.length > 1) {
-        this.$router.go(-1);
-      } else {
+        return;
+      }
+
+      // Get current route name to determine smart fallback
+      const currentRoute = this.$route.name;
+      const currentPath = this.$route.path;
+
+      // Smart routing based on current page context
+      if (currentPath.includes('/product/')) {
+        // Product detail page - go to products
+        this.$router.push('/products');
+      } else if (currentPath.includes('/order/') || currentPath.includes('/orders/')) {
+        // Order detail page - go to orders
+        this.$router.push('/orders');
+      } else if (currentRoute === 'Profile' || currentPath === '/profile') {
+        // Profile page - go to home
         this.$router.push('/');
+      } else if (currentRoute === 'Cart' || currentPath === '/cart') {
+        // Cart page - go to products
+        this.$router.push('/products');
+      } else if (currentRoute === 'Wishlist' || currentPath === '/wishlist') {
+        // Wishlist page - go to products
+        this.$router.push('/products');
+      } else if (currentRoute === 'Checkout' || currentPath === '/checkout') {
+        // Checkout page - go to cart
+        this.$router.push('/cart');
+      } else {
+        // For all other pages, try browser back first
+        if (window.history.length > 2) {
+          this.$router.go(-1);
+        } else {
+          // Fallback to home if no history
+          this.$router.push('/');
+        }
       }
     }
   }
