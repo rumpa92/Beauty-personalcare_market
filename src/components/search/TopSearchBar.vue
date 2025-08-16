@@ -3,10 +3,6 @@
     <!-- Main Search Container -->
     <div class="search-container">
       <div class="search-wrapper" :class="{ active: isSearchFocused, 'voice-active': isVoiceActive }">
-        <!-- Search Icon -->
-        <div class="search-icon">
-          <i class="fas fa-search"></i>
-        </div>
         
         <!-- Search Input -->
         <input
@@ -734,24 +730,6 @@ export default {
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1), 0 8px 32px rgba(59, 130, 246, 0.15);
 }
 
-.search-icon {
-  margin-right: 16px;
-  color: #9ca3af;
-  font-size: 20px;
-  transition: all 0.3s ease;
-  position: relative;
-  z-index: 2;
-}
-
-.search-wrapper.active .search-icon {
-  color: #ec4899;
-  transform: scale(1.1);
-}
-
-.search-wrapper.voice-active .search-icon {
-  color: #3b82f6;
-}
-
 .search-input {
   flex: 1;
   border: none;
@@ -762,6 +740,7 @@ export default {
   font-weight: 500;
   position: relative;
   z-index: 2;
+  padding-left: 4px;
 }
 
 .search-input::placeholder {
@@ -1258,10 +1237,6 @@ export default {
     border-radius: 18px;
   }
   
-  .search-icon {
-    margin-right: 12px;
-    font-size: 18px;
-  }
   
   .voice-btn {
     width: 40px;
