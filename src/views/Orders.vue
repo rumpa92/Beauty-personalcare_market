@@ -408,9 +408,6 @@ export default {
     ...mapActions('ui', ['showNotification']),
     ...mapActions('cart', ['addToCart']),
     
-    goBack() {
-      this.$router.push('/profile');
-    },
     
     setActiveFilter(filter) {
       this.activeFilter = filter;
