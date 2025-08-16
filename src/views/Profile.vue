@@ -1246,7 +1246,8 @@ export default {
   name: 'Profile',
   components: {
     ProductCard,
-    PageHeader
+    PageHeader,
+    EditProfileModal
   },
   data() {
     return {
