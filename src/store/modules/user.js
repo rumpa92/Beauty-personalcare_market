@@ -4,6 +4,7 @@ const state = {
   profile: {
     name: 'Sarah Johnson',
     email: 'sarah.j@example.com',
+    phone: '9775637590',
     avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150',
     skinType: 'combination',
     hairType: 'curly',
