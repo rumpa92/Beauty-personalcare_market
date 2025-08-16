@@ -4253,6 +4253,15 @@ input:checked + .slider:before {
   .link-grid {
     grid-template-columns: 1fr;
   }
+
+  .profile-update-section {
+    padding: 16px;
+  }
+
+  .btn-edit-profile {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* Single Question View Styles */
