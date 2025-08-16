@@ -590,15 +590,16 @@ export default {
   top: 100%;
   left: 0;
   background: white;
-  border-radius: 8px;
-  box-shadow: var(--shadow-lg);
-  padding: 8px 0;
-  min-width: 200px;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  padding: 12px 0;
+  min-width: 280px;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
   transition: all 0.3s ease;
   z-index: 100;
+  border: 1px solid var(--gray-200);
 }
 
 .nav-dropdown:hover .dropdown-menu {
@@ -620,6 +621,65 @@ export default {
 .dropdown-item:hover {
   background: var(--gray-50);
   color: var(--primary-600);
+}
+
+/* Dropdown Sections */
+.dropdown-section {
+  padding: 4px 0;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: var(--gray-25);
+  margin-bottom: 4px;
+}
+
+.section-header i {
+  font-size: 11px;
+  color: var(--primary-500);
+}
+
+/* Location Items */
+.location-item {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.location-item:hover {
+  background: linear-gradient(135deg, var(--primary-50), var(--purple-50));
+  color: var(--primary-700);
+  padding-left: 24px;
+}
+
+.location-item i {
+  width: 16px;
+  text-align: center;
+  color: var(--primary-500);
+}
+
+.location-item:hover i {
+  color: var(--primary-700);
+  transform: scale(1.1);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: var(--gray-200);
+  margin: 8px 16px;
 }
 
 .search-container {
