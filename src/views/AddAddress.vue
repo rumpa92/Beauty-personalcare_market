@@ -405,13 +405,6 @@ export default {
   },
   
   methods: {
-    goBack() {
-      if (this.fromPage === 'checkout') {
-        this.$router.push('/checkout');
-      } else {
-        this.$router.push('/select-address');
-      }
-    },
     
     validateField(fieldName) {
       this.errors = { ...this.errors };
