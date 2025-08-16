@@ -1680,6 +1680,12 @@ export default {
         message: 'Country/Region updated successfully'
       });
     },
+    showProfileEditModal() {
+      this.showNotification({
+        type: 'info',
+        message: 'Profile editing feature coming soon!'
+      });
+    },
     requestAccountDeletion() {
       this.deletionRequested = true;
       this.showNotification({
