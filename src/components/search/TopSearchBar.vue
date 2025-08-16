@@ -3,10 +3,6 @@
     <!-- Main Search Container -->
     <div class="search-container">
       <div class="search-wrapper" :class="{ active: isSearchFocused, 'voice-active': isVoiceActive }">
-        <!-- Search Icon -->
-        <div class="search-icon">
-          <i class="fas fa-search"></i>
-        </div>
         
         <!-- Search Input -->
         <input
