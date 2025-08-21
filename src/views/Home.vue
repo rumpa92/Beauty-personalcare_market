@@ -1719,45 +1719,10 @@ export default {
 }
 
 .offers-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 60px;
-  flex-wrap: wrap;
-  gap: 24px;
-}
-
-.countdown-timer {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.timer-display {
-  display: flex;
-  gap: 12px;
-}
-
-.timer-unit {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  padding: 12px 16px;
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 60px;
 }
 
-.timer-value {
-  display: block;
-  font-size: 24px;
-  font-weight: 700;
-  color: white;
-}
-
-.timer-label {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.8);
-}
 
 .sale-products-grid {
   display: grid;
@@ -1794,42 +1759,6 @@ export default {
   50% { transform: scale(1.05); }
 }
 
-/* View All Sales Button */
-.view-all-sales {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.view-all-sales-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
-  color: white;
-  text-decoration: none;
-  padding: 16px 32px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 24px rgba(236, 72, 153, 0.3);
-}
-
-.view-all-sales-btn:hover {
-  background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(236, 72, 153, 0.4);
-  text-decoration: none;
-  color: white;
-}
-
-.view-all-sales-btn i {
-  transition: transform 0.3s ease;
-}
-
-.view-all-sales-btn:hover i {
-  transform: translateX(4px);
-}
 
 .offer-card {
   background: white;
