@@ -116,8 +116,7 @@ const state = {
       reviewCount: 2156,
       description: "Long-lasting matte lipstick in stunning shades",
       colors: ["Ruby Red", "Berry Bliss", "Nude Rose", "Coral Dream"],
-      benefits: ["Long-lasting", "Transfer-proof", "Comfortable wear"],
-      onSale: true
+      benefits: ["Long-lasting", "Transfer-proof", "Comfortable wear"]
     },
     {
       id: 9,
@@ -132,8 +131,7 @@ const state = {
       reviewCount: 1247,
       description: "Premium anti-aging moisturizer with hyaluronic acid",
       ingredients: ["Hyaluronic Acid", "Retinol", "Vitamin C", "Peptides"],
-      benefits: ["Anti-aging", "Hydrating", "Firming", "Brightening"],
-      onSale: true
+      benefits: ["Anti-aging", "Hydrating", "Firming", "Brightening"]
     },
     {
       id: 10,
@@ -163,7 +161,54 @@ const state = {
       reviewCount: 1456,
       description: "Intensive hydrating mask for all skin types",
       ingredients: ["Hyaluronic Acid", "Aloe Vera", "Ceramides"],
-      benefits: ["Deep hydration", "Soothing", "Plumping"],
+      benefits: ["Deep hydration", "Soothing", "Plumping"]
+    },
+    {
+      id: 12,
+      name: "Aloe Hydration Body Lotion",
+      brand: "NIVEA",
+      price: 12.99,
+      originalPrice: 18.99,
+      category: "bath-body",
+      subcategory: "body-lotion",
+      image: "https://cdn.builder.io/api/v1/image/assets%2Fc99001f9e69a455282a423b18e3348b0%2Ffeadf6ce11b64bee83fe6e82dc98b543?format=webp&width=800",
+      rating: 4.5,
+      reviewCount: 2134,
+      description: "48h refreshing moisture with natural aloe vera",
+      ingredients: ["Aloe Vera", "Deep Moisture Serum", "Hydra IQ"],
+      benefits: ["48h hydration", "Non-sticky feel", "Refreshing"],
+      onSale: true
+    },
+    {
+      id: 13,
+      name: "Flawless Satin Foundation",
+      brand: "e.l.f.",
+      price: 8.99,
+      originalPrice: 12.99,
+      category: "makeup",
+      subcategory: "foundation",
+      image: "https://cdn.builder.io/api/v1/image/assets%2Fc99001f9e69a455282a423b18e3348b0%2Fd1a61edf68784b178b332682ede3df63?format=webp&width=800",
+      rating: 4.3,
+      reviewCount: 1876,
+      description: "Medium to full coverage foundation with satin finish",
+      shades: ["Fair", "Light", "Medium", "Tan", "Deep"],
+      benefits: ["Medium to full coverage", "Satin finish", "Buildable"],
+      onSale: true
+    },
+    {
+      id: 14,
+      name: "Matte Lipstick",
+      brand: "Illamasqua",
+      price: 15.99,
+      originalPrice: 22.99,
+      category: "makeup",
+      subcategory: "lips",
+      image: "https://cdn.builder.io/api/v1/image/assets%2Fc99001f9e69a455282a423b18e3348b0%2Fb2f42d5b1b6f47a0905c280f13954381?format=webp&width=800",
+      rating: 4.7,
+      reviewCount: 943,
+      description: "Intense matte lipstick with bold color payoff",
+      shades: ["True Red", "Berry", "Coral", "Rose"],
+      benefits: ["Intense color", "Matte finish", "Long-wearing"],
       onSale: true
     }
   ],
