@@ -2449,4 +2449,44 @@ export default {
     flex-direction: column;
   }
 }
+
+/* Colored Background Classes for Sale Cards */
+.sale-card-blue {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  border: 1px solid #93c5fd;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.sale-card-blue:hover {
+  background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.3);
+}
+
+.sale-card-red {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  border: 1px solid #fca5a5;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.sale-card-red:hover {
+  background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(239, 68, 68, 0.3);
+}
+
+.sale-card-sky {
+  background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%);
+  border: 1px solid #81d4fa;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.sale-card-sky:hover {
+  background: linear-gradient(135deg, #b3e5fc 0%, #81d4fa 100%);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(3, 169, 244, 0.3);
+}
 </style>
