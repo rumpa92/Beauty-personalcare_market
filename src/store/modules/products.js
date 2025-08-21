@@ -14,8 +14,7 @@ const state = {
       description: "Premium anti-aging moisturizer with hyaluronic acid and retinol",
       ingredients: ["Hyaluronic Acid", "Retinol", "Vitamin C", "Peptides"],
       benefits: ["Anti-aging", "Hydrating", "Firming", "Brightening"],
-      featured: true,
-      onSale: true
+      featured: true
     },
     {
       id: 2,
@@ -73,8 +72,7 @@ const state = {
       rating: 4.5,
       reviewCount: 687,
       description: "Complete styling kit with heat protectant and finishing spray",
-      benefits: ["Heat protection", "Long-lasting hold", "Shine enhancement"],
-      onSale: true
+      benefits: ["Heat protection", "Long-lasting hold", "Shine enhancement"]
     },
     {
       id: 6,
@@ -103,8 +101,7 @@ const state = {
       reviewCount: 892,
       description: "Potent vitamin C serum for radiant, even-toned skin",
       ingredients: ["Vitamin C", "Niacinamide", "Hyaluronic Acid"],
-      benefits: ["Brightening", "Even tone", "Antioxidant protection"],
-      onSale: true
+      benefits: ["Brightening", "Even tone", "Antioxidant protection"]
     },
     {
       id: 8,
