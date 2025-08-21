@@ -238,23 +238,6 @@
             <i class="fas fa-bolt"></i>
             Limited Time Offers
           </h2>
-          <div class="countdown-timer">
-            <span class="timer-label">Ends in:</span>
-            <div class="timer-display">
-              <div class="timer-unit">
-                <span class="timer-value">{{ countdown.hours }}</span>
-                <span class="timer-label">hrs</span>
-              </div>
-              <div class="timer-unit">
-                <span class="timer-value">{{ countdown.minutes }}</span>
-                <span class="timer-label">mins</span>
-              </div>
-              <div class="timer-unit">
-                <span class="timer-value">{{ countdown.seconds }}</span>
-                <span class="timer-label">secs</span>
-              </div>
-            </div>
-          </div>
         </div>
         <div class="sale-products-grid">
           <ProductCard
@@ -263,12 +246,6 @@
             :product="product"
             class="sale-product-card"
           />
-        </div>
-        <div class="view-all-sales">
-          <router-link to="/products?filter=sale" class="view-all-sales-btn">
-            View All Sale Items
-            <i class="fas fa-arrow-right"></i>
-          </router-link>
         </div>
       </div>
     </section>
