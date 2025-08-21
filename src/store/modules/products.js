@@ -148,8 +148,7 @@ const state = {
       reviewCount: 834,
       description: "Nourishing eye cream for dark circles and fine lines",
       ingredients: ["Caffeine", "Peptides", "Vitamin E"],
-      benefits: ["Reduces dark circles", "Anti-aging", "Hydrating"],
-      onSale: true
+      benefits: ["Reduces dark circles", "Anti-aging", "Hydrating"]
     },
     {
       id: 11,
