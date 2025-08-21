@@ -238,44 +238,14 @@
             <i class="fas fa-bolt"></i>
             Limited Time Offers
           </h2>
-          <div class="countdown-timer">
-            <span class="timer-label">Ends in:</span>
-            <div class="timer-display">
-              <div class="timer-unit">
-                <span class="timer-value">{{ countdown.hours }}</span>
-                <span class="timer-label">hrs</span>
-              </div>
-              <div class="timer-unit">
-                <span class="timer-value">{{ countdown.minutes }}</span>
-                <span class="timer-label">mins</span>
-              </div>
-              <div class="timer-unit">
-                <span class="timer-value">{{ countdown.seconds }}</span>
-                <span class="timer-label">secs</span>
-              </div>
-            </div>
-          </div>
         </div>
-        <div class="offers-grid">
-          <div 
-            v-for="offer in limitedOffers" 
-            :key="offer.id"
-            class="offer-card"
-          >
-            <div class="offer-badge">
-              <span class="discount">{{ offer.discount }}% OFF</span>
-            </div>
-            <img :src="offer.image" :alt="offer.title" class="offer-image" />
-            <div class="offer-content">
-              <h3 class="offer-title">{{ offer.title }}</h3>
-              <p class="offer-description">{{ offer.description }}</p>
-              <div class="offer-pricing">
-                <span class="offer-new-price">${{ offer.newPrice }}</span>
-                <span class="offer-old-price">${{ offer.oldPrice }}</span>
-              </div>
-              <button class="offer-cta">Shop Now</button>
-            </div>
-          </div>
+        <div class="sale-products-grid">
+          <ProductCard
+            v-for="(product, index) in saleProducts"
+            :key="product.id"
+            :product="product"
+            :class="['sale-product-card', getSaleCardClass(index)]"
+          />
         </div>
       </div>
     </section>
@@ -594,27 +564,6 @@ export default {
         },
       ],
       
-      limitedOffers: [
-        {
-          id: 1,
-          title: 'Vitamin C Serum Bundle',
-          description: 'Get glowing skin with our bestselling vitamin C collection',
-          image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300',
-          discount: 30,
-          newPrice: 49.99,
-          oldPrice: 71.99
-        },
-        {
-          id: 2,
-          title: 'Luxury Skincare Set',
-          description: 'Complete your routine with this premium skincare collection',
-          image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=300',
-          discount: 25,
-          newPrice: 89.99,
-          oldPrice: 119.99
-        }
-      ],
-      
       beautyTips: [
         {
           id: 1,
@@ -641,20 +590,25 @@ export default {
   },
   
   computed: {
-    ...mapGetters('products', ['categories', 'featuredProducts']),
+    ...mapGetters('products', ['categories', 'featuredProducts', 'onSaleProducts']),
     ...mapGetters('user', [
-      'userProfile', 
-      'personalizedProducts', 
+      'userProfile',
+      'personalizedProducts',
       'recentlyViewedItems',
       'isAuthenticated'
     ]),
-    
+
     newArrivals() {
       // Mock new arrivals - in real app, this would come from API
       return this.featuredProducts.map(product => ({
         ...product,
         isNew: true
       }));
+    },
+
+    saleProducts() {
+      // Get up to 6 sale products for the limited offers section
+      return this.onSaleProducts.slice(0, 3);
     }
   },
   
@@ -673,6 +627,12 @@ export default {
         : this.currentBanner - 1;
     },
     
+    // Sale Card Background Colors
+    getSaleCardClass(index) {
+      const colorClasses = ['sale-card-blue', 'sale-card-red', 'sale-card-sky'];
+      return colorClasses[index % colorClasses.length];
+    },
+
     // Filter Methods
     filterBySkinType(skinType) {
       this.selectedSkinType = this.selectedSkinType === skinType.id ? null : skinType.id;
@@ -1765,52 +1725,46 @@ export default {
 }
 
 .offers-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 60px;
-  flex-wrap: wrap;
-  gap: 24px;
-}
-
-.countdown-timer {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.timer-display {
-  display: flex;
-  gap: 12px;
-}
-
-.timer-unit {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  padding: 12px 16px;
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 60px;
 }
 
-.timer-value {
-  display: block;
-  font-size: 24px;
-  font-weight: 700;
-  color: white;
-}
 
-.timer-label {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.offers-grid {
+.sale-products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 32px;
-  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
 }
+
+.sale-product-card {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.sale-product-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Enhanced Sale Badge for Product Cards */
+.sale-product-card .sale-badge {
+  background: linear-gradient(135deg, var(--error-500), var(--error-600));
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  animation: pulse-sale 2s infinite;
+}
+
+@keyframes pulse-sale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
 
 .offer-card {
   background: white;
@@ -2494,5 +2448,45 @@ export default {
     display: flex;
     flex-direction: column;
   }
+}
+
+/* Colored Background Classes for Sale Cards */
+.sale-card-blue {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  border: 1px solid #93c5fd;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.sale-card-blue:hover {
+  background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.3);
+}
+
+.sale-card-red {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  border: 1px solid #fca5a5;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.sale-card-red:hover {
+  background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(239, 68, 68, 0.3);
+}
+
+.sale-card-sky {
+  background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%);
+  border: 1px solid #81d4fa;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.sale-card-sky:hover {
+  background: linear-gradient(135deg, #b3e5fc 0%, #81d4fa 100%);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(3, 169, 244, 0.3);
 }
 </style>
