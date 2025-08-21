@@ -627,7 +627,7 @@ export default {
         : this.currentBanner - 1;
     },
     
-    // Filter Methods
+    // Sale Card Background Colors\n    getSaleCardClass(index) {\n      const colorClasses = ['sale-card-blue', 'sale-card-red', 'sale-card-sky'];\n      return colorClasses[index % colorClasses.length];\n    },\n    \n    // Filter Methods
     filterBySkinType(skinType) {
       this.selectedSkinType = this.selectedSkinType === skinType.id ? null : skinType.id;
       this.$router.push({
