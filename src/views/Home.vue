@@ -587,27 +587,6 @@ export default {
         },
       ],
       
-      limitedOffers: [
-        {
-          id: 1,
-          title: 'Vitamin C Serum Bundle',
-          description: 'Get glowing skin with our bestselling vitamin C collection',
-          image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300',
-          discount: 30,
-          newPrice: 49.99,
-          oldPrice: 71.99
-        },
-        {
-          id: 2,
-          title: 'Luxury Skincare Set',
-          description: 'Complete your routine with this premium skincare collection',
-          image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=300',
-          discount: 25,
-          newPrice: 89.99,
-          oldPrice: 119.99
-        }
-      ],
-      
       beautyTips: [
         {
           id: 1,
@@ -634,20 +613,25 @@ export default {
   },
   
   computed: {
-    ...mapGetters('products', ['categories', 'featuredProducts']),
+    ...mapGetters('products', ['categories', 'featuredProducts', 'onSaleProducts']),
     ...mapGetters('user', [
-      'userProfile', 
-      'personalizedProducts', 
+      'userProfile',
+      'personalizedProducts',
       'recentlyViewedItems',
       'isAuthenticated'
     ]),
-    
+
     newArrivals() {
       // Mock new arrivals - in real app, this would come from API
       return this.featuredProducts.map(product => ({
         ...product,
         isNew: true
       }));
+    },
+
+    saleProducts() {
+      // Get up to 6 sale products for the limited offers section
+      return this.onSaleProducts.slice(0, 6);
     }
   },
   
