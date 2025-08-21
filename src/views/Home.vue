@@ -256,26 +256,19 @@
             </div>
           </div>
         </div>
-        <div class="offers-grid">
-          <div 
-            v-for="offer in limitedOffers" 
-            :key="offer.id"
-            class="offer-card"
-          >
-            <div class="offer-badge">
-              <span class="discount">{{ offer.discount }}% OFF</span>
-            </div>
-            <img :src="offer.image" :alt="offer.title" class="offer-image" />
-            <div class="offer-content">
-              <h3 class="offer-title">{{ offer.title }}</h3>
-              <p class="offer-description">{{ offer.description }}</p>
-              <div class="offer-pricing">
-                <span class="offer-new-price">${{ offer.newPrice }}</span>
-                <span class="offer-old-price">${{ offer.oldPrice }}</span>
-              </div>
-              <button class="offer-cta">Shop Now</button>
-            </div>
-          </div>
+        <div class="sale-products-grid">
+          <ProductCard
+            v-for="product in saleProducts"
+            :key="product.id"
+            :product="product"
+            class="sale-product-card"
+          />
+        </div>
+        <div class="view-all-sales">
+          <router-link to="/products?filter=sale" class="view-all-sales-btn">
+            View All Sale Items
+            <i class="fas fa-arrow-right"></i>
+          </router-link>
         </div>
       </div>
     </section>
