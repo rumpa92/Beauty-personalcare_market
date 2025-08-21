@@ -241,10 +241,10 @@
         </div>
         <div class="sale-products-grid">
           <ProductCard
-            v-for="product in saleProducts"
+            v-for="(product, index) in saleProducts"
             :key="product.id"
             :product="product"
-            class="sale-product-card"
+            :class="['sale-product-card', getSaleCardClass(index)]"
           />
         </div>
       </div>
