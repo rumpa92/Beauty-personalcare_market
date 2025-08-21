@@ -608,7 +608,7 @@ export default {
 
     saleProducts() {
       // Get up to 6 sale products for the limited offers section
-      return this.onSaleProducts.slice(0, 6);
+      return this.onSaleProducts.slice(0, 3);
     }
   },
   
